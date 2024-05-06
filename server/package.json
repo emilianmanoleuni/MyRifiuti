@@ -1,0 +1,21 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node node_modules/nodemon/bin/nodemon.js src/app.js --exec",
+    "lint": "node node_modules/.bin/eslint **.*.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.2.0",
+    "eslint-plugin-vue": "^9.25.0",
+    "globals": "^15.1.0"
+  }
+}
