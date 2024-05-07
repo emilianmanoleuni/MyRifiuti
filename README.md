@@ -1,13 +1,13 @@
 # MyRifiuti
  Simplify your household waste management.
 
-##Local Start
-###Run Server
+## Local Start
+### Run Server
 Navigate to server folder and:
 ```
 npm start
 ```
-###Run Client
+### Run Client
 Navigate to client folder and:
 ```
 npm run dev
