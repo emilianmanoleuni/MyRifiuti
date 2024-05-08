@@ -9,7 +9,6 @@
         <br>
         <label for="email">Email:</label>
         <input type="email" name="email" v-model="email" placeholder="email">
-        <div class="error" v-html="error"></div>
         <br>
         <label for="password">Password:</label>
         <input type="password" name="password" v-model="password" placeholder="password">
@@ -21,6 +20,7 @@
 <script>
 import AuthenticationService from '@/services/AuthenticationService'
 import { required, email, minLength, helpers } from '@vuelidate/validators'
+import FirstPage from './FirstPage.vue'
 
 export default {
     data () {
@@ -60,7 +60,8 @@ export default {
                 email: this.email,
                 password: this.password
             })
-            console.log(response.email)
+            console.log(response.email);
+            this.$router.push('/')
         }
     }
 }

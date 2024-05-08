@@ -8,8 +8,8 @@ const morgan = require('morgan')
 //Auth
 //require('dotenv').config({ path: './database.env' });
 const mongoose = require('mongoose')
-const User = require('../models/User.js')
-const authRoutes = require('../routes/authRoutes')
+const User = require('./models/User.js')
+const authRoutes = require('./routes/authRoutes')
 const { checkSchema } = require('express-validator')
 const dbURI = `mongodb+srv://admin:admin@clustermain.n9dwne9.mongodb.net/?retryWrites=true&w=majority&appName=ClusterMain`;
 

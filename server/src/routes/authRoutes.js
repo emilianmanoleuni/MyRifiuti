@@ -2,6 +2,8 @@ const express = require('express');
 const { body, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
+const crypto = require('crypto');
 const User = require('../models/User');
 const router = express.Router();
 
@@ -75,28 +77,35 @@ router.post('/checkEmail', [
 
 // Login dell'utente
 router.post('/login', async (req, res) => {
-  try {
-    const user = await User.findOne({ email: req.body.email });
-    if (!user) {
-      return res.status(404).send('User not found.');
-    }
+  const { email, password } = req.body;
 
-    // Confronto della password inviata con quella hashata nel db
-    if (await bcrypt.compare(req.body.password, user.password)) {
-      // Creazione del token JWT
+  try {
+      const user = await User.findOne({ email });
+      if (!user) {
+          console.log('Utente non trovato')
+          return res.status(404).json({ message: 'Utente non trovato' });
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+          return res.status(400).json({ message: 'Credenziali non valide' });
+      }
+
       const token = jwt.sign(
-        { userId: user._id, username: user.username },
-        process.env.JWT_SECRET, // Assicurati che questa variabile sia nel tuo .env
-        { expiresIn: '24h' }
+          { userId: user._id },
+          process.env.JWT_SECRET,
+          { expiresIn: '24h' }
       );
-      
-      res.json({ message: 'Logged in successfully!', token });
-    } else {
-      res.status(400).send('Invalid credentials.');
-    }
+
+      res.json({
+          message: 'Login riuscito',
+          token
+      });
   } catch (error) {
-    res.status(500).json({ error: 'Internal server error.' });
+      console.error(error);
+      res.status(500).json({ message: 'Errore del server' });
   }
 });
+
 
 module.exports = router;
