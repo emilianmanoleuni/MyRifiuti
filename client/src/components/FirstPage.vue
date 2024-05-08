@@ -9,7 +9,7 @@
         <button @click="login">Login</button>
         <button @click="navigateTo({name: 'register'})">Register</button>
         <br>
-        <button @click="anonimous">Continua come Anonimo</button>
+        <button @click="navigateTo({name: 'homepage'})">Continua come Anonimo</button>
         <br>
         Sei un Ente? Clicca<a @click="ente"> qui</a>
     </div>
