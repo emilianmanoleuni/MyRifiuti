@@ -20,7 +20,6 @@
 <script>
 import AuthenticationService from '@/services/AuthenticationService'
 import { required, email, minLength, helpers } from '@vuelidate/validators'
-import FirstPage from './FirstPage.vue'
 
 export default {
     data () {
