@@ -1,9 +1,9 @@
 # MyRifiuti
  Simplify your household waste management.
 
-## 1* SPRINT
-1.[The Product Backlog](https://docs.google.com/spreadsheets/d/1fSB404_ko7UfG_ONxX8HcZiFO44lBejs-oGBEsbrl7Y/edit?usp=sharing)
-2.[Sprint Backlog](https://docs.google.com/spreadsheets/d/1sEuMaWGJOMdDcYxXcDykN0flDHW0HYY7jCWyfRluyfw/edit?usp=sharing)
+## 1° SPRINT
+* [The Product Backlog](https://docs.google.com/spreadsheets/d/1fSB404_ko7UfG_ONxX8HcZiFO44lBejs-oGBEsbrl7Y/edit?usp=sharing)
+* [Sprint Backlog](https://docs.google.com/spreadsheets/d/1sEuMaWGJOMdDcYxXcDykN0flDHW0HYY7jCWyfRluyfw/edit?usp=sharing)
 
 ## Local Start
 ### Run Server
