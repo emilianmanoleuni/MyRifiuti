@@ -4,6 +4,8 @@ import Register from '@/components/Register.vue'
 import HomePage from '@/components/HomePage.vue'
 import Map from '@/components/Map.vue'
 
+import HomePageRegisteredUser from '@/components/HomePageRegisteredUser.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -21,6 +23,11 @@ const router = createRouter({
       path: '/homepage',
       name: 'homepage',
       component: HomePage,
+    },
+    {
+      path: '/homepageregistereduser',
+      name: 'homepageregistereduser',
+      component: HomePageRegisteredUser,
     },
     {
       path: '/map',

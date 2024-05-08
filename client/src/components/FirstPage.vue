@@ -6,6 +6,8 @@
         <br>
         <input type="password" name="password" v-model="password" placeholder="password">
         <br>
+        <span class="error" v-if="serverErrors">{{ serverErrors }}</span>
+        <br>
         <button @click="login">Login</button>
         <button @click="navigateTo({name: 'register'})">Register</button>
         <br>
@@ -22,10 +24,9 @@ import { email } from '@vuelidate/validators';
 export default{
     data() {
         return {
-            form: {
-                email: '',
-                password: ''
-            }
+            email: '',
+            password: '',
+            serverErrors: ''
         }
     },
     methods: {
@@ -36,10 +37,15 @@ export default{
                     password: this.password
                 });
                 console.log('Logged in:', response);
-                // Handle successful login
+                localStorage.setItem('userToken', response.data.token);
+                this.$router.push({name: 'homepageregistereduser'});
             } catch (error) {
+                if (error.response && error.response.data) {
+                    this.serverErrors = 'Login non corretto riprovare';
+                } else {
+                    this.serverErrors.general = 'An error occurred, please try again.';
+                }
                 console.error('Login failed:', error);
-                console.log('Login failed:', error);
             }
         },
         navigateTo (route){
@@ -54,5 +60,8 @@ export default{
         width: 350px;
         height: 400px;
         background-color: rgb(0, 82, 66);
+    }
+    .error {
+    color: red;
     }
 </style>
