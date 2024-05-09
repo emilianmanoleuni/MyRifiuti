@@ -68,6 +68,8 @@ export default {
                     password: this.password
                 });
                 console.log(response.data);
+                this.$store.dispatch('setToken', response.data.token)
+                this.$store.dispatch('setUser', response.data.user)
                 this.$router.push('/');  // Redirect to FirstPage
             } catch (error) {
                 if (error.response && error.response.data && error.response.data.errors) {

@@ -36,9 +36,10 @@ export default{
                     email: this.email,
                     password: this.password
                 });
-                console.log('Logged in:', response);
-                localStorage.setItem('userToken', response.data.token);
-                this.$router.push({name: 'homepageregistereduser'});
+                console.log('Logged in:', response)
+                this.$store.dispatch('setToken', response.data.token)
+                this.$store.dispatch('setUser', response.data.user)
+                this.$router.push({name: 'homepageregistereduser'})
             } catch (error) {
                 if (error.response && error.response.data) {
                     this.serverErrors = 'Login non corretto riprovare';
