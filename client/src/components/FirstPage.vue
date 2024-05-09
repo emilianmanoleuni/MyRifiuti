@@ -1,19 +1,55 @@
 <template>
-    <div class="registerBlock">
-        <img src="../assets/logo.svg">
-        <h1>Login</h1>
-        <input type="email" name="email" v-model="email" placeholder="email">
-        <br>
-        <input type="password" name="password" v-model="password" placeholder="password">
-        <br>
-        <button @click="login">Login</button>
-        <button @click="navigateTo({name: 'register'})">Register</button>
-        <br>
-        <button @click="navigateTo({name: 'homepage'})">Continua come Anonimo</button>
-        <br>
-        Sei un Ente? Clicca<a @click="ente"> qui</a>
-    </div>
-</template>
+    <v-container class="registerBlock">
+      <v-row justify="center">
+        <v-col cols="12" sm="8" md="6">
+          <v-card>
+            <v-card-title class="justify-center">
+              <v-img src="@/assets/logo.svg" height="60"></v-img>
+            </v-card-title>
+            <v-card-title class="justify-center">
+              <h1>Login</h1>
+            </v-card-title>
+            <v-card-text>
+              <v-form>
+                <v-text-field
+                  label="Email"
+                  prepend-icon="mdi-email"
+                  type="email"
+                  v-model="email"
+                  placeholder="Enter your email"
+                  outlined
+                ></v-text-field>
+                
+                <v-text-field
+                  label="Password"
+                  prepend-icon="mdi-lock"
+                  type="password"
+                  v-model="password"
+                  placeholder="Enter your password"
+                  outlined
+                ></v-text-field>
+  
+                <v-alert
+                  v-if="serverErrors"
+                  type="error"
+                  dense
+                >{{ serverErrors }}</v-alert>
+                
+                <v-btn color="primary" @click="login" block>Login</v-btn>
+                <v-btn text @click="navigateTo({name: 'register'})" block>Register</v-btn>
+                <v-btn text @click="navigateTo({name: 'homepage'})" block>Continua come Anonimo</v-btn>
+  
+                <div class="text-center mt-3">
+                  Sei un Ente? <v-btn text @click="ente" color="primary">Clicca qui</v-btn>
+                </div>
+              </v-form>
+            </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+  </template>
+  
 
 <script>
 import AuthenticationService from '@/services/AuthenticationService'
@@ -22,10 +58,9 @@ import { email } from '@vuelidate/validators';
 export default{
     data() {
         return {
-            form: {
-                email: '',
-                password: ''
-            }
+            email: '',
+            password: '',
+            serverErrors: ''
         }
     },
     methods: {
@@ -35,11 +70,17 @@ export default{
                     email: this.email,
                     password: this.password
                 });
-                console.log('Logged in:', response);
-                // Handle successful login
+                console.log('Logged in:', response)
+                this.$store.dispatch('setToken', response.data.token)
+                this.$store.dispatch('setUser', response.data.user)
+                this.$router.push({name: 'homepageregistereduser'})
             } catch (error) {
+                if (error.response && error.response.data) {
+                    this.serverErrors = 'Login non corretto riprovare';
+                } else {
+                    this.serverErrors.general = 'An error occurred, please try again.';
+                }
                 console.error('Login failed:', error);
-                console.log('Login failed:', error);
             }
         },
         navigateTo (route){
@@ -50,9 +91,7 @@ export default{
 </script>
 
 <style scoped>
-    div.registerBlock{
-        width: 350px;
-        height: 400px;
-        background-color: rgb(0, 82, 66);
+    .error {
+    color: red;
     }
 </style>
