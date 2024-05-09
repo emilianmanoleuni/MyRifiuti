@@ -1,25 +1,60 @@
 <template>
-    <div>
-        <h1>Register</h1>
-        <label for="name">Name:</label>
-        <input type="text" name="name" v-model="name" placeholder="name">
-        <span class="error" v-if="serverErrors.name">{{ serverErrors.name }}</span>
-        <br>
-        <label for="surname">Surname:</label>
-        <input type="text" name="surname" v-model="surname" placeholder="surname">
-        <span class="error" v-if="serverErrors.surname">{{ serverErrors.surname }}</span>
-        <br>
-        <label for="email">Email:</label>
-        <input type="email" name="email" v-model="email" placeholder="email">
-        <span class="error" v-if="serverErrors.email">{{ serverErrors.email }}</span>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" name="password" v-model="password" placeholder="password">
-        <span class="error" v-if="serverErrors.password">{{ serverErrors.password }}</span>
-        <br>
-        <button @click="register">Register</button>
-        <span class="error" v-if="serverErrors.general">{{ serverErrors.general }}</span>
-    </div>
+  <v-container>
+    <v-row justify="center">
+      <v-col cols="12" md="6">
+        <v-card>
+          <v-card-title>
+            <h1>Register</h1>
+          </v-card-title>
+          <v-card-text>
+            <v-form>
+              <v-text-field
+                label="Name"
+                v-model="name"
+                :error-messages="serverErrors.name"
+                placeholder="Enter your name"
+                outlined
+              ></v-text-field>
+
+              <v-text-field
+                label="Surname"
+                v-model="surname"
+                :error-messages="serverErrors.surname"
+                placeholder="Enter your surname"
+                outlined
+              ></v-text-field>
+
+              <v-text-field
+                label="Email"
+                v-model="email"
+                :error-messages="serverErrors.email"
+                placeholder="Enter your email"
+                type="email"
+                outlined
+              ></v-text-field>
+
+              <v-text-field
+                label="Password"
+                v-model="password"
+                :error-messages="serverErrors.password"
+                placeholder="Enter your password"
+                type="password"
+                outlined
+              ></v-text-field>
+            </v-form>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn color="primary" @click="register">Register</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-alert
+      v-if="serverErrors.general"
+      type="error"
+      dense
+    >{{ serverErrors.general }}</v-alert>
+  </v-container>
 </template>
 
 
