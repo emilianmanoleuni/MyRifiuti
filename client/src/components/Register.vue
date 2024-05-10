@@ -44,7 +44,7 @@
             </v-form>
           </v-card-text>
           <v-card-actions>
-            <v-btn color="primary" @click="register">Register</v-btn>
+            <v-btn variant="elevated" color="buttons" @click="register">Register</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -115,7 +115,7 @@ export default {
 </script>
 
 <style scoped>
-.error {
-    color: red;
-}
+  .error {
+      color: red;
+  }
 </style>
