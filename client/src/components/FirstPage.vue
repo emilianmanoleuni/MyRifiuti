@@ -4,7 +4,7 @@
         <v-col cols="12" sm="8" md="6">
           <v-card>
             <v-card-title class="justify-center">
-              <v-img src="@/assets/logo.svg" height="60"></v-img>
+              <v-img src="/logo.png" height="60"></v-img>
             </v-card-title>
             <v-card-title class="justify-center">
               <h1>Login</h1>
