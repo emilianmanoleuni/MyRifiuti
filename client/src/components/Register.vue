@@ -77,18 +77,7 @@ export default {
             form: {
                 name: { required },
                 surname: { required },
-                email: { 
-                    required, 
-                    email,
-                    isUnique: helpers.withAsync(async () => {
-                        try {
-                            const response = await AuthenticationService.checkEmail('/api/checkEmail', { email: this.form.email });
-                            return response.data.isUnique; // Il server deve restituire { isUnique: true } o { isUnique: false }
-                        } catch (e) {
-                            return false;
-                        }
-                    })
-                },
+                email: { required, email},
                 password: { required, minLength: minLength(6) }
             } 
         }

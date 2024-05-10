@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
-  }
+  },
 }, { timestamps: true }); // `timestamps` add `createdAt` and `updatedAt`
 
 // Middleware to hashare password before saving User
