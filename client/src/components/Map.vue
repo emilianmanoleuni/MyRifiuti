@@ -1,5 +1,6 @@
 <template>
     <h1>Map</h1>
+    <h1 v-if="$store.state.isUserLoggedIn">Sei loggato</h1>
     <div>
         <div id="Gmap">
 
@@ -13,7 +14,7 @@
 <script>
 import { Loader } from '@googlemaps/js-api-loader'
 
-
+import store from '@/store/store';
 
 export default{
     data(){
@@ -69,7 +70,7 @@ export default{
             ],
         };
     },
-    mounted(){
+    created(){
         this.loader
         .load()
         .then((google) => {
@@ -93,8 +94,14 @@ export default{
                     window.open(mapMarker.getMap(), mapMarker);
                 })
             });
-            const borders = new google.maps.GroundOverlay( "../../public/borders.png", this.imageBounds);
+            const pathImg = "../../public/";
+            const borders = new google.maps.GroundOverlay(pathImg.concat("borders.png"), this.imageBounds);
+            if(this.$store.state.isUserLoggedIn){
+                const highlightedBorders = new google.maps.GroundOverlay(pathImg.concat(this.$store.state.user.zone, ".png"), this.imageBounds);
+                highlightedBorders.setMap(map);
+            }
             borders.setMap(map);
+            console.log(this.$store.state.user)
         })
         .catch((msg) => console.log(msg) );
     },

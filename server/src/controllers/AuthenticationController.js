@@ -23,7 +23,8 @@ module.exports={
             name: req.body.name,
             surname: req.body.surname,
             email: req.body.email,
-            password: req.body.password
+            password: req.body.password,
+            zone: req.body.zone
           });
       
           //Debug New User

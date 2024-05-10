@@ -14,6 +14,7 @@ module.exports = {
                 return true;
             }),
         body('password').isLength({ min: 6 }).withMessage('La password deve essere di almeno 6 caratteri'),
+        body('zone').notEmpty().withMessage('La zona è richiesta'),
         (req, res, next) => {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
