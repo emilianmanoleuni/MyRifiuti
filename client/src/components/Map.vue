@@ -53,6 +53,17 @@ export default{
         this.loader
         .load()
         .then((google) => {
+            const window = new google.maps.InfoWindow();
+            const map = new google.maps.Map( 
+                document.getElementById("Gmap"),
+                this.mapOptions 
+            );
+            const pathImg = "../../public/";
+            const borders = new google.maps.GroundOverlay(pathImg.concat("borders.png"), this.imageBounds);
+            if(this.$store.state.isUserLoggedIn){
+                const highlightedBorders = new google.maps.GroundOverlay(pathImg.concat(this.$store.state.user.zone, ".png"), this.imageBounds);
+                highlightedBorders.setMap(map);
+            }
             DatabaseService.getMarker()
             .then(markerArray => {
                 markerArray.forEach((marker) => {
@@ -74,17 +85,6 @@ export default{
             .catch(msg => {
                 console.log(msg);
             });
-            const window = new google.maps.InfoWindow();
-            const map = new google.maps.Map( 
-                document.getElementById("Gmap"),
-                this.mapOptions 
-            );
-            const pathImg = "../../public/";
-            const borders = new google.maps.GroundOverlay(pathImg.concat("borders.png"), this.imageBounds);
-            if(this.$store.state.isUserLoggedIn){
-                const highlightedBorders = new google.maps.GroundOverlay(pathImg.concat(this.$store.state.user.zone, ".png"), this.imageBounds);
-                highlightedBorders.setMap(map);
-            }
             borders.setMap(map);
         })
         .catch((msg) => console.log(msg) );
