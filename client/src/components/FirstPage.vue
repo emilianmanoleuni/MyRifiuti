@@ -4,7 +4,8 @@
         <v-col cols="12" sm="8" md="6">
           <v-card>
             <v-card-title class="justify-center">
-              <v-img src="@/assets/logo.svg" height="60"></v-img>
+              <v-img src="/logo.png" height="60"></v-img>
+              <h1>MyRifiuti</h1>
             </v-card-title>
             <v-card-title class="justify-center">
               <h1>Login</h1>
@@ -35,12 +36,12 @@
                   dense
                 >{{ serverErrors }}</v-alert>
                 
-                <v-btn color="primary" @click="login" block>Login</v-btn>
-                <v-btn text @click="navigateTo({name: 'register'})" block>Register</v-btn>
-                <v-btn text @click="navigateTo({name: 'homepage'})" block>Continua come Anonimo</v-btn>
+                <v-btn class="buttonsFirstPage" variant="elevated" color="buttons" @click="login" block>Login</v-btn>
+                <v-btn class="buttonsFirstPage" variant="outlined" color="buttons" text @click="navigateTo({name: 'register'})" block>Register</v-btn>
+                <v-btn class="buttonsFirstPage" variant="outlined" color="buttons" text @click="navigateTo({name: 'homepage'})" block>Continua come Anonimo</v-btn>
   
                 <div class="text-center mt-3">
-                  Sei un Ente? <v-btn text @click="ente" color="primary">Clicca qui</v-btn>
+                  Sei un Ente? <v-btn text @click="ente" color="buttonsLight">Clicca qui</v-btn>
                 </div>
               </v-form>
             </v-card-text>
@@ -93,5 +94,8 @@ export default{
 <style scoped>
     .error {
     color: red;
+    }
+    .buttonsFirstPage{
+      margin-bottom: 5px; 
     }
 </style>

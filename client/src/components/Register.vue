@@ -51,7 +51,7 @@
             </v-form>
           </v-card-text>
           <v-card-actions>
-            <v-btn color="primary" @click="register">Register</v-btn>
+            <v-btn variant="elevated" color="buttons" @click="register">Register</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -109,18 +109,7 @@ export default {
                 name: { required },
                 surname: { required },
                 zone: { required },
-                email: { 
-                    required, 
-                    email,
-                    isUnique: helpers.withAsync(async () => {
-                        try {
-                            const response = await AuthenticationService.checkEmail('/api/checkEmail', { email: this.form.email });
-                            return response.data.isUnique; // Il server deve restituire { isUnique: true } o { isUnique: false }
-                        } catch (e) {
-                            return false;
-                        }
-                    })
-                },
+                email: { required, email},
                 password: { required, minLength: minLength(6) }
             } 
         }
@@ -159,7 +148,7 @@ export default {
 </script>
 
 <style scoped>
-.error {
-    color: red;
-}
+  .error {
+      color: red;
+  }
 </style>
