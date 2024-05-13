@@ -62,15 +62,6 @@
       dense
     >{{ serverErrors.general }}</v-alert>
   </v-container>
-
-  <v-list>
-    <v-list-item
-      v-for="(item, index) in items"
-      :key="index"
-    >
-      <v-list-item-title>{{ item.title }}</v-list-item-title>
-    </v-list-item>
-  </v-list>
 </template>
 
 
@@ -101,9 +92,10 @@ export default {
             } 
         }
     },
-    created(){
+    mounted(){
       AuthenticationService.getZone()
       .then(zoneArray => {
+        console.log(zoneArray)
         this.circoscrizioni = [...zoneArray];
       })
       .catch(msg => {
