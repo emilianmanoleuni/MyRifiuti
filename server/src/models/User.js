@@ -2,6 +2,21 @@ const mongoose = require('mongoose')
 const Promise = require('bluebird')
 const bcrypt = Promise.promisifyAll(require('bcryptjs'))
 
+const circoscrizioni = [
+  'POVO - VILLAZZANO',
+  'RAVINA - ROMAGNANO',
+  'ARGENTARIO',
+  'BONDONE E SARDAGNA',
+  'MATTARELLO',
+  'S. GIUSEPPE - S. CHIARA',
+  'CRISTO RE - SAN MARTINO',
+  'PIEDICASTELLO - SOLTERI - VELA - CAMPOTRENTINO',
+  'VIA KOFLER - CASTELLER',
+  'GARDOLO',
+  'GARDOLO ZONA INDUSTRIALE - MEANO',
+  'OLTREFERSINA'
+]
+
 // Schema dell'utente
 const userSchema = new mongoose.Schema({
   name: {
@@ -26,6 +41,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  zone: {
+    type: String,
+    enum: circoscrizioni,
+    required: true
+  }
 }, { timestamps: true }); // `timestamps` add `createdAt` and `updatedAt`
 
 // Middleware to hashare password before saving User

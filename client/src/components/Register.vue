@@ -32,6 +32,13 @@
                 type="email"
                 outlined
               ></v-text-field>
+              
+              <v-select
+                label="Pick-up zone"
+                :items="circoscrizioni"
+                :error-messages="serverErrors.zone"
+                v-model="zone"
+              ></v-select>
 
               <v-text-field
                 label="Password"
@@ -55,6 +62,15 @@
       dense
     >{{ serverErrors.general }}</v-alert>
   </v-container>
+
+  <v-list>
+    <v-list-item
+      v-for="(item, index) in items"
+      :key="index"
+    >
+      <v-list-item-title>{{ item.title }}</v-list-item-title>
+    </v-list-item>
+  </v-list>
 </template>
 
 
@@ -68,8 +84,23 @@ export default {
             name: '',
             surname: '',
             email: '',
+            zone: '',
             password: '',
-            serverErrors: {}
+            serverErrors: {},
+            circoscrizioni: [
+              'POVO - VILLAZZANO',
+              'RAVINA - ROMAGNANO',
+              'ARGENTARIO',
+              'BONDONE E SARDAGNA',
+              'MATTARELLO',
+              'S. GIUSEPPE - S. CHIARA',
+              'CRISTO RE - SAN MARTINO',
+              'PIEDICASTELLO - SOLTERI - VELA - CAMPOTRENTINO',
+              'VIA KOFLER - CASTELLER',
+              'GARDOLO', 
+              'GARDOLO ZONA INDUSTRIALE - MEANO',
+              'OLTREFERSINA'
+          ]
         }
     },
     validations() {
@@ -77,6 +108,7 @@ export default {
             form: {
                 name: { required },
                 surname: { required },
+                zone: { required },
                 email: { required, email},
                 password: { required, minLength: minLength(6) }
             } 
@@ -88,6 +120,7 @@ export default {
                 const response = await AuthenticationService.register({
                     name: this.name,
                     surname: this.surname,
+                    zone: this.zone,
                     email: this.email,
                     password: this.password
                 });
