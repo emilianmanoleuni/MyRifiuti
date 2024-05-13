@@ -32,7 +32,6 @@ router.get('/marker', async (req, res) => {
 router.get('/zone', async (req, res) => {
     try{
         res.status(200).json(Zone.circoscrizioni)
-        console.log(Zone.circoscrizioni)
     } catch(err){
         res.status(501).json('Error')
     }
