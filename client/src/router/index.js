@@ -1,18 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import FirstPage from '@/components/FirstPage.vue' 
+import Login from '@/components/Login.vue' 
 import Register from '@/components/Register.vue'
 import HomePage from '@/components/HomePage.vue'
 import Map from '@/components/Map.vue'
-
-import HomePageRegisteredUser from '@/components/HomePageRegisteredUser.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'firstpage',
-      component: FirstPage,
+      name: 'login',
+      component: Login,
     },
     {
       path: '/api/register',
@@ -23,11 +21,6 @@ const router = createRouter({
       path: '/homepage',
       name: 'homepage',
       component: HomePage,
-    },
-    {
-      path: '/homepageregistereduser',
-      name: 'homepageregistereduser',
-      component: HomePageRegisteredUser,
     },
     {
       path: '/map',

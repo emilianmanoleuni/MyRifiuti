@@ -1,11 +1,9 @@
 <template>
-  <v-container>
+  <v-container class="registerBody" j>
     <v-row justify="center">
       <v-col cols="12" md="6">
         <v-card>
-          <v-card-title>
-            <h1>Register</h1>
-          </v-card-title>
+          <v-card-title class="text-h4">Register</v-card-title>
           <v-card-text>
             <v-form>
               <v-text-field
@@ -45,13 +43,16 @@
                 v-model="password"
                 :error-messages="serverErrors.password"
                 placeholder="Enter your password"
-                type="password"
+                :type="showPassword ? 'text' : 'password'"
                 outlined
+                @click:append-inner="showPassword = !showPassword"
+                :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
               ></v-text-field>
             </v-form>
           </v-card-text>
-          <v-card-actions>
-            <v-btn variant="elevated" color="buttons" @click="register">Register</v-btn>
+          <v-card-actions class="justify-end">
+            <v-btn class="backRegisterButton" variant="elevated" color="buttonsLight" @click="navigateTo({name: 'login'})">Back</v-btn>
+            <v-btn class="registerButton" variant="elevated" color="buttons" @click="register">Register</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -62,15 +63,6 @@
       dense
     >{{ serverErrors.general }}</v-alert>
   </v-container>
-
-  <v-list>
-    <v-list-item
-      v-for="(item, index) in items"
-      :key="index"
-    >
-      <v-list-item-title>{{ item.title }}</v-list-item-title>
-    </v-list-item>
-  </v-list>
 </template>
 
 
@@ -86,6 +78,7 @@ export default {
             email: '',
             zone: '',
             password: '',
+            showPassword: false,
             serverErrors: {},
             circoscrizioni: [
               'POVO - VILLAZZANO',
@@ -142,13 +135,27 @@ export default {
                     console.error('Registration error:', error);
                 }
             }
+        },
+        navigateTo (route){
+            this.$router.push(route)
         }
     }
 }
 </script>
 
 <style scoped>
+  .registerBody{
+    min-width: 600px;
+    max-width: 600px;
+  }
   .error {
       color: red;
+  }
+  .backRegisterButton{
+    margin-bottom: 5px;
+  }
+  .registerButton{
+   margin-bottom: 5px;
+   margin-right: 8px;
   }
 </style>

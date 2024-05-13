@@ -1,26 +1,6 @@
 <template>
-    <v-app>
-      <v-app-bar app dense>
-        <v-img src="/logo.png" class="logoImage" contain height="50" alt="Logo"></v-img>
-        <v-toolbar-title>MyRifiuti</v-toolbar-title>
-        <v-spacer></v-spacer> <!-- This pushes the menu items to the right -->
-        <v-btn class="topButton" text :to="{ name: 'homepageregistereduser' }">Calendario</v-btn>
-        <v-btn class="topButton" text :to="{ name: '' }">Gruppi</v-btn>
-        <v-btn class="topButton" text :to="{ name: '' }">Mappa</v-btn>
-        <v-btn class="topButton" text :to="{ name: '' }">Segnalazioni</v-btn>
-      </v-app-bar>
-
-      <v-main>
-        <router-view></router-view>
-        <div>
-            <div id="Gmap">
-
-            </div>
-        </div>
-      </v-main>
-    </v-app>
-    
-    <br>
+    <div id="Gmap">
+    </div>
 </template>
 
 <script>
@@ -100,13 +80,14 @@ export default{
 <style scoped>
 
 #Gmap {
-    height: 850px;
-    width: 2000px;
+    margin-top: 70px;
+    height: 500px;
+    width: 800px;
 }
 
 .logoImage{
         margin-right: 20px;
-    }
+}
 .topButton{
     margin-right: 10px;
 }

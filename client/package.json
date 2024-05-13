@@ -9,6 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@googlemaps/js-api-loader": "^1.16.6",
+    "@jamescoyle/vue-icon": "^0.1.2",
+    "@mdi/js": "^7.4.47",
     "@vuelidate/core": "^2.0.3",
     "@vuelidate/validators": "^2.0.4",
     "axios": "^1.6.8",
@@ -17,10 +20,10 @@
     "vue": "^3.4.27",
     "vue-router": "^4.3.2",
     "vuetify": "^3.6.4",
-    "vuex": "^4.1.0",
-    "@googlemaps/js-api-loader": "^1.16.6"
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
+    "@mdi/font": "^7.4.47",
     "@vitejs/plugin-vue": "^5.0.4",
     "vite": "^5.2.11",
     "vue-cli-plugin-vuetify": "~2.5.8"

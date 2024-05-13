@@ -3,13 +3,9 @@
       <v-row justify="center">
         <v-col cols="12" sm="8" md="6">
           <v-card>
-            <v-card-title class="justify-center">
-              <v-img src="/logo.png" height="60"></v-img>
-              <h1>MyRifiuti</h1>
-            </v-card-title>
-            <v-card-title class="justify-center">
-              <h1>Login</h1>
-            </v-card-title>
+            <v-img src="/logo.png" height="60"></v-img>
+            <v-card-title class="text-h3">MyRifiuti</v-card-title>
+            <v-card-title class="text-h4">Login</v-card-title>
             <v-card-text>
               <v-form>
                 <v-text-field
@@ -74,7 +70,8 @@ export default{
                 console.log('Logged in:', response)
                 this.$store.dispatch('setToken', response.data.token)
                 this.$store.dispatch('setUser', response.data.user)
-                this.$router.push({name: 'homepageregistereduser'})
+                this.$emit('update-is-form', false);
+                this.$router.push({name: 'homepage'})
             } catch (error) {
                 if (error.response && error.response.data) {
                     this.serverErrors = 'Login non corretto riprovare';
