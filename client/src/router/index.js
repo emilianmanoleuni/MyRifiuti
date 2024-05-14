@@ -5,6 +5,7 @@ import HomePage from '@/components/HomePage.vue'
 import Groups from '@/components/Groups.vue'
 import Map from '@/components/Map.vue'
 import Reports from '@/components/Reports.vue'
+import Calendar from '@/components/Calendar.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,11 @@ const router = createRouter({
       path: '/reports',
       name: 'reports',
       component: Reports
+    },
+    {
+      path: '/calendar',
+      name: 'calendar',
+      component: Calendar,
     }
   ]
 })
