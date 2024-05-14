@@ -13,18 +13,19 @@
         </v-col>
         <v-col cols="7" align="self-center">
           <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'homepage' }">Calendario</v-btn>
-          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: '' }">Gruppi</v-btn>
+          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'groups' }">Gruppi</v-btn>
           <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'map' }">Mappa</v-btn>
-          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: '' }">Segnalazioni</v-btn>
+          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'reports' }">Segnalazioni</v-btn>
       
           <v-menu open-on-click="">
             <template v-slot:activator="{ props }">
               <v-btn v-bind="props" class="topButton" variant="elevated" color="buttons" text :to="{ name: '' }">Profilo</v-btn>
             </template>
             <v-list>
-              <v-list-item class="optionsProfileMenu">
-                <v-list-item-title><v-btn variant="plain" class="optionsProfileMenuButton">Impostazioni</v-btn></v-list-item-title>
-                <v-list-item-title><v-btn variant="plain" class="optionsProfileMenuButton" @click="logout()">Esci</v-btn></v-list-item-title>
+              <v-list-item>
+                <v-list-item-title v-if="isUserLoggedIn"><v-btn variant="plain" class="optionsProfileMenuButton">Impostazioni</v-btn></v-list-item-title>
+                <v-list-item-title v-if="isUserLoggedIn"><v-btn variant="plain" class="optionsProfileMenuButton" @click="logout()">Esci</v-btn></v-list-item-title>
+                <v-list-item-title v-if="!isUserLoggedIn"><v-btn variant="plain" class="optionsProfileMenuButton" :to="{ name: 'homepage' }">Login</v-btn></v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu> 
@@ -57,6 +58,8 @@ const isLoginOrRegister = computed(() => {
   return route.name === 'login' || route.name === 'register'
 })
 
+const isUserLoggedIn = computed(() => store.state.isUserLoggedIn)
+
 const logout = () => {
   store.dispatch('logout')
   router.push({ name: 'login' })
@@ -81,11 +84,6 @@ const logout = () => {
   .topButton{
     margin-top: 6px;
     margin-right: 10px;
-  }
-  .optionsProfileMenu{
-    margin: 5px;
-  }
-  .optionsProfileMenuBtn{
   }
   .footer{
     min-width: 100%;

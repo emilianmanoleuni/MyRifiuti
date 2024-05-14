@@ -116,9 +116,6 @@ export default{
             this.filterAllStatus = false;
             this.filterCRMStatus = false;
             //Chiamata api
-        },
-        navigateTo (route){
-            this.$router.push(route)
         }
     }
 }

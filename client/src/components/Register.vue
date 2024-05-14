@@ -59,7 +59,7 @@
             </v-form>
           </v-card-text>
           <v-card-actions class="justify-end bottomButtons">
-            <v-btn class="backRegisterButton" variant="elevated" color="buttonsLight" @click="navigateTo({name: 'login'})">Back</v-btn>
+            <v-btn class="backRegisterButton" variant="elevated" color="buttonsLight" :to="{ name: 'login' }">Back</v-btn>
             <v-btn class="registerButton" variant="elevated" color="buttons" @click="register">Register</v-btn>
           </v-card-actions>
         </v-card>
@@ -143,9 +143,6 @@ export default {
                     console.error('Registration error:', error);
                 }
             }
-        },
-        navigateTo (route){
-            this.$router.push(route)
         }
     }
 }

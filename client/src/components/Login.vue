@@ -39,8 +39,8 @@
                 >{{ serverErrors }}</v-alert>
                 
                 <v-btn class="buttonsFirstPage" variant="elevated" color="buttons" @click="login" block>Login</v-btn>
-                <v-btn class="buttonsFirstPage" variant="outlined" color="buttons" text @click="navigateTo({name: 'register'})" block>Register</v-btn>
-                <v-btn class="buttonsFirstPage" variant="outlined" color="buttons" text @click="navigateTo({name: 'homepage'})" block>Continua come Anonimo</v-btn>
+                <v-btn class="buttonsFirstPage" variant="outlined" color="buttons" text :to="{ name: 'register' }" block>Register</v-btn>
+                <v-btn class="buttonsFirstPage" variant="outlined" color="buttons" text :to="{ name: 'homepage' }" block>Continua come Anonimo</v-btn>
   
                 <div class="text-center mt-3">
                   Sei un Ente? <v-btn text @click="ente" color="buttonsLight">Clicca qui</v-btn>
@@ -76,7 +76,6 @@ export default{
                 console.log('Logged in:', response)
                 this.$store.dispatch('setToken', response.data.token)
                 this.$store.dispatch('setUser', response.data.user)
-                this.$emit('update-is-form', false);
                 this.$router.push({name: 'homepage'})
             } catch (error) {
                 if (error.response && error.response.data) {
@@ -86,9 +85,6 @@ export default{
                 }
                 console.error('Login failed:', error);
             }
-        },
-        navigateTo (route){
-            this.$router.push(route)
         }
     }
 }

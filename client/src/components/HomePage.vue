@@ -108,10 +108,7 @@ export default{
             this.filterVetroStatus = true;
 
             //Chiamata api
-        },
-        navigateTo (route){
-            this.$router.push(route)
-        },
+        }
     }
 }
 </script>
