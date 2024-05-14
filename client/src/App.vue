@@ -22,9 +22,9 @@
               <v-btn v-bind="props" class="topButton" variant="elevated" color="buttons" text :to="{ name: '' }">Profilo</v-btn>
             </template>
             <v-list>
-              <v-list-item>
-                <v-list-item-title>Impostazioni</v-list-item-title>
-                <v-list-item-title>Esci</v-list-item-title>
+              <v-list-item class="optionsProfileMenu">
+                <v-list-item-title><v-btn variant="plain" class="optionsProfileMenuButton">Impostazioni</v-btn></v-list-item-title>
+                <v-list-item-title><v-btn variant="plain" class="optionsProfileMenuButton" @click="logout()">Esci</v-btn></v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu> 
@@ -45,15 +45,22 @@
 </template>
 
 <script setup>
-import { RouterLink, RouterView, useRoute } from 'vue-router'
+import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
 import { onMounted, ref, computed } from 'vue'
+import { useStore } from 'vuex'
 
 const route = useRoute()
+const router = useRouter()
+const store = useStore()
 
 const isLoginOrRegister = computed(() => {
   return route.name === 'login' || route.name === 'register'
 })
 
+const logout = () => {
+  store.dispatch('logout')
+  router.push({ name: 'login' })
+}
 
 </script>
 
@@ -74,6 +81,11 @@ const isLoginOrRegister = computed(() => {
   .topButton{
     margin-top: 6px;
     margin-right: 10px;
+  }
+  .optionsProfileMenu{
+    margin: 5px;
+  }
+  .optionsProfileMenuBtn{
   }
   .footer{
     min-width: 100%;

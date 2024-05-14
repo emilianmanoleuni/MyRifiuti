@@ -1,3 +1,4 @@
+import { mdiNumeric9PlusBoxMultiple } from '@mdi/js'
 import { createStore } from 'vuex'
 
 export default createStore({
@@ -20,6 +21,11 @@ export default createStore({
         },
         setUser(state, user) {
             state.user = user
+        },
+        cleanAuthData(state){
+            state.token = null,
+            state.user = null,
+            state.isUserLoggedIn = false
         }
     },
     actions: {
@@ -28,6 +34,9 @@ export default createStore({
         },
         setUser({ commit }, user) {
             commit('setUser', user)
+        },
+        logout({ commit }){
+            commit('clearAuthData')
         }
     }
 })
