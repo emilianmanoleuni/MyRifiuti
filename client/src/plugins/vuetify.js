@@ -17,7 +17,12 @@ export default createVuetify({
               basic: colors.green.lighten3, 
               buttons: colors.green.darken1, 
               buttonsLight: colors.green.lighten3,
-              footer: colors.green.darken4 
+              footer: colors.green.darken4,
+              organic: colors.brown.darken4,
+              plastic: colors.lightBlue.darken2,
+              paper: colors.yellow.darken1,
+              residue: colors.green.darken4,
+              glass: colors.green.darken1
             }
           },
         },

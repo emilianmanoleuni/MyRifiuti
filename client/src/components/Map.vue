@@ -1,6 +1,5 @@
 <template>
     <v-container class="mainBody">
-
         <v-row>
             <v-col cols="2">
                 <v-card align="center">
@@ -23,12 +22,7 @@
                 </v-card>
             </v-col>
         </v-row>
-
-        <v-card>
-            
-            
-        </v-card>
-
+        
         <v-card class="mapBlock">
             <div id="Gmap"></div>
         </v-card>
@@ -105,8 +99,6 @@ export default{
         .catch((msg) => console.log(msg) );
     },
     methods: {
-        toggleButton() {
-        },
         filterAll(){
             this.filterAllStatus = !this.filterAllStatus;
             this.filterCRMStatus = false;
@@ -134,27 +126,27 @@ export default{
 
 <style scoped>
 
-#Gmap {
-    margin: 15px;
-    height: 600px;
-    width: auto;
-}
-.filterBlock{
-    margin-bottom: 0px;
-}
-.mapBlock{
-    margin-top: 10px;
-}
-.buttonsFilter{
-    margin-top: 5px;
-    margin-right: 5px;
-    margin-bottom: 5px;
-}
-.logoImage{
+    #Gmap {
+        margin: 15px;
+        height: 600px;
+        width: auto;
+    }
+    .filterBlock{
+        margin-bottom: 0px;
+    }
+    .mapBlock{
+        margin-top: 10px;
+    }
+    .buttonsFilter{
+        margin-top: 5px;
+        margin-right: 5px;
+        margin-bottom: 5px;
+    }
+    .logoImage{
         margin-right: 20px;
-}
-.topButton{
-    margin-right: 10px;
-}
+    }
+    .topButton{
+        margin-right: 10px;
+    }
 
 </style>
