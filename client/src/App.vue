@@ -25,7 +25,7 @@
               <v-list-item>
                 <v-list-item-title v-if="isUserLoggedIn"><v-btn variant="plain" class="optionsProfileMenuButton">Impostazioni</v-btn></v-list-item-title>
                 <v-list-item-title v-if="isUserLoggedIn"><v-btn variant="plain" class="optionsProfileMenuButton" @click="logout()">Esci</v-btn></v-list-item-title>
-                <v-list-item-title v-if="!isUserLoggedIn"><v-btn variant="plain" class="optionsProfileMenuButton" :to="{ name: 'homepage' }">Login</v-btn></v-list-item-title>
+                <v-list-item-title v-if="!isUserLoggedIn"><v-btn variant="plain" class="optionsProfileMenuButton" :to="{ name: 'login' }">Login</v-btn></v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu> 
