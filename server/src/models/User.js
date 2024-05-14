@@ -1,21 +1,7 @@
 const mongoose = require('mongoose')
 const Promise = require('bluebird')
 const bcrypt = Promise.promisifyAll(require('bcryptjs'))
-
-const circoscrizioni = [
-  'POVO - VILLAZZANO',
-  'RAVINA - ROMAGNANO',
-  'ARGENTARIO',
-  'BONDONE E SARDAGNA',
-  'MATTARELLO',
-  'S. GIUSEPPE - S. CHIARA',
-  'CRISTO RE - SAN MARTINO',
-  'PIEDICASTELLO - SOLTERI - VELA - CAMPOTRENTINO',
-  'VIA KOFLER - CASTELLER',
-  'GARDOLO',
-  'GARDOLO ZONA INDUSTRIALE - MEANO',
-  'OLTREFERSINA'
-]
+const Zone = require('./Zone')
 
 // Schema dell'utente
 const userSchema = new mongoose.Schema({
@@ -43,7 +29,7 @@ const userSchema = new mongoose.Schema({
   },
   zone: {
     type: String,
-    enum: circoscrizioni,
+    enum: Zone.circoscrizioni,
     required: true
   }
 }, { timestamps: true }); // `timestamps` add `createdAt` and `updatedAt`
@@ -73,3 +59,4 @@ userSchema.methods.comparePassword = function(candidatePassword) {
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;
+

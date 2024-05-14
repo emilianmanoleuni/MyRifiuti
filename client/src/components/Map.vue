@@ -62,13 +62,13 @@ export default{
         this.loader
         .load()
         .then((google) => {
+            const imgRoot = "./";
             const window = new google.maps.InfoWindow();
             const map = new google.maps.Map( 
                 document.getElementById("Gmap"),
                 this.mapOptions 
             );
-            const pathImg = "../../public/";
-            const borders = new google.maps.GroundOverlay(pathImg.concat("borders.png"), this.imageBounds);
+            const borders = new google.maps.GroundOverlay(imgRoot.concat("borders.png"), this.imageBounds);
             if(this.$store.state.isUserLoggedIn){
                 const highlightedBorders = new google.maps.GroundOverlay(pathImg.concat(this.$store.state.user.zone, ".png"), this.imageBounds);
                 highlightedBorders.setMap(map);
@@ -76,20 +76,28 @@ export default{
             DatabaseService.getMarker()
             .then(markerArray => {
                 markerArray.forEach((marker) => {
-                const mapMarker = new google.maps.Marker({
-                                    position: {
+                    let pathImg = imgRoot;
+                    if(marker.label.includes("CRM")){
+                        pathImg = pathImg.concat("CRM.png")
+                    } else {
+                        pathImg = pathImg.concat(marker.label, ".png") //CRM.png, Centro integrato.png, cestino.png
+                    }
+                    console.log(pathImg)
+                    const mapMarker = new google.maps.Marker({
+                                position: {
                                     lat: marker.lat,
                                     lng: marker.lng,
-                                    },
+                                },
                                 map,
                                 title: marker.label,
+                                icon: pathImg
                                 });
-                mapMarker.addListener("click", () => {
+                    mapMarker.addListener("click", () => {
                     window.close();
                     window.setContent(mapMarker.getTitle());
                     window.open(mapMarker.getMap(), mapMarker);
-                })
-            });
+                    }) 
+                });
             })
             .catch(msg => {
                 console.log(msg);

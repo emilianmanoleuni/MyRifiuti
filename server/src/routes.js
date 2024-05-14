@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const AuthenticationController = require('./controllers/AuthenticationController');
 const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy');
-const Marker = require('./models/Marker')
+const Marker = require('./models/Marker');
+const Zone = require('./models/Zone')
 
 // Definitions of Routes
 router.post('/register',
@@ -14,7 +15,7 @@ router.post('/login',
     AuthenticationController.login
 );
 
-router.get('/marker', async (req, res, next) => {
+router.get('/marker', async (req, res) => {
     try{
         Marker.find()
         .then((result) => {
@@ -28,14 +29,22 @@ router.get('/marker', async (req, res, next) => {
     }
 });
 
-router.post('/putMarker', async (req, res, next) => {
-    const newMarker = new Marker({
-        lat: 46.10545314902608, 
-        lng: 11.101276873613214,
-        label: "CRM Gardolo"
-    });
-    await newMarker.save();
-    res.status(200).send('inserito');
-})
+router.get('/zone', async (req, res) => {
+    try{
+        res.status(200).json(Zone.circoscrizioni)
+    } catch(err){
+        res.status(501).json('Error')
+    }
+});
+
+router.post('/putMarker', async (req, res) => {
+    try{
+        const newMarker = new Marker(req.body);
+        await newMarker.save();
+        res.status(200).send('inserito');
+    } catch (err){
+        res.status(500).json('Error saving new marker in database')
+    }
+});
 
 module.exports = router;

@@ -86,22 +86,9 @@ export default {
             email: '',
             zone: '',
             password: '',
+            circoscrizioni: [],
             showPassword: false,
             serverErrors: {},
-            circoscrizioni: [
-              'POVO - VILLAZZANO',
-              'RAVINA - ROMAGNANO',
-              'ARGENTARIO',
-              'BONDONE E SARDAGNA',
-              'MATTARELLO',
-              'S. GIUSEPPE - S. CHIARA',
-              'CRISTO RE - SAN MARTINO',
-              'PIEDICASTELLO - SOLTERI - VELA - CAMPOTRENTINO',
-              'VIA KOFLER - CASTELLER',
-              'GARDOLO', 
-              'GARDOLO ZONA INDUSTRIALE - MEANO',
-              'OLTREFERSINA'
-          ]
         }
     },
     validations() {
@@ -114,6 +101,16 @@ export default {
                 password: { required, minLength: minLength(6) }
             } 
         }
+    },
+    mounted(){
+      AuthenticationService.getZone()
+      .then(zoneArray => {
+        console.log(zoneArray)
+        this.circoscrizioni = [...zoneArray];
+      })
+      .catch(msg => {
+        console.log(msg);
+      })
     },
     methods: {
         async register() {
