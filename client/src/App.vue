@@ -2,16 +2,98 @@
   <header>
   </header>
 
-  <RouterView />
+  <v-layout v-if="!isLoginOrRegister">
+    <v-app-bar class="topBar">
+      <v-row justify="center">
+        <v-col cols="3" align="self-cen">
+          <v-img src="/logo.png" class="logoImage" contain height="50" alt="Logo"></v-img>
+        </v-col>
+        <v-col cols="2" align="self-center">
+          <v-app-bar-title class="text-h5 titleLogo">MyRifiuti</v-app-bar-title>
+        </v-col>
+        <v-col cols="7" align="self-center">
+          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'homepage' }">Calendario</v-btn>
+          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'groups' }">Gruppi</v-btn>
+          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'map' }">Mappa</v-btn>
+          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'reports' }">Segnalazioni</v-btn>
+      
+          <v-menu open-on-click="">
+            <template v-slot:activator="{ props }">
+              <v-btn v-bind="props" class="topButton" variant="elevated" color="buttons" text :to="{ name: '' }">Profilo</v-btn>
+            </template>
+            <v-list>
+              <v-list-item>
+                <v-list-item-title v-if="isUserLoggedIn"><v-btn variant="plain" class="optionsProfileMenuButton">Impostazioni</v-btn></v-list-item-title>
+                <v-list-item-title v-if="isUserLoggedIn"><v-btn variant="plain" class="optionsProfileMenuButton" @click="logout()">Esci</v-btn></v-list-item-title>
+                <v-list-item-title v-if="!isUserLoggedIn"><v-btn variant="plain" class="optionsProfileMenuButton" :to="{ name: 'login' }">Login</v-btn></v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu> 
+        </v-col>
+      </v-row>
+    </v-app-bar>
+  </v-layout>
+
+  <RouterView/>
+
+  <v-layout class="footer">
+      <v-footer class="d-flex flex-column" color="footer">
+        <span class="text-caption">
+          MyRifiuti &nbsp;- &nbsp;Universita di Trento &nbsp;- &nbsp;Manole Emilian, Rigotti Leonardo, Pieropan Lorenzo
+        </span>
+      </v-footer>
+    </v-layout>
 </template>
 
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
+import { onMounted, ref, computed } from 'vue'
+import { useStore } from 'vuex'
+
+const route = useRoute()
+const router = useRouter()
+const store = useStore()
+
+const isLoginOrRegister = computed(() => {
+  return route.name === 'login' || route.name === 'register'
+})
+
+const isUserLoggedIn = computed(() => store.state.isUserLoggedIn)
+
+const logout = () => {
+  store.dispatch('logout')
+  router.push({ name: 'login' })
+}
+
 </script>
 
-
-
 <style scoped>
+  .topBar{
+    height: 64px;
+  }
+  .mainBody{
+    margin-top: 65px;
+  }
+  .logoImage{
+  
+  }
+  .titleLogo{
+    margin-left: -90px;
+    margin-top: 10px;
+  }
+  .topButton{
+    margin-top: 6px;
+    margin-right: 10px;
+  }
+  .footer{
+    min-width: 100%;
+    position: fixed;
+    bottom: 0;
+  }
+
+
+
+
 header {
   line-height: 1.5;
   max-height: 100vh;

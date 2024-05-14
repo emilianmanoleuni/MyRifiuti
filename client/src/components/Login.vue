@@ -1,15 +1,17 @@
 <template>
-    <v-container class="registerBlock">
+    <v-container class="loginBlock">
       <v-row justify="center">
         <v-col cols="12" sm="8" md="6">
           <v-card>
-            <v-card-title class="justify-center">
-              <v-img src="/logo.png" height="60"></v-img>
-              <h1>MyRifiuti</h1>
-            </v-card-title>
-            <v-card-title class="justify-center">
-              <h1>Login</h1>
-            </v-card-title>
+            <v-row class="topBlockLogoName">
+              <v-col cols="6">
+                <v-img class="topImage" src="/logo.png" height="60"></v-img>
+              </v-col>
+              <v-col cols="6">
+                <v-card-title class="text-h3 topTitle">MyRifiuti</v-card-title>
+              </v-col>
+            </v-row>
+            <v-card-title class="text-h4">Login</v-card-title>
             <v-card-text>
               <v-form>
                 <v-text-field
@@ -37,8 +39,8 @@
                 >{{ serverErrors }}</v-alert>
                 
                 <v-btn class="buttonsFirstPage" variant="elevated" color="buttons" @click="login" block>Login</v-btn>
-                <v-btn class="buttonsFirstPage" variant="outlined" color="buttons" text @click="navigateTo({name: 'register'})" block>Register</v-btn>
-                <v-btn class="buttonsFirstPage" variant="outlined" color="buttons" text @click="navigateTo({name: 'homepage'})" block>Continua come Anonimo</v-btn>
+                <v-btn class="buttonsFirstPage" variant="outlined" color="buttons" text :to="{ name: 'register' }" block>Register</v-btn>
+                <v-btn class="buttonsFirstPage" variant="outlined" color="buttons" text :to="{ name: 'homepage' }" block>Continua come Anonimo</v-btn>
   
                 <div class="text-center mt-3">
                   Sei un Ente? <v-btn text @click="ente" color="buttonsLight">Clicca qui</v-btn>
@@ -74,7 +76,7 @@ export default{
                 console.log('Logged in:', response)
                 this.$store.dispatch('setToken', response.data.token)
                 this.$store.dispatch('setUser', response.data.user)
-                this.$router.push({name: 'homepageregistereduser'})
+                this.$router.push({name: 'homepage'})
             } catch (error) {
                 if (error.response && error.response.data) {
                     this.serverErrors = 'Login non corretto riprovare';
@@ -83,15 +85,24 @@ export default{
                 }
                 console.error('Login failed:', error);
             }
-        },
-        navigateTo (route){
-            this.$router.push(route)
         }
     }
 }
 </script>
 
 <style scoped>
+    .loginBlock{
+      margin-top: 70px;
+    }
+    .topBlockLogoName{
+      margin-top: 2px;
+    }
+    .topImage{
+      margin-top: 15px;
+    }
+    .topTitle{
+      margin-left: -100px;
+    }
     .error {
     color: red;
     }
