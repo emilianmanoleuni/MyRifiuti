@@ -1,13 +1,35 @@
 <template>
     <v-container class="mainBody">
+
+        <v-row>
+            <v-col cols="2">
+                <v-card align="center">
+                    <v-card-title class="text-h5">Mappa</v-card-title>
+                </v-card>
+            </v-col>
+            <v-col></v-col>
+            <v-col cols="4">
+                <v-card class="align-self-end filterBlock">
+                    <v-row>
+                        <v-col cols="4">
+                            <v-card-title class="text-body-2">Filtra per:</v-card-title>
+                        </v-col>
+                        <v-col cols="8" class="justify-end">
+                            <v-btn size="small" :variant="filterAllStatus ? 'elevated' : 'outlined'" color="buttons" class="buttonsFilter" @click="filterAll()">Tutto</v-btn>
+                            <v-btn size="small" :variant="filterCRMStatus ? 'elevated' : 'outlined'" color="buttons" class="buttonsFilter" @click="filterCRM()">CRM</v-btn>
+                            <v-btn size="small" :variant="filterCestiniStatus ? 'elevated' : 'outlined'" color="buttons" class="buttonsFilter" @click="filterCestini()">CESTINI</v-btn>
+                        </v-col>
+                    </v-row>
+                </v-card>
+            </v-col>
+        </v-row>
+
         <v-card>
-            <v-card-title class="text-body-2">Filtra per:</v-card-title>
-            <v-btn size="small" :variant="buttonType === 'outlined' ? 'outlined' : 'elevated'" color="buttons" class="buttonsFilter" @click="filterAll(this)">Tutto</v-btn>
-            <v-btn size="small" :variant="buttonType === 'outlined' && selectedButton !== 'Tutto' ? 'elevated' : 'outlined'" color="buttonsLight" class="buttonsFilter" @click="filterCRM(this)">CRM</v-btn>
-            <v-btn size="small" :variant="buttonType === 'outlined' && selectedButton !== 'Tutto' ? 'elevated' : 'outlined'" color="buttonsLight" class="buttonsFilter" @click="filterCestini(this)">CESTINI</v-btn>
+            
+            
         </v-card>
-        <br>
-        <v-card>
+
+        <v-card class="mapBlock">
             <div id="Gmap"></div>
         </v-card>
     </v-container>
@@ -20,6 +42,9 @@ import DatabaseService from '../services/DatabaseService'
 export default{
     data(){
         return{
+            filterAllStatus: true,      //Default
+            filterCRMStatus: false,
+            filtedCestiniStatus: false,
             loader: new Loader({
                 apiKey: "AIzaSyAbvNOHAXW3QpDlSVDjqEVg4domRS-CTXU"
             }),
@@ -80,20 +105,25 @@ export default{
         .catch((msg) => console.log(msg) );
     },
     methods: {
-        changeButtonStatus(){
-            this.buttonType = 'elevated';
+        toggleButton() {
         },
         filterAll(){
-            this.selectedButton = 'Tutto';
-            this.changeButtonStatus();
+            this.filterAllStatus = !this.filterAllStatus;
+            this.filterCRMStatus = false;
+            this.filterCestiniStatus = false;
+            //Chiamata api
         },
         filterCRM(){
-            this.selectedButton = 'CRM';
-            this.changeButtonStatus();
+            this.filterCRMStatus = !this.filterCRMStatus;
+            this.filterCestiniStatus = false;
+            this.filterAllStatus = false;
+            //Chiamata api
         },
         filterCestini(){
-            this.selectedButton = 'CESTINI';
-            this.changeButtonStatus();
+            this.filterCestiniStatus = !this.filterCestiniStatus;
+            this.filterAllStatus = false;
+            this.filterCRMStatus = false;
+            //Chiamata api
         },
         navigateTo (route){
             this.$router.push(route)
@@ -108,6 +138,12 @@ export default{
     margin: 15px;
     height: 600px;
     width: auto;
+}
+.filterBlock{
+    margin-bottom: 0px;
+}
+.mapBlock{
+    margin-top: 10px;
 }
 .buttonsFilter{
     margin-top: 5px;

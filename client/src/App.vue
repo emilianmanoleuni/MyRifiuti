@@ -11,6 +11,7 @@
       <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: '' }">Gruppi</v-btn>
       <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'map' }">Mappa</v-btn>
       <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: '' }">Segnalazioni</v-btn>
+      <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: '' }">Profilo</v-btn>
     </v-app-bar>
   </v-layout>
 
