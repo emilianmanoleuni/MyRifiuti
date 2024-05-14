@@ -3,15 +3,33 @@
   </header>
 
   <v-layout v-if="!isLoginOrRegister">
-    <v-app-bar>
-      <v-img src="/logo.png" class="logoImage" contain height="50" alt="Logo"></v-img>
-      <v-app-bar-title class="text-h5">MyRifiuti</v-app-bar-title>
-      <v-spacer></v-spacer> 
-      <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'homepage' }">Calendario</v-btn>
-      <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: '' }">Gruppi</v-btn>
-      <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'map' }">Mappa</v-btn>
-      <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: '' }">Segnalazioni</v-btn>
-      <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: '' }">Profilo</v-btn>
+    <v-app-bar class="topBar">
+      <v-row justify="center">
+        <v-col cols="3" align="self-cen">
+          <v-img src="/logo.png" class="logoImage" contain height="50" alt="Logo"></v-img>
+        </v-col>
+        <v-col cols="2" align="self-center">
+          <v-app-bar-title class="text-h5 titleLogo">MyRifiuti</v-app-bar-title>
+        </v-col>
+        <v-col cols="7" align="self-center">
+          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'homepage' }">Calendario</v-btn>
+          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: '' }">Gruppi</v-btn>
+          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'map' }">Mappa</v-btn>
+          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: '' }">Segnalazioni</v-btn>
+      
+          <v-menu open-on-click="">
+            <template v-slot:activator="{ props }">
+              <v-btn v-bind="props" class="topButton" variant="elevated" color="buttons" text :to="{ name: '' }">Profilo</v-btn>
+            </template>
+            <v-list>
+              <v-list-item>
+                <v-list-item-title>Impostazioni</v-list-item-title>
+                <v-list-item-title>Esci</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu> 
+        </v-col>
+      </v-row>
     </v-app-bar>
   </v-layout>
 
@@ -40,21 +58,28 @@ const isLoginOrRegister = computed(() => {
 </script>
 
 <style scoped>
+  .topBar{
+    height: 64px;
+  }
   .mainBody{
     margin-top: 65px;
   }
   .logoImage{
-    margin-left: -30px;
-    margin-right: -40px;
+  
+  }
+  .titleLogo{
+    margin-left: -90px;
+    margin-top: 10px;
   }
   .topButton{
-      margin-right: 10px;
+    margin-top: 6px;
+    margin-right: 10px;
   }
   .footer{
-      min-width: 100%;
-      position: fixed;
-      bottom: 0;
-    }
+    min-width: 100%;
+    position: fixed;
+    bottom: 0;
+  }
 
 
 
