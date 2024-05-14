@@ -12,7 +12,8 @@
           <v-app-bar-title class="text-h5 titleLogo">MyRifiuti</v-app-bar-title>
         </v-col>
         <v-col cols="7" align="self-center">
-          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'homepage' }">Calendario</v-btn>
+          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'homepage' }">Homepage</v-btn>
+          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'calendar' }">Calendario</v-btn>
           <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'groups' }">Gruppi</v-btn>
           <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'map' }">Mappa</v-btn>
           <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'reports' }">Segnalazioni</v-btn>
