@@ -129,7 +129,7 @@ export default{
         width: auto;
     }
     .filterBlock{
-        margin-bottom: 0px;
+        margin-top: 16px;
     }
     .mapBlock{
         margin-top: 10px;
