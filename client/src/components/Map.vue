@@ -1,6 +1,16 @@
 <template>
-    <div id="Gmap">
-    </div>
+    <v-container class="mainBody">
+        <v-card>
+            <v-card-title class="text-body-2">Filtra per:</v-card-title>
+            <v-btn size="small" :variant="buttonType === 'outlined' ? 'outlined' : 'elevated'" color="buttons" class="buttonsFilter" @click="filterAll(this)">Tutto</v-btn>
+            <v-btn size="small" :variant="buttonType === 'outlined' && selectedButton !== 'Tutto' ? 'elevated' : 'outlined'" color="buttonsLight" class="buttonsFilter" @click="filterCRM(this)">CRM</v-btn>
+            <v-btn size="small" :variant="buttonType === 'outlined' && selectedButton !== 'Tutto' ? 'elevated' : 'outlined'" color="buttonsLight" class="buttonsFilter" @click="filterCestini(this)">CESTINI</v-btn>
+        </v-card>
+        <br>
+        <v-card>
+            <div id="Gmap"></div>
+        </v-card>
+    </v-container>
 </template>
 
 <script>
@@ -70,6 +80,21 @@ export default{
         .catch((msg) => console.log(msg) );
     },
     methods: {
+        changeButtonStatus(){
+            this.buttonType = 'elevated';
+        },
+        filterAll(){
+            this.selectedButton = 'Tutto';
+            this.changeButtonStatus();
+        },
+        filterCRM(){
+            this.selectedButton = 'CRM';
+            this.changeButtonStatus();
+        },
+        filterCestini(){
+            this.selectedButton = 'CESTINI';
+            this.changeButtonStatus();
+        },
         navigateTo (route){
             this.$router.push(route)
         }
@@ -80,11 +105,15 @@ export default{
 <style scoped>
 
 #Gmap {
-    margin-top: 70px;
-    height: 500px;
-    width: 800px;
+    margin: 15px;
+    height: 600px;
+    width: auto;
 }
-
+.buttonsFilter{
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
 .logoImage{
         margin-right: 20px;
 }

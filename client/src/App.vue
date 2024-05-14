@@ -2,10 +2,10 @@
   <header>
   </header>
 
-  <v-layout v-if="!isForm">
+  <v-layout v-if="!isLoginOrRegister">
     <v-app-bar>
       <v-img src="/logo.png" class="logoImage" contain height="50" alt="Logo"></v-img>
-      <v-app-bar-title>MyRifiuti</v-app-bar-title>
+      <v-app-bar-title class="text-h5">MyRifiuti</v-app-bar-title>
       <v-spacer></v-spacer> 
       <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'homepage' }">Calendario</v-btn>
       <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: '' }">Gruppi</v-btn>
@@ -14,7 +14,7 @@
     </v-app-bar>
   </v-layout>
 
-  <RouterView @update-is-form="handleUpdateIsForm"/>
+  <RouterView/>
 
   <v-layout class="footer">
       <v-footer class="d-flex flex-column" color="footer">
@@ -26,28 +26,22 @@
 </template>
 
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import { onMounted } from 'vue'
-import { ref } from 'vue'
+import { RouterLink, RouterView, useRoute } from 'vue-router'
+import { onMounted, ref, computed } from 'vue'
 
-const isForm = ref(true)
+const route = useRoute()
 
-//Store isForm to avoid false value because reload of page
-onMounted(() => {
-  const storedIsForm = localStorage.getItem('isForm')
-  if (storedIsForm !== null) {
-    isForm.value = JSON.parse(storedIsForm)
-  }
+const isLoginOrRegister = computed(() => {
+  return route.name === 'login' || route.name === 'register'
 })
 
-const handleUpdateIsForm = (newValue) => {
-  isForm.value = newValue
-  localStorage.setItem('isForm', JSON.stringify(newValue))
-}
 
 </script>
 
 <style scoped>
+  .mainBody{
+    margin-top: 65px;
+  }
   .logoImage{
     margin-left: -30px;
     margin-right: -40px;
