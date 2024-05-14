@@ -8,5 +8,21 @@ export default {
     } catch (error) {
       console.error('Si è verificato un errore durante il recupero dei dati del marker:', error); 
     }
+  },
+  async getCRM() {
+    try {
+      const response = await Api().get('crm');
+      return response.data; 
+    } catch (error) {
+      console.error('Si è verificato un errore durante il recupero dei dati del marker:', error); 
+    }
+  },
+  async getCestini(){
+    try {
+      const response = await Api().get('cestini');
+      return response.data; 
+    } catch (error) {
+      console.error('Si è verificato un errore durante il recupero dei dati del marker:', error); 
+    } 
   }
 }
