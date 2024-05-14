@@ -1,8 +1,16 @@
 <template>
-  <v-container class="registerBody" j>
+  <v-container class="registerBlock" j>
     <v-row justify="center">
       <v-col cols="12" md="6">
         <v-card>
+          <v-row class="topBlockLogoName">
+            <v-col cols="6">
+              <v-img class="topImage" src="/logo.png" height="60"></v-img>
+            </v-col>
+            <v-col cols="6">
+              <v-card-title class="text-h3 topTitle">MyRifiuti</v-card-title>
+            </v-col>
+          </v-row>
           <v-card-title class="text-h4">Register</v-card-title>
           <v-card-text>
             <v-form>
@@ -50,7 +58,7 @@
               ></v-text-field>
             </v-form>
           </v-card-text>
-          <v-card-actions class="justify-end">
+          <v-card-actions class="justify-end bottomButtons">
             <v-btn class="backRegisterButton" variant="elevated" color="buttonsLight" @click="navigateTo({name: 'login'})">Back</v-btn>
             <v-btn class="registerButton" variant="elevated" color="buttons" @click="register">Register</v-btn>
           </v-card-actions>
@@ -144,12 +152,26 @@ export default {
 </script>
 
 <style scoped>
-  .registerBody{
-    min-width: 600px;
-    max-width: 600px;
+  .registerBlock{
+    margin-top: 60px;
+  }
+  .loginBlock{
+    margin-top: 70px;
+  }
+  .topBlockLogoName{
+    margin-top: 2px;
+  }
+  .topImage{
+    margin-top: 15px;
+  }
+  .topTitle{
+    margin-left: -100px;
   }
   .error {
       color: red;
+  }
+  .bottomButtons{
+    margin-top: -25px;
   }
   .backRegisterButton{
     margin-bottom: 5px;

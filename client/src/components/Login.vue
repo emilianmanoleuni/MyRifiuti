@@ -1,10 +1,16 @@
 <template>
-    <v-container class="registerBlock">
+    <v-container class="loginBlock">
       <v-row justify="center">
         <v-col cols="12" sm="8" md="6">
           <v-card>
-            <v-img src="/logo.png" height="60"></v-img>
-            <v-card-title class="text-h3">MyRifiuti</v-card-title>
+            <v-row class="topBlockLogoName">
+              <v-col cols="6">
+                <v-img class="topImage" src="/logo.png" height="60"></v-img>
+              </v-col>
+              <v-col cols="6">
+                <v-card-title class="text-h3 topTitle">MyRifiuti</v-card-title>
+              </v-col>
+            </v-row>
             <v-card-title class="text-h4">Login</v-card-title>
             <v-card-text>
               <v-form>
@@ -89,6 +95,18 @@ export default{
 </script>
 
 <style scoped>
+    .loginBlock{
+      margin-top: 70px;
+    }
+    .topBlockLogoName{
+      margin-top: 2px;
+    }
+    .topImage{
+      margin-top: 15px;
+    }
+    .topTitle{
+      margin-left: -100px;
+    }
     .error {
     color: red;
     }
