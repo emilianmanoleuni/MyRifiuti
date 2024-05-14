@@ -108,19 +108,19 @@ export default{
     },
     methods: {
         filterAll(){
-            this.filterAllStatus = !this.filterAllStatus;
+            this.filterAllStatus = true;
             this.filterCRMStatus = false;
             this.filterCestiniStatus = false;
             //Chiamata api
         },
         filterCRM(){
-            this.filterCRMStatus = !this.filterCRMStatus;
+            this.filterCRMStatus = true;
             this.filterCestiniStatus = false;
             this.filterAllStatus = false;
             //Chiamata api
         },
         filterCestini(){
-            this.filterCestiniStatus = !this.filterCestiniStatus;
+            this.filterCestiniStatus = true;
             this.filterAllStatus = false;
             this.filterCRMStatus = false;
             //Chiamata api
