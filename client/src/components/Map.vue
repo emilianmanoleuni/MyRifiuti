@@ -31,7 +31,7 @@
 
 <script>
 import { Loader } from '@googlemaps/js-api-loader'
-import DatabaseService from '../services/DatabaseService'
+import DatabaseService from '../services/MapService'
 import { VueElement } from 'vue';
 
 export default{

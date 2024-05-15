@@ -76,6 +76,7 @@
 
 <script>
 import AuthenticationService from '@/services/AuthenticationService'
+import MapService from '@/services/MapService'
 import { required, email, minLength, helpers } from '@vuelidate/validators'
 
 export default {
@@ -103,7 +104,7 @@ export default {
         }
     },
     mounted(){
-      AuthenticationService.getZone()
+      MapService.getZone()
       .then(zoneArray => {
         console.log(zoneArray)
         this.circoscrizioni = [...zoneArray];

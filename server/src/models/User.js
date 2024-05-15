@@ -3,7 +3,7 @@ const Promise = require('bluebird')
 const bcrypt = Promise.promisifyAll(require('bcryptjs'))
 const Zone = require('./Zone')
 
-// Schema dell'utente
+// Schema user
 const userSchema = new mongoose.Schema({
   name: {
     type: String,

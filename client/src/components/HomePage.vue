@@ -51,6 +51,8 @@
 import { ref, computed, watchEffect } from 'vue'
 import 'v-calendar/style.css';
 import AuthenticationService from '@/services/AuthenticationService';
+import CalendarService from '@/services/CalendarService'
+import MapService from '@/services/MapService'
 
 import { useStore } from 'vuex'
 const store = useStore()
@@ -67,20 +69,7 @@ export default {
     data() {
         return {
             selectedLocation: '',
-            locations: [
-                'RAVINA - ROMAGNANO',
-                'POVO - VILLAZZANO',
-                'ARGENTARIO',
-                'BONDONE - SARGAGNA',
-                'MATTARELLO',
-                'S. GIUSEPPE - S.CHIARA',
-                'CRISTO RE - SAN MARTINO',
-                'PIDEDICASTELLO - SOLTERI - VELA - CAMPOTRENTINO',
-                'VIA KOFLER - CASTELLER',
-                'GARDOLO',
-                'GARDOLO ZONA INDUSTRIALE - MEANO',
-                'OLTREFERSINA'
-            ],
+            locations: [],
             filterTuttoStatus: true,
             filterOrganicoStatus: true,
             filterImballaggiLeggeriStatus: true,
@@ -91,8 +80,12 @@ export default {
             user: {}
         }
     },
-    mounted(){
-        this.fetchUserData();
+    async mounted(){
+        if (this.isUserLoggedIn) {
+            await this.fetchUserData();
+        } else {
+            this.locations = await MapService.getZone();
+        }
     },
     computed: {
         attributes() {
@@ -109,11 +102,10 @@ export default {
         }
     },
     watch: {
-        selectedLocation: {
-            immediate: true,
-            handler(newLocation) {
+        selectedLocation(newLocation) {
+            if (!this.isUserLoggedIn) {
                 this.updateTodos(newLocation);
-            }
+            } 
         }
     },
     methods: {
@@ -128,141 +120,93 @@ export default {
                 console.error('Errore nel recupero della zona');
             }
         },
-        getWeekdayNumber(location, wasteType) {
-            const schedules = {
-                "RAVINA - ROMAGNANO": {
-                    organico: 3, // Tuesday
-                    carta: 4, // Wednesday
-                    "imballaggi leggeri": 6, // Friday
-                    residuo: 4, // Wednesday
-                    vetro: 4 // Wednesday
-                },
-                "POVO - VILLAZZANO": {
-                    organico: 2, // Monday
-                    carta: 5, // Thursday
-                    "imballaggi leggeri": 6, // Friday
-                    residuo: 2, // Monday
-                    vetro: 2 // Monday
-                },
-                ARGENTARIO: {
-                    organico: 3, // Tuesday
-                    carta: 6, // Friday
-                    "imballaggi leggeri": 4, // Wednesday
-                    residuo: 4, // Wednesday
-                    vetro: 4 // Wednesday
-                },
-                "BONDONE - SARGAGNA": {
-                    organico: 2, // Monday
-                    carta: 4, // Wednesday
-                    "imballaggi leggeri": 5, // Thursday
-                    residuo: 2, // Monday
-                    vetro: 2 // Monday
-                },
-                MATTARELLO: {
-                    organico: 3, // Tuesday
-                    carta: 4, // Wednesday
-                    "imballaggi leggeri": 3, // Tuesday
-                    residuo: 7, // Friday
-                    vetro: 7 // Friday
-                },
-                "S. GIUSEPPE - S.CHIARA": {
-                    organico: 3, // Tuesday
-                    carta: 6, // Friday
-                    "imballaggi leggeri": 4, // Wednesday
-                    residuo: 3, // Tuesday
-                    vetro: 3 // Tuesday
-                },
-                "CRISTO RE - SAN MARTINO": {
-                    organico: 2, // Monday
-                    carta: 2, // Monday
-                    "imballaggi leggeri": 3, // Tuesday
-                    residuo: 5, // Thursday
-                    vetro: 5 // Thursday
-                },
-                "PIDEDICASTELLO - SOLTERI - VELA - CAMPOTRENTINO": {
-                    organico: 2, // Monday
-                    carta: 2, // Monday
-                    "imballaggi leggeri": 3, // Tuesday
-                    residuo: 5, // Thursday
-                    vetro: 5 // Thursday
-                },
-                "VIA KOFLER - CASTELLER": {
-                    organico: 3, // Tuesday
-                    carta: 6, // Friday
-                    "imballaggi leggeri": 2, // Monday
-                    residuo: 3, // Tuesday
-                    vetro: 3 // Tuesday
-                },
-                "GARDOLO": {
-                    organico: 3, // Tuesday
-                    carta: 3, // Tuesday
-                    "imballaggi leggeri": 6, // Friday
-                    residuo: 4, // Wednesday
-                    vetro: 4 // Wednesday
-                },
-                "GARDOLO ZONA INDUSTRIALE - MEANO": {
-                    organico: 2, // Monday
-                    carta: 2, // Monday
-                    "imballaggi leggeri": 5, // Thursday
-                    residuo: 5, // Thursday
-                    vetro: 4 // Wednesday
-                },
-                "OLTREFERSINA": {
-                    organico: 2, // Monday
-                    carta: 2, // Monday
-                    "imballaggi leggeri": 4, // Wednesday
-                    residuo: 5, // Thursday
-                    vetro: 2 // Monday
-                }
-            };
-            return schedules[location][wasteType];
-        },
-        updateTodos(location) {
-            this.todos = [];
-            if (location) {
-                this.todos.push(
-                    {
-                        description: 'Organico',
-                        isComplete: false,
-                        dates: { repeat: { weekdays: this.getWeekdayNumber(location, 'organico') } },
-                        color: 'green',
-                    },
-                    {
-                        description: 'Carta',
-                        isComplete: false,
-                        dates: { repeat: { weekdays: this.getWeekdayNumber(location, 'carta') } },
-                        color: 'blue',
-                    },
-                    {
-                        description: 'Imballaggi leggeri',
-                        isComplete: false,
-                        dates: { repeat: { weekdays: this.getWeekdayNumber(location, 'imballaggi leggeri') } },
-                        color: 'yellow',
-                    },
-                    {
-                        description: 'Residuo',
-                        isComplete: false,
-                        dates: { repeat: { weekdays: this.getWeekdayNumber(location, 'residuo') } },
-                        color: 'red',
-                    },
-                    {
-                        description: 'Vetro',
-                        isComplete: false,
-                        dates: { repeat: { weekdays: this.getWeekdayNumber(location, 'vetro') } },
-                        color: 'gray',
-                    },
-                );
+        async getWasteDayNumber(location, wasteType) {
+            try {
+                const wasteDayNumber = await CalendarService.getWasteDayNumber(location, wasteType);
+                return wasteDayNumber;
+            } catch (error) {
+                console.error('Errore nel recupero dei numeri dei giorni della settimana:', error);
+                return null;
             }
         },
-        filterAll(){
+        async updateTodos(location) {
+            this.todos = []; //Clear
+            if (location) {
+                try {
+                    const organicoPromise = this.filterOrganicoStatus ? this.getWasteDayNumber(location, 'organic') : null;
+                    const plasticPromise = this.filterImballaggiLeggeriStatus ? this.getWasteDayNumber(location, 'plastic') : null;
+                    const paperPromise = this.filterCartaStatus ? this.getWasteDayNumber(location, 'paper') : null;
+                    const residuePromise = this.filterResiduoStatus ? this.getWasteDayNumber(location, 'residue') : null;
+                    const glassPromise = this.filterVetroStatus ? this.getWasteDayNumber(location, 'glass') : null;
+            
+                    const [organico, plastic, paper, residue, glass] = await Promise.all([
+                        organicoPromise,
+                        plasticPromise,
+                        paperPromise,
+                        residuePromise,
+                        glassPromise
+                    ]);
+
+                    if (this.filterOrganicoStatus && organico !== null) {
+                        this.todos.push({
+                            description: 'Organico',
+                            isComplete: false,
+                            dates: { repeat: { weekdays: organico } },
+                            color: 'green',
+                        });
+                    }
+
+                    if (this.filterImballaggiLeggeriStatus && plastic !== null) {
+                        this.todos.push({
+                            description: 'Imballaggi leggeri',
+                            isComplete: false,
+                            dates: { repeat: { weekdays: plastic } },
+                            color: 'blue',
+                        });
+                    }
+
+                    if (this.filterCartaStatus && paper !== null) {
+                        this.todos.push({
+                            description: 'Carta',
+                            isComplete: false,
+                            dates: { repeat: { weekdays: paper } },
+                            color: 'yellow',
+                        });
+                    }
+
+                    if (this.filterResiduoStatus && residue !== null) {
+                        this.todos.push({
+                            description: 'Residuo',
+                            isComplete: false,
+                            dates: { repeat: { weekdays: residue } },
+                            color: 'red',
+                        });
+                    }
+
+                    if (this.filterVetroStatus && glass !== null) {
+                        this.todos.push({
+                            description: 'Vetro',
+                            isComplete: false,
+                            dates: { repeat: { weekdays: glass } },
+                            color: 'gray',
+                        });
+                    }
+                } catch (error) {
+                    console.error('Errore nell\'aggiornamento dei compiti:', error);
+                }
+            }
+        },
+        async filterAll(){
             this.filterTuttoStatus = true;
             this.filterOrganicoStatus = true;
             this.filterImballaggiLeggeriStatus = true;
             this.filterCartaStatus = true;
             this.filterResiduoStatus = true;
             this.filterVetroStatus = true;
+
+            await this.updateTodos(this.selectedLocation);
         },
-        filterOrganico(){
+        async filterOrganico(){
             this.filterTuttoStatus = false;
             this.filterOrganicoStatus = true;
             this.filterImballaggiLeggeriStatus = false;
@@ -270,9 +214,9 @@ export default {
             this.filterResiduoStatus = false;
             this.filterVetroStatus = false;
 
-            //Chiamata api
+            await this.updateTodos(this.selectedLocation);
         },
-        filterImballaggiLeggeri(){
+        async filterImballaggiLeggeri(){
             this.filterTuttoStatus = false;
             this.filterOrganicoStatus = false;
             this.filterImballaggiLeggeriStatus = true;
@@ -280,9 +224,9 @@ export default {
             this.filterResiduoStatus = false;
             this.filterVetroStatus = false;
             
-            //Chiamata api
+            await this.updateTodos(this.selectedLocation);
         },
-        filterCarta(){
+        async filterCarta(){
             this.filterTuttoStatus = false;
             this.filterOrganicoStatus = false;
             this.filterImballaggiLeggeriStatus = false;
@@ -290,9 +234,9 @@ export default {
             this.filterResiduoStatus = false;
             this.filterVetroStatus = false;
 
-            //Chiamata api
+            await this.updateTodos(this.selectedLocation);
         },
-        filterResiduo(){
+        async filterResiduo(){
             this.filterTuttoStatus = false;
             this.filterOrganicoStatus = false;
             this.filterImballaggiLeggeriStatus = false;
@@ -300,9 +244,9 @@ export default {
             this.filterResiduoStatus = true;
             this.filterVetroStatus = false;
 
-            //Chiamata api
+            await this.updateTodos(this.selectedLocation);
         },
-        filterVetro(){
+        async filterVetro(){
             this.filterTuttoStatus = false;
             this.filterTuttoStatus = false;
             this.filterOrganicoStatus = false;
@@ -311,7 +255,7 @@ export default {
             this.filterResiduoStatus = false;
             this.filterVetroStatus = true;
 
-            //Chiamata api
+            await this.updateTodos(this.selectedLocation);
         }
     }
 };
