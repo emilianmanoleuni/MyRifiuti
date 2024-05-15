@@ -25,7 +25,7 @@ const router = createRouter({
       component: HomePage,
     },
     {
-      path: '/grups',
+      path: '/groups',
       name: 'groups',
       component: Groups,
     },

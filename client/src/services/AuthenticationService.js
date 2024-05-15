@@ -14,5 +14,16 @@ export default {
         } catch (err) {
           console.error('Si è verificato un errore durante il recupero delle zone: ', err); 
         }
+    },
+    getUserZone(userId){
+      const token = localStorage.getItem('token');
+      return Api().get('getUserZone', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        params: {
+          userId: userId
+        }
+      })
     }
 }

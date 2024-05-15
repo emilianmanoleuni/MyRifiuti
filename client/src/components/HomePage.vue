@@ -14,6 +14,8 @@
                 <v-card>
                     <!-- INTEGRAZIONE -->
                     <v-select
+                        class="selectZoneBox"
+                        v-if="!isUserLoggedIn"
                         v-model="selectedLocation"
                         :items="locations"
                         label="Seleziona circoscrizione"
@@ -21,17 +23,8 @@
                         style="margin-top: 10px;" 
                     ></v-select>
 
-                    <div class="calendar-container" style="margin-top: 20px;"> 
-                        <VCalendar :attributes="attributes" class="calendar" expanded />
-                    </div>
-
-                    <div v-if="$store.state.isUserLoggedIn" class="text-block">
-                        <p>zona - {{ $store.state.user.zone }} - selezionare la zona nel menù a tendina</p>
-                    </div>
-                    <div v-else class="text-block">
-                        <p>navigazione anonima</p>
-                    </div>
-                    <!-- INTEGRAZIONE -->
+                    <VCalendar :attributes="attributes" class="calendarBox" expanded />
+                    
                 </v-card>
             </v-col>
             <v-col cols="2">
@@ -57,8 +50,20 @@
 <script>
 import { ref, computed, watchEffect } from 'vue'
 import 'v-calendar/style.css';
+import AuthenticationService from '@/services/AuthenticationService';
+
+import { useStore } from 'vuex'
+const store = useStore()
 
 export default {
+    setup() {
+        const store = useStore()
+        const isUserLoggedIn = computed(() => store.state.isUserLoggedIn)
+
+        return {
+            isUserLoggedIn
+        }
+    },
     data() {
         return {
             selectedLocation: '',
@@ -82,8 +87,12 @@ export default {
             filterCartaStatus: true,
             filterResiduoStatus: true,
             filterVetroStatus: true,
-            todos: []
+            todos: [],
+            user: {}
         }
+    },
+    mounted(){
+        this.fetchUserData();
     },
     computed: {
         attributes() {
@@ -108,6 +117,17 @@ export default {
         }
     },
     methods: {
+        async fetchUserData() {
+            try {
+                const userId = this.$store.state.user._id;
+                const response = await AuthenticationService.getUserZone(userId);
+                this.user = response.data;
+                this.selectedLocation = this.user.zone;
+                this.updateTodos(this.selectedLocation);
+            } catch (error) {
+                console.error('Errore nel recupero della zona');
+            }
+        },
         getWeekdayNumber(location, wasteType) {
             const schedules = {
                 "RAVINA - ROMAGNANO": {
@@ -301,5 +321,12 @@ export default {
     .buttonsFilter{
         width: 94%;
         margin: 5px;
+    }
+    .calendarBox{
+        margin: 10px;
+        width: auto;
+    }
+    .selectZoneBox{
+        margin: 10px;
     }
 </style>

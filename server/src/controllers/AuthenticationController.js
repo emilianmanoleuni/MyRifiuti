@@ -76,5 +76,21 @@ module.exports={
           error: 'An error has occured trying to log in'
         })
       }
-    }
+    },
+
+    async getUserZone(req, res) {
+      try {
+          const userId = req.query.userId;
+          console.log(userId)
+          const user = await User.findById(userId);
+      
+          if (!user) {
+              return res.status(404).json({ error: 'User not found' });
+          }
+          res.json({ zone: user.zone });
+      } catch (error) {
+          res.status(500).json({ error: 'Server error' });
+      }
+  }
+    
 }
