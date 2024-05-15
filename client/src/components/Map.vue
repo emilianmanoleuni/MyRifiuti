@@ -32,6 +32,7 @@
 <script>
 import { Loader } from '@googlemaps/js-api-loader'
 import DatabaseService from '../services/DatabaseService'
+import { VueElement } from 'vue';
 
 export default{
     data(){
@@ -56,9 +57,15 @@ export default{
                 east: 11.1938382,
                 west: 11.0214333, 
             },
+            markers: []
         };
     },
     mounted(){
+        this.initMap();
+        this.filterAll();
+    },
+    methods: {
+        initMap(){
         this.loader
         .load()
         .then((google) => {
@@ -70,60 +77,87 @@ export default{
             );
             const borders = new google.maps.GroundOverlay(imgRoot.concat("borders.png"), this.imageBounds);
             if(this.$store.state.isUserLoggedIn){
-                const highlightedBorders = new google.maps.GroundOverlay(pathImg.concat(this.$store.state.user.zone, ".png"), this.imageBounds);
+                const highlightedBorders = new google.maps.GroundOverlay(imgRoot.concat(this.$store.state.user.zone, ".png"), this.imageBounds);
                 highlightedBorders.setMap(map);
             }
-            DatabaseService.getMarker()
-            .then(markerArray => {
-                markerArray.forEach((marker) => {
-                    let pathImg = imgRoot;
-                    if(marker.label.includes("CRM")){
-                        pathImg = pathImg.concat("CRM.png")
-                    } else {
-                        pathImg = pathImg.concat(marker.label, ".png") //CRM.png, Centro integrato.png, cestino.png
-                    }
-                    console.log(pathImg)
-                    const mapMarker = new google.maps.Marker({
-                                position: {
-                                    lat: marker.lat,
-                                    lng: marker.lng,
-                                },
-                                map,
-                                title: marker.label,
-                                icon: pathImg
-                                });
-                    mapMarker.addListener("click", () => {
+            this.markers.forEach((marker) => {
+                let pathImg = imgRoot;
+                if(marker.label.includes("CRM")){
+                    pathImg = pathImg.concat("CRM.png")
+                } else {
+                    pathImg = pathImg.concat(marker.label, ".png") //CRM.png, Centro integrato.png, cestino.png
+                }
+                const mapMarker = new google.maps.Marker({
+                            position: {
+                                lat: marker.lat,
+                                lng: marker.lng,
+                            },
+                            map,
+                            title: marker.label,
+                            icon: pathImg
+                            });
+                mapMarker.addListener("click", () => {
                     window.close();
-                    window.setContent(mapMarker.getTitle());
-                    window.open(mapMarker.getMap(), mapMarker);
-                    }) 
-                });
-            })
-            .catch(msg => {
-                console.log(msg);
+                    window.setContent(mapMarker.getTitle());                    window.open(mapMarker.getMap(), mapMarker);
+                }) 
             });
             borders.setMap(map);
         })
-        .catch((msg) => console.log(msg) );
-    },
-    methods: {
+            .catch((msg) => console.log(msg) );
+        },
         filterAll(){
             this.filterAllStatus = true;
             this.filterCRMStatus = false;
             this.filterCestiniStatus = false;
-            //Chiamata api
+            this.markers = []
+            DatabaseService.getMarker()
+            .then((markerArray) => {
+                markerArray.forEach((marker, index) => {
+                    this.markers.push(marker)
+                })
+                console.log(this.markers)
+                this.initMap();
+            })
+            .catch(msg => {
+                console.log(msg);
+            });
+            
         },
         filterCRM(){
             this.filterCRMStatus = true;
             this.filterCestiniStatus = false;
             this.filterAllStatus = false;
-            //Chiamata api
+            this.markers = []
+            DatabaseService.getCRM()
+            .then((markerArray) => {
+                markerArray.forEach((marker, index) => {
+                    this.markers[index] = marker;
+                })
+                console.log(this.markers)
+                this.initMap();
+            })
+            .catch(msg => {
+                console.log(msg);
+            });
+            
         },
         filterCestini(){
             this.filterCestiniStatus = true;
             this.filterAllStatus = false;
             this.filterCRMStatus = false;
-            //Chiamata api
+            this.markers = []
+            DatabaseService.getCestini()
+            .then((markerArray) => {
+                markerArray.forEach((marker, index) => {
+                    this.markers[index] = marker;
+                })
+                console.log(this.markers)
+                this.initMap()
+            })
+            .catch(msg => {
+                console.log(msg);
+            });
+            
         }
     }
 }
