@@ -23,7 +23,9 @@
                         style="margin-top: 10px;" 
                     ></v-select>
 
-                    <VCalendar :attributes="attributes" class="calendarBox" expanded />
+                    <div class="calendarBox">
+                        <VCalendar :attributes="attributes" class="vc-container" expanded />
+                    </div>
                     
                 </v-card>
             </v-col>
@@ -152,7 +154,7 @@ export default {
                             description: 'Organico',
                             isComplete: false,
                             dates: { repeat: { weekdays: organico } },
-                            color: 'green',
+                            color: 'gray',
                         });
                     }
 
@@ -179,7 +181,7 @@ export default {
                             description: 'Residuo',
                             isComplete: false,
                             dates: { repeat: { weekdays: residue } },
-                            color: 'red',
+                            color: 'teal',
                         });
                     }
 
@@ -268,6 +270,7 @@ export default {
     }
     .calendarBox{
         margin: 10px;
+        height: 442px;
         width: auto;
     }
     .selectZoneBox{
