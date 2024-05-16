@@ -9,7 +9,7 @@ module.exports = {
             if (!zoneDays) {
                 return res.status(404).json({ error: 'Zone not found' });
             }
-            res.json({
+            res.status(200).json({
                         organic: zoneDays.organic,
                         plastic: zoneDays.plastic,
                         paper: zoneDays.paper,
@@ -40,7 +40,7 @@ module.exports = {
                 return res.status(400).json({ error: 'Invalid waste type' });
             }
 
-            res.json({
+            res.status(200).json({
                 weekdayNumber: weekdayNumber,
                 wasteType: wasteType
             });
