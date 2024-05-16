@@ -12,6 +12,9 @@
 ### Run Server
 Navigate to server folder and:
 ```
+npm install
+```
+```
 npm start
 ```
 ### Run Client
