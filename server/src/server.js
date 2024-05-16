@@ -26,6 +26,12 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
 
 app.use('/api', routes); // Use auth only with /api
 
+app.use(cors({
+  origin: 'https://myrifiuti-deploy.onrender.com', // Frontend
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
 app.get('/status', (req, res) => {
     res.send({
         message: 'hello!'
