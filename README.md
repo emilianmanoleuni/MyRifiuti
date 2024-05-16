@@ -18,6 +18,6 @@ npm start
 Navigate to client folder and:
 ```
 npm install
-
+```
 npm run dev
 ```
