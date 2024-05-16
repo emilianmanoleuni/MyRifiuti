@@ -1,0 +1,504 @@
+openapi: 3.0.3
+info:
+  title: MyRifiuti
+  description: |-
+    MyRifiuti è un servizio ideato per le persone abitanti nel Trentino che faciliti la gestione dei rifiuti domestici, attraverso un’interfaccia molto intuitiva e versatile. Pensata anche per chi come noi studenti universitari ha coinquilini con cui bisogna collaborare attraverso una sezione apposita di gestione.
+  license:
+    name: UniTN
+  version: .0.0.0
+
+servers:
+  - url: https://localhost:8081/api
+tags:
+  - name: user
+    description: Operation about user
+  - name: map
+    description: Manage and populate map
+  - name: calendar
+    description: Manage and populate calendar
+paths:
+  /register:
+    post:
+      tags:
+        - user
+      summary: Register a new user
+      description: Save data of a new user that compiled registration form
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User created succesfully
+        '500':
+          description: Error registering new user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error registering new user
+  /login:
+    post:
+      tags:
+        - user
+      summary: Login a user
+      description: Verify data of login 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  description: Email of the user
+                password:
+                  type: string
+                  description: Password of the account
+      responses:
+        '200':
+          description: Login success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                      $ref: '#/components/schemas/User'
+                  token:
+                    type: string
+                    description: JWT token for authentication 
+        '403':
+          description: Login incorrect
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The login information was incorrect
+        '500':
+          description: An error has occured trying to log in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: An error has occured trying to log in
+  /getUserZone:
+    get:
+      tags: 
+        - map
+        - calendar
+      summary: Read the zone of a user
+      description: Retrieve the user associated to an authenticated user from Database
+      parameters:
+        - in: query
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: Id of the user
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  zone:
+                    type: string
+                    description: The zone of the user
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: User not found
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Server Error
+  /calendarAll:
+    get:
+      tags:
+        - calendar
+      summary: Get days of waste collection
+      parameters:
+        - in: query
+          name: zone
+          required: true
+          schema:
+            type: string
+          description: The zone requested
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  organic:
+                    type: string
+                    description: Organic collection day
+                  plastic:
+                    type: string
+                    description: Plastic collection day
+                  paper:
+                    type: string
+                    description: Paper collection day
+                  residue:
+                    type: string
+                    description: Residue collection day
+                  glass:
+                    type: string
+                    description: Glass collection day
+        '404':
+          description: Zone not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Zone not found
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Server Error
+  /getWasteDayNumber:
+    get:
+      summary: Get collection days of a certain type of waste for a certain zone
+      parameters:
+        - in: query
+          name: zone
+          required: true
+          schema:
+            type: string
+          description: The zone requested
+        - in: query
+          name: wasteType
+          required: true
+          schema:
+            type: string
+          description: The type of waste requested
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  weekdayNumber:
+                    type: string
+                    description: The day number for waste collection
+                  wasteType:
+                    type: string
+                    description: The type of waste
+        '400':
+          description: Invalid waste type
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Invalid waste type
+        '404':
+          description: Waste day number not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Waste day number not found
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Server error
+  /marker:
+    get:
+      summary: Get all markers to be put in the map
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Marker'
+        '500':
+          description: No markers found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: No markers found
+        '501':
+          description: Error retrieving data from database
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error retrieving data from database
+  /crm:
+    get:
+      summary: Get CRM markers
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Marker'
+        '500':
+          description: No markers found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: No markers found
+        '501':
+          description: Error retrieving data from database
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error retrieving data from database
+  /cestini:
+    get:
+      summary: Get cestini markers
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Marker'
+        '500':
+          description: No markers found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: No markers found
+        '501':
+          description: Error retrieving data from database
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error retrieving data from database
+  /zone:
+    get:
+      summary: Get zone data
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                description: Array of zones
+        '501':
+          description: Error 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error 
+  /putMarker:
+    post:
+      summary: Add a new marker
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Marker'
+      responses:
+        '200':
+          description: Marker added successfully
+          content:
+            application/json:
+              schema:
+                type: string
+                description: Marker added successfully
+        '500':
+          description: Error saving new marker in database
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error saving new marker in database
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the user
+        surname:
+          type: string
+          description: The surname of the user
+        email:
+          type: string
+          format: email
+          description: The email address of the user
+        password:
+          type: string
+          description: The password of the user
+        zone:
+          type: string
+          enum: [ 
+            'ARGENTARIO',
+            'BONDONE E SARDAGNA',
+            'CRISTO RE - SAN MARTINO',
+            'GARDOLO',
+            'GARDOLO ZONA INDUSTRIALE - MEANO',
+            'MATTARELLO',
+            'OLTREFERSINA',
+            'PIEDICASTELLO - SOLTERI - VELA - CAMPOTRENTINO',
+            'POVO - VILLAZZANO',
+            'RAVINA - ROMAGNANO',
+            'S. GIUSEPPE - S. CHIARA',
+            'VIA KOFLER - CASTELLER']
+          description: The zone of the user
+      required:
+        - name
+        - surname
+        - email
+        - password
+        - zone
+    Marker:
+      type: object
+      properties:
+        lat:
+          type: number
+          format: float
+          description: Latitude coordinate of the marker
+        lng:
+          type: number
+          format: float
+          description: Longitude coordinate of the marker
+        label:
+          type: string
+          description: Label of the marker
+      required:
+        - lat
+        - lng
+        - label
+    Calendar:
+      type: object
+      properties:
+        zone:
+          type: string
+          enum: [ 
+            'ARGENTARIO',
+            'BONDONE E SARDAGNA',
+            'CRISTO RE - SAN MARTINO',
+            'GARDOLO',
+            'GARDOLO ZONA INDUSTRIALE - MEANO',
+            'MATTARELLO',
+            'OLTREFERSINA',
+            'PIEDICASTELLO - SOLTERI - VELA - CAMPOTRENTINO',
+            'POVO - VILLAZZANO',
+            'RAVINA - ROMAGNANO',
+            'S. GIUSEPPE - S. CHIARA',
+            'VIA KOFLER - CASTELLER']
+          description: Zone for collection day
+        organic:
+          type: number
+          description: Organic day
+        plastic:
+          type: number
+          description: Plastic day
+        paper:
+          type: number
+          description: Paper day
+        residue:
+          type: number
+          description: Residue day
+        glass:
+          type: number
+          description: Glass day
+      required:
+        - zone
+        - organic
+        - plastic
+        - paper
+        - residue
+        - glass
