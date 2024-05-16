@@ -52,7 +52,7 @@ module.exports = {
     try{
       const newMarker = new Marker(req.body);
       await newMarker.save();
-      res.status(200).send('inserito');
+      res.status(200).send('Marker added succesfully');
     } catch (err){
       res.status(500).json('Error saving new marker in database')
     }
