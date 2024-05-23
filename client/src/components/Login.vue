@@ -43,7 +43,7 @@
                 <v-btn class="buttonsFirstPage" variant="outlined" color="buttons" text :to="{ name: 'homepage' }" block>Continua come Anonimo</v-btn>
   
                 <div class="text-center mt-3">
-                  Sei un Ente? <v-btn text @click="ente" color="buttonsLight">Clicca qui</v-btn>
+                  Sei un Ente? <v-btn color="buttonsLight" text :to="{ name: 'enteLogin' }">Clicca qui</v-btn>
                 </div>
               </v-form>
             </v-card-text>
@@ -63,7 +63,7 @@ export default{
         return {
             email: '',
             password: '',
-            serverErrors: ''
+            serverErrors: '',
         }
     },
     methods: {

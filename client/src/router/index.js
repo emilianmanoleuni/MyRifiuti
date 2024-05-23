@@ -6,6 +6,8 @@ import Groups from '@/components/Groups.vue'
 import Map from '@/components/Map.vue'
 import Reports from '@/components/Reports.vue'
 import Profile from '@/components/Profile.vue'
+import EnteLogin from '@/components/EnteLogin.vue'
+import EnteHomepage from '@/components/EnteHomepage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,6 +46,16 @@ const router = createRouter({
       path: '/profile',
       name: 'profile',
       component: Profile
+    },
+    {
+      path: '/enteLogin',
+      name: 'enteLogin',
+      component: EnteLogin
+    },
+    {
+      path: '/enteHomepage',
+      name: 'enteHomepage',
+      component: EnteHomepage
     }
   ]
 })

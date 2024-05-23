@@ -4,10 +4,10 @@ const AuthenticationController = require('./controllers/AuthenticationController
 const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy');
 const CalendarController = require('./controllers/CalendarController');
 const MapController = require('./controllers/MapController');
+const ReportController = require('./controllers/ReportController')
 const AuthenticationValidator = require('./policies/AuthenticationValidator')
 const Marker = require('./models/Marker');
 const Zone = require('./models/Zone')
-
 
 
 
@@ -52,6 +52,10 @@ router.get('/zone',
 
 router.post('/putMarker',
     MapController.putMarker
+);
+
+router.post('/sendReport',
+    ReportController.sendReport
 );
 
 module.exports = router;

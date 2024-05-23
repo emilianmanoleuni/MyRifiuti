@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema({
   },
   zone: {
     type: String,
-    enum: Zone.circoscrizioni,
+    enum: Zone.zones,
     required: true
   }
 }, { timestamps: true }); // `timestamps` add `createdAt` and `updatedAt`

@@ -11,7 +11,7 @@
         <v-col cols="2" align="self-center">
           <v-app-bar-title class="text-h5 titleLogo">MyRifiuti</v-app-bar-title>
         </v-col>
-        <v-col cols="7" align="self-center">
+        <v-col v-if="!isEnteLogged" cols="7" align="self-center">
           <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'homepage' }">Homepage</v-btn>
           <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'groups' }">Gruppi</v-btn>
           <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'map' }">Mappa</v-btn>
@@ -29,6 +29,12 @@
               </v-list-item>
             </v-list>
           </v-menu> 
+        </v-col>
+        <v-col v-if="isEnteLogged" cols="7" align="self-center">
+          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: '' }">Homepage</v-btn>
+          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: '' }"></v-btn>
+          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: '' }"></v-btn>
+          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: '' }"></v-btn>
         </v-col>
       </v-row>
     </v-app-bar>
@@ -55,7 +61,11 @@ const router = useRouter()
 const store = useStore()
 
 const isLoginOrRegister = computed(() => {
-  return route.name === 'login' || route.name === 'register'
+  return route.name === 'login' || route.name === 'register' || route.name === 'enteLogin'
+})
+
+const isEnteLogged = computed(() => {
+  return route.name === 'enteHomepage'
 })
 
 const isUserLoggedIn = computed(() => store.state.isUserLoggedIn)
