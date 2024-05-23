@@ -17,8 +17,8 @@
                             <v-text-field
                                 label="Ente"
                                 prepend-icon="mdi-account"
-                                type="email"
-                                v-model="ente"
+                                type="username"
+                                v-model="username"
                                 placeholder="Inserisci l'ente"
                                 outlined
                             ></v-text-field>
@@ -40,14 +40,14 @@
                                 
                             <v-row>
                                 <v-btn class="enteLoginButton" color="buttonsLight" :to="{ name: 'login' }">Back</v-btn>
-                                <v-btn class="enteLoginButton" variant="elevated" color="buttons" @click="loginEnte" :to="{ name: 'enteHomepage'}">Login</v-btn>
+                                <v-btn class="enteLoginButton" variant="elevated" color="buttons" @click="loginEnte">Login</v-btn>
                             </v-row>
 
                         </v-form>
                     </v-card-text>
                 </v-card>
                 <v-card class="alertEnteLogin">
-                    <v-card-title class="text-h6" align="center">Attenzione questa è un area riservata!</v-card-title>
+                    <v-card-title class="text-h6" align="center">Attenzione questa è un'area riservata!</v-card-title>
                 </v-card>
             </v-col>
         </v-row>
@@ -55,7 +55,41 @@
 </template>
 
 <script>
+import AuthenticationService from '@/services/AuthenticationService'
+//import { username } from '@vuelidate/validators';
 
+export default{
+    data() {
+        return {
+            username: '',
+            password: '',
+            serverErrors: '',
+        }
+    },
+    methods: {
+        async loginEnte() {
+            try {
+                console.log(this.username)
+                console.log(this.password)
+                const response = await AuthenticationService.loginEnte({
+                    username: this.username,
+                    password: this.password
+                });
+                console.log('Logged in:', response)
+                this.$store.dispatch('setToken', response.data.token)
+                this.$store.dispatch('setUser', response.data.user)
+                this.$router.push({name: 'enteHomepage'})
+            } catch (error) {
+                if (error.response && error.response.data) {
+                    this.serverErrors = 'Login non corretto riprovare';
+                } else {
+                    this.serverErrors.general = 'An error occurred, please try again.';
+                }
+                console.error('Login failed:', error);
+            }
+        }
+    }
+}
 </script>
 
 <style scoped>

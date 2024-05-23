@@ -26,6 +26,10 @@ router.get('/getUserZone',
     AuthenticationController.getUserZone
 );
 
+router.post('/loginEnte',
+    AuthenticationController.loginEnte
+);
+
 router.get('/calendarAll',
     CalendarController.calendarAll
 )
