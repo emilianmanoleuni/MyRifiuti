@@ -9,7 +9,10 @@ export default {
     async getAllReports() {
         return Api().get('getAllReports')
     },
-    async getStatusType() {
-        return Api().get('getStatusType')
+    async getStatusTypes() {
+        return Api().get('getStatusTypes')
+    },
+    async saveReportStatus(report) {
+        return Api().post('saveReportStatus', report)
     }      
 }

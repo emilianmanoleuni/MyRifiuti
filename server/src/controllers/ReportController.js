@@ -48,7 +48,7 @@ module.exports = {
         }
     },
     
-    async getStatusType (req, res) {
+    async getStatusTypes (req, res) {
         try{
             const statusType = Status;
             res.status(200).json(statusType);
@@ -56,4 +56,15 @@ module.exports = {
             res.status(501).json('Error while sending the report')
         }
     },
+
+    async saveReportStatus (req, res) {
+        try{
+            const report = await Report.findById(req.body._id);
+            report.status = req.body.status;
+            const updatedReport = await report.save();
+            res.status(200).json(updatedReport);
+        } catch(err) {
+            res.status(501).json('Error while saving status of the report')
+        }
+    }
 }

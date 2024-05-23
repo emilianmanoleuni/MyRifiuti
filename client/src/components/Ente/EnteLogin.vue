@@ -74,8 +74,6 @@ export default{
     methods: {
         async loginEnte() {
             try {
-                console.log(this.username)
-                console.log(this.password)
                 const response = await AuthenticationService.loginEnte({
                     username: this.username,
                     password: this.password

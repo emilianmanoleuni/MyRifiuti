@@ -66,8 +66,13 @@ router.get('/getAllReports',
     ReportController.getAllReports
 );
 
-router.get('/getStatusType',
-    ReportController.getStatusType
+router.get('/getStatusTypes',
+    ReportController.getStatusTypes
 );
+
+router.post('/saveReportStatus',
+    ReportController.saveReportStatus
+);
+
 
 module.exports = router;
