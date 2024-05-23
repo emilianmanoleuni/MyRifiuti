@@ -56,7 +56,7 @@ const router = createRouter({
       path: '/ente/homepage',
       name: 'enteHomepage',
       component: EnteHomepage
-    }
+    },
   ]
 })
 

@@ -4,9 +4,6 @@ const Status = require('../models/ReportStatus')
 module.exports = {
     async sendReport (req, res) {
         try{
-            console.log("CIAO")
-            console.log(Status[1])
-            console.log("NON CI SONO")
             // New report
             const newReport = new Report({
                 type: req.body.reportType,
@@ -19,16 +16,6 @@ module.exports = {
                 user: req.body.reportUserId,
                 status: Status[0] // 0 Aperta 1 - In Corso - 2 Risolta
             });
-
-            // Debugging console.log statements
-            console.log('Type:', newReport.type);
-            console.log('Title:', newReport.title);
-            console.log('Road:', newReport.road);
-            console.log('Road Number:', newReport.roadNumber);
-            console.log('Cap:', newReport.cap);
-            console.log('Description:', newReport.description);
-            console.log('User:', newReport.user);
-            console.log('Status:', newReport.status);
 
             // Save new Report
             await newReport.save()
@@ -47,6 +34,24 @@ module.exports = {
                         res.status(500).json('Error while saving the report');
                     }
                 });
+        } catch(err) {
+            res.status(501).json('Error while sending the report')
+        }
+    },
+
+    async getAllReports (req, res) {
+        try{
+            const reports = await Report.find();
+            res.status(200).json(reports);
+        } catch(err) {
+            res.status(501).json('Error while sending the report')
+        }
+    },
+    
+    async getStatusType (req, res) {
+        try{
+            const statusType = Status;
+            res.status(200).json(statusType);
         } catch(err) {
             res.status(501).json('Error while sending the report')
         }

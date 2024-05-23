@@ -12,7 +12,6 @@
         <v-row class="blockCalendar">
             <v-col cols="10">
                 <v-card>
-                    <!-- INTEGRAZIONE -->
                     <v-select
                         class="selectZoneBox"
                         v-if="!isUserLoggedIn"

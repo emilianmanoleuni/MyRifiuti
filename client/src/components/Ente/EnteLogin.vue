@@ -35,12 +35,17 @@
                             <v-alert
                                 v-if="serverErrors"
                                 type="error"
+                                style="margin-bottom: 15px;"
                                 dense
                             >{{ serverErrors }}</v-alert>
                                 
-                            <v-row>
-                                <v-btn class="enteLoginButton" color="buttonsLight" :to="{ name: 'login' }">Back</v-btn>
-                                <v-btn class="enteLoginButton" variant="elevated" color="buttons" @click="loginEnte">Login</v-btn>
+                            <v-row cols="12">
+                                <v-col>
+                                    <v-btn class="enteBackButton" color="buttonsLight" :to="{ name: 'login' }" block>Back</v-btn>
+                                </v-col>
+                                <v-col>
+                                    <v-btn class="enteLoginButton" variant="elevated" color="buttons" @click="loginEnte" block>Login</v-btn>
+                                </v-col>
                             </v-row>
 
                         </v-form>
@@ -108,9 +113,11 @@ export default{
     .error {
         color: red;
     }
+    .enteBackButton{
+        
+    }
     .enteLoginButton{
-        margin: 15px 20px; 
-        width: 40%;
+        
     }
     .alertEnteLogin{
         margin-top: 15px;

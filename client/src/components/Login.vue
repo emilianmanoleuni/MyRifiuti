@@ -35,6 +35,7 @@
                 <v-alert
                   v-if="serverErrors"
                   type="error"
+                  style="margin-bottom: 15px;"
                   dense
                 >{{ serverErrors }}</v-alert>
                 

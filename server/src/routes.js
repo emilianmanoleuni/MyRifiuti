@@ -62,4 +62,12 @@ router.post('/sendReport',
     ReportController.sendReport
 );
 
+router.get('/getAllReports',
+    ReportController.getAllReports
+);
+
+router.get('/getStatusType',
+    ReportController.getStatusType
+);
+
 module.exports = router;
