@@ -74,5 +74,13 @@ router.post('/saveReportStatus',
     ReportController.saveReportStatus
 );
 
+router.get('/getNumberOfAllReports',
+    ReportController.getNumberOfAllReports
+);
+
+router.get('/getNumberByStatusOfReports',
+    ReportController.getNumberByStatusOfReports
+);
+
 
 module.exports = router;

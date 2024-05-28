@@ -14,5 +14,11 @@ export default {
     },
     async saveReportStatus(report) {
         return Api().post('saveReportStatus', report)
-    }      
+    },
+    async getNumberOfAllReports(){
+        return Api().get('getNumberOfAllReports')
+    },
+    async getNumberByStatusOfReports(status){
+        return Api().get('getNumberByStatusOfReports', { params: { status } })
+    },             
 }

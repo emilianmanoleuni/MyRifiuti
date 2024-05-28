@@ -9,6 +9,9 @@
             <v-col></v-col>
             <v-col cols="4"></v-col>
         </v-row>
+        <v-row>
+            <highcharts :options="chartOptions"></highcharts>
+        </v-row>
         <v-row class="listReportsBlock">
             <v-card class="homepageReportBlock">
                 <v-col cols="12">
@@ -57,7 +60,7 @@
                                             <v-list-item-title>{{ report.cap }}</v-list-item-title>
                                         </v-col>
                                         <v-col cols="1">
-                                            <v-btn :color="statusTypeColor(report)">{{ report.status }}</v-btn>
+                                            <v-btn class="statusBtn" :color="statusTypeColor(report)">{{ report.status }}</v-btn>
                                         </v-col>
                                         <v-col cols="1" style="margin-left: 5px;">
                                             <v-btn color=green @click="vediReport(report)">Vedi</v-btn>
@@ -142,10 +145,14 @@
 </template>
 
 <script>
+import ReportsFunctions from './composables/ReportsFunctions';
+
+
+
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 import ReportService from '@/services/ReportService';
-import Reports from '../Reports.vue';
+import HighchartsVue from 'highcharts-vue'
 const store = useStore()
 
 export default {
@@ -164,17 +171,55 @@ export default {
             statusType: [], // 0 Aperta 1 - In Corso - 2 Risolta
             dialog: false,
             selectedReport: {},
+            nReports: 0,
+            nOpenedReports: 0,
+            nRunningReports: 0,
+            nClosedReports: 0,
+            chartOptions: {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: ['Aperta', 'In corso', 'Risolta']
+                },
+                yAxis: {
+                    title: {
+                        text: 'Numero di report'
+                    }
+                },
+                series: [{
+                    name: 'Stato del report',
+                    data: [0,0,0],
+                    colorByPoint: true,
+                    color: ['red', 'yellow', 'green']
+                }]
+            }
         }
     },
     mounted() {
-        this.fetchAllReports();
-        this.fetchStatusType();
+        this.initializeData();
     },
     methods: {
+        async initializeData() {
+            try {
+                await this.fetchStatusType(), //Importat to do before filtering api
+                await Promise.all([
+                    this.fetchAllReports(),
+                    this.fetchNumberOfAllReports(),
+                    this.fetchNumberOfAllStatusTypeReports()
+                ]);
+            } catch (error) {
+                console.error('Error initializing data: ', error);
+            }
+        },
         async fetchAllReports() {
             try {
                 const response = await ReportService.getAllReports()
                 this.reports = response.data;
+                this.updateChart();
             } catch(error) {
                 console.error('Error fetching reports:', error);
             }
@@ -187,6 +232,28 @@ export default {
                 console.error('Error fetching status type');
             }
         },
+        async fetchNumberOfAllReports() {
+            try {
+                const response = await ReportService.getNumberOfAllReports()
+                this.nReports = response.data.nReports
+                this.updateChart();
+            } catch(error) {
+                console.error('Error fetching number of reports type');
+            }
+        },
+        async fetchNumberOfAllStatusTypeReports() {
+            try {
+                const responseOpened = await ReportService.getNumberByStatusOfReports( this.statusType[0] )
+                this.nOpenedReports = responseOpened.data.count[0].count
+                const responseRunning = await ReportService.getNumberByStatusOfReports( this.statusType[1] )
+                this.nRunningReports = responseRunning.data.count[0].count
+                const responseClosed = await ReportService.getNumberByStatusOfReports( this.statusType[2] )
+                this.nClosedReports = responseClosed.data.count[0].count
+                this.updateChart();
+            } catch(error) {
+                console.error('Error fetching number of reports type status');
+            }
+        },
         vediReport(report){
             this.selectedReport = report
             this.dialog = true
@@ -196,11 +263,18 @@ export default {
                 await ReportService.saveReportStatus({
                     _id : report._id,
                     status : report.status
-                });
+                }).then(this.fetchNumberOfAllStatusTypeReports());
             } catch(error) {
                 console.error('Error saving report status');
             }
-        }
+        },
+        async updateChart() {
+            this.chartOptions.series[0].data = [
+                    this.nOpenedReports,
+                    this.nRunningReports,
+                    this.nClosedReports,
+                ];
+        },
     },
     computed: {
         statusTypeColor(){
@@ -218,6 +292,9 @@ export default {
             }
         }
     },
+    components: {
+        HighchartsVue
+    }
 };
 </script>
 
@@ -231,6 +308,9 @@ export default {
     }
     .reportHomeCell{
         height: 70px;
+    }
+    .statusBtn{
+        width: 70%;
     }
     .viewReport{
         min-width: 700px;

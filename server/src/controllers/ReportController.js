@@ -66,5 +66,33 @@ module.exports = {
         } catch(err) {
             res.status(501).json('Error while saving status of the report')
         }
-    }
+    },
+
+    async getNumberOfAllReports (req, res) {
+        try{
+            const nReports = await Report.countDocuments();
+            res.status(200).json({count: nReports});
+        } catch(err) {
+            res.status(501).json('Error while retrieving number of reports')
+        }
+    },
+
+    async getNumberByStatusOfReports (req, res) {
+        try{
+            const { status } = req.query;
+            const query = status ? { status } : {};
+            const counts = await Report.aggregate([
+                { $match: query }, 
+                {
+                    $group: {
+                        _id: "$status",
+                        count: { $sum: 1 }
+                    }
+                }
+            ]);
+            res.status(200).json({count: counts});
+        } catch(err) {
+            res.status(501).json('Error while retrieving number of reports filtered by status')
+        }
+    },
 }
