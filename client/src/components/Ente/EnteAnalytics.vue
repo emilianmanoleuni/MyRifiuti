@@ -1,0 +1,11 @@
+<template>
+    ciao
+</template>
+
+<script>
+
+</script>
+
+<style scoped>
+
+</style>

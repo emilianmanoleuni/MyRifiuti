@@ -5,13 +5,19 @@
   <v-layout v-if="!isLoginOrRegister">
     <v-app-bar class="topBar">
       <v-row justify="center">
-        <v-col cols="3" align="self-cen">
+        <!-- Spacer-->
+        <v-col cols="1"></v-col>
+        <!-- Spacer-->
+        <v-col cols="2" align="self-cen">
           <v-img src="/logo.png" class="logoImage" contain height="50" alt="Logo"></v-img>
         </v-col>
         <v-col cols="2" align="self-center">
           <v-app-bar-title class="text-h5 titleLogo">MyRifiuti</v-app-bar-title>
         </v-col>
-        <v-col v-if="!isEnteLogged" cols="7" align="self-center">
+        <v-col cols="2"></v-col>
+
+        <!-- NavBar User-->
+        <v-col v-if="!isEnteLogged" cols="4" align="self-center">
           <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'homepage' }">Homepage</v-btn>
           <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'groups' }">Gruppi</v-btn>
           <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'map' }">Mappa</v-btn>
@@ -30,13 +36,19 @@
             </v-list>
           </v-menu> 
         </v-col>
-        <v-col v-if="isEnteLogged" cols="7" align="self-center">
-          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: '' }">Homepage</v-btn>
-          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: '' }"></v-btn>
-          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: '' }"></v-btn>
-          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: '' }"></v-btn>
+
+        <!-- NavBar Ente-->
+        <v-col v-if="isEnteLogged" cols="4" align="self-center">
+          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'enteHomepage' }">Homepage</v-btn>
+          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'enteReportsList' }">Segnalazioni</v-btn>
+          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'enteAnalytics' }">Analitiche</v-btn>
+          <v-btn class="topButton" variant="elevated" color="buttons" @click="logout()" text>Esci</v-btn>
         </v-col>
       </v-row>
+
+      <!-- Spacer-->
+      <v-col cols="1"></v-col>
+      <!-- Spacer-->
     </v-app-bar>
   </v-layout>
 
@@ -65,14 +77,19 @@ const isLoginOrRegister = computed(() => {
 })
 
 const isEnteLogged = computed(() => {
-  return route.name === 'enteHomepage'
+  return route.name === 'enteHomepage' || route.name === 'enteReportsList' || route.name === 'enteAnalytics'
 })
 
 const isUserLoggedIn = computed(() => store.state.isUserLoggedIn)
 
 const logout = () => {
-  store.dispatch('logout')
-  router.push({ name: 'login' })
+  if(!isEnteLogged){
+    store.dispatch('logout')
+    router.push({ name: 'login' })
+  }else{
+    store.dispatch('logout')
+    router.push({ name: 'enteLogin' })
+  }
 }
 
 </script>

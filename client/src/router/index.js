@@ -8,6 +8,8 @@ import Reports from '@/components/Reports.vue'
 import Profile from '@/components/Profile.vue'
 import EnteLogin from '@/components/Ente/EnteLogin.vue'
 import EnteHomepage from '@/components/Ente/EnteHomepage.vue'
+import EnteReportList from '@/components/Ente/EnteReportList.vue'
+import EnteAnalytics from '@/components/Ente/EnteAnalytics.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -57,6 +59,16 @@ const router = createRouter({
       name: 'enteHomepage',
       component: EnteHomepage
     },
+    {
+      path: '/ente/reportslist',
+      name: 'enteReportsList',
+      component: EnteReportList
+    },
+    {
+      path: '/ente/analytics',
+      name: 'enteAnalytics',
+      component: EnteAnalytics
+    }
   ]
 })
 

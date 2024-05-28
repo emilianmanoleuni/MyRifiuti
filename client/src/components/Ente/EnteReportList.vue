@@ -1,5 +1,5 @@
 <template>
-    
+    ciao
 </template>
 
 <script>

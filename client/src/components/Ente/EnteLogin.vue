@@ -80,7 +80,7 @@ export default{
                 });
                 console.log('Logged in:', response)
                 this.$store.dispatch('setToken', response.data.token)
-                this.$store.dispatch('setUser', response.data.user)
+                this.$store.dispatch('setUser', response.data.username)
                 this.$router.push({name: 'enteHomepage'})
             } catch (error) {
                 if (error.response && error.response.data) {
