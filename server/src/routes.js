@@ -6,9 +6,6 @@ const CalendarController = require('./controllers/CalendarController');
 const MapController = require('./controllers/MapController');
 const ReportController = require('./controllers/ReportController')
 const AuthenticationValidator = require('./policies/AuthenticationValidator')
-const Marker = require('./models/Marker');
-const Zone = require('./models/Zone')
-
 
 
 // Definitions of Routes
@@ -62,12 +59,20 @@ router.post('/sendReport',
     ReportController.sendReport
 );
 
+router.get('/getReportTypes',
+    ReportController.getReportTypes
+)
+
 router.get('/getAllReports',
     ReportController.getAllReports
 );
 
 router.get('/getStatusTypes',
     ReportController.getStatusTypes
+);
+
+router.get('/getReportCaps',
+    ReportController.getReportCaps
 );
 
 router.post('/saveReportStatus',

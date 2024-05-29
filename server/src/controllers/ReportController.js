@@ -1,5 +1,7 @@
 const Report = require('../models/Report')
+const ReportType = require('../models/ReportTypes')
 const Status = require('../models/ReportStatus')
+const Caps = require('../models/ReportCaps')
 
 module.exports = {
     async sendReport (req, res) {
@@ -39,6 +41,15 @@ module.exports = {
         }
     },
 
+    async getReportTypes (req, res) {
+        try{
+            const reportType = ReportType;
+            res.status(200).json(reportType)
+        } catch(err) {
+            res.status(501).json('Error while sending the report types')
+        }
+    },
+
     async getAllReports (req, res) {
         try{
             const reports = await Report.find();
@@ -54,6 +65,15 @@ module.exports = {
             res.status(200).json(statusType);
         } catch(err) {
             res.status(501).json('Error while sending the report')
+        }
+    },
+
+    async getReportCaps (req, res) {
+        try{
+            const caps = Caps;
+            res.status(200).json(caps);
+        } catch(err) {
+            res.status(501).json('Error while sending the CAPS')
         }
     },
 

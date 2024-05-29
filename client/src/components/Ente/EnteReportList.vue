@@ -20,14 +20,39 @@
                                 <v-card-text class="titleFilterCols">Ordina dal:</v-card-text>
                                 <v-btn :variant="isDescendingDate ? 'elevated' : 'outlined'" color="buttons" class="filterOrderButtons" @click="handleDateSort('LastFirst')">Più recente</v-btn>
                                 <v-btn :variant="!isDescendingDate ? 'elevated' : 'outlined'" color="buttons" class="filterOrderButtons" @click="handleDateSort('OldestFirst')">Meno recente</v-btn>
-
+                            </v-col>
+                            <v-col cols="3" align="left">
+                                <v-card-text class="titleFilterCols">Filtra per Tipo:</v-card-text>
+                                <v-select
+                                    label="Seleziona il Tipo"
+                                    v-model="selectedTypeToFilter"
+                                    class="largeFilterMenu"
+                                    :items="reportTypes"
+                                    dense
+                                ></v-select>
+                                <v-btn variant="elevated" color="buttons" class="filterOrderButtons" @click="handleTypeToFilter()">APPLICA</v-btn>
                             </v-col>
                             <v-col cols="2" align="left">
-                                <v-card-text class="titleFilterCols">Filtra per:</v-card-text>
-                                <v-btn variant="elevated" color="buttons" class="filterOrderButtons" @click="filterStatusType">PROVA</v-btn>
+                                <v-card-text class="titleFilterCols">Filtra per CAP:</v-card-text>
+                                <v-select
+                                    label="Seleziona il CAP"
+                                    v-model="selectedCapToFilter"
+                                    class="largeFilterMenu"
+                                    :items="caps"
+                                    dense
+                                ></v-select>
+                                <v-btn variant="elevated" color="buttons" class="filterOrderButtons" @click="handleCapToFilter()">APPLICA</v-btn>
                             </v-col>
-                            <v-col cols="6" align="left">
-                                ciao
+                            <v-col cols="3" align="left">
+                                <v-card-text class="titleFilterCols">Filtra per Zona:</v-card-text>
+                                <v-select
+                                    label="Seleziona la zona"
+                                    v-model="selectedZoneToFilter"
+                                    class="largeFilterMenu"
+                                    :items="zones"
+                                    dense
+                                ></v-select>
+                                <v-btn variant="elevated" color="buttons" class="filterOrderButtons" @click="handleZoneToFilter()">APPLICA</v-btn>
                             </v-col>
                             <v-col cols="2" align="left">
                                 <v-card-text class="titleFilterCols">Filtra per Stato:</v-card-text>
@@ -116,21 +141,31 @@
 
 <script>
 import { EnteMixin } from './mixin/EnteMixin';
+import MapService from '@/services/MapService';
 import ViewReport from './single_components/ViewReport.vue'
+import ReportService from '@/services/ReportService';
 
 export default {
     mixins: [EnteMixin],
     data() {
         return {
+            reportTypes: [],
+            selectedTypeToFilter: '',
+            caps: [],
+            selectedCapToFilter: '',
+            zones: [],
+            selectedZoneToFilter: '',
             isDescendingDate: true,
             filterStatusOpen: true,
             filterStatusRunning: true,
             filterStatusClosed: true,
-                            
         }        
     },
     mounted() {
         this.elaborateReportsListData();
+        this.getTypes();
+        this.getCaps();
+        this.getZones();
     },
     methods: {
         handleDateSort(order) {
@@ -145,6 +180,15 @@ export default {
                     break;
             }
         },
+        handleTypeToFilter() {
+            this.filterType(this.selectedTypeToFilter);
+        },
+        handleCapToFilter() {
+            this.filterCap(this.selectedCapToFilter);
+        },
+        handleZoneToFilter() {
+            this.filterZone(this.selectedZoneToFilter);
+        },  
         handleStatusFilter(type) {
             switch(type){
                 case 0:
@@ -166,11 +210,40 @@ export default {
             this.filterStatusType(this.statusType[type])        
         },
         handleResetButton() {
+            this.selectedTypeToFilter = ''
+            this.selectedCapToFilter = ''
+            this.selectedZoneToFilter = ''
             this.isDescendingDate = true
             this.filterStatusOpen = true
             this.filterStatusRunning = true
             this.filterStatusClosed = true
             this.resetSortOrFilter()
+        },
+        async getTypes(){
+            try {
+                const response = await ReportService.getReportTypes()
+                this.reportTypes = response.data
+            } catch(error) {
+                console.error("Error retrieving types of reports")
+            }
+        },
+        async getCaps(){
+            try {
+                const response = await ReportService.getReportCaps()
+                this.caps = response.data
+            } catch(error) {
+                console.error("Error retrieving CAPS")
+            }
+        },
+        getZones(){
+            MapService.getZone()
+            .then(zoneArray => {
+                console.log(zoneArray)
+                this.zones = [...zoneArray];
+            })
+            .catch(msg => {
+                console.log(msg);
+            })
         }
     },
     components: {
@@ -199,6 +272,13 @@ export default {
     margin-right: 15px;
     margin-top: 7px;
     margin-bottom: 7px;
+}
+.largeFilterMenu{
+    width: 83%;
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 7px;
+    margin-bottom: 15px;
 }
 .filterResetBtn{
     width: 100%;

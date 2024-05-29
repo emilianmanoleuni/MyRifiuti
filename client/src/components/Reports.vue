@@ -101,12 +101,12 @@ export default {
     },
     data(){
         return {
-            typesOfReports : ["Discarica Abbusiva","Mancata Raccolta Porta Porta","Altro"], 
+            typesOfReports : [], 
             selectedTypeOfReport: '',
             reportTitle: '',
             reportRoad: '',
             reportRoadNumber: '',
-            capOfReports : ["38121","38122","38123"],
+            capOfReports : [],
             selectedCapOfReport: '',
             zones: [],
             selectedZoneOfReport: '',
@@ -128,6 +128,8 @@ export default {
         }
     },
     mounted(){
+        this.getReportTypes();
+
         MapService.getZone()
         .then(zoneArray => {
             console.log(zoneArray)
@@ -138,6 +140,14 @@ export default {
         })
     },
     methods: {
+        async getReportTypes() {
+            try{
+                const response = await ReportService.getReportTypes()
+                this.typesOfReports = response.data
+            } catch (error) {
+                console.error("Error retrieving report types")
+            }
+        },
         async sendReport (){
             try{
                 const response = await ReportService.sendReport({

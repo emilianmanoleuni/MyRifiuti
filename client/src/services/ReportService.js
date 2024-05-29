@@ -5,6 +5,12 @@ export default {
     sendReport(report) {
         return Api().post('sendReport', report);
     },
+    async getReportTypes() {
+        return Api().get('getReportTypes')
+    },
+    async getReportCaps() {
+        return Api().get('getReportCaps')
+    },
     // ------- ENTE ------- //
     async getAllReports() {
         return Api().get('getAllReports')

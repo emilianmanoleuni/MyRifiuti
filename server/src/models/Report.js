@@ -1,11 +1,14 @@
 const mongoose = require('mongoose')
 const Zone = require('./Zone')
 const Status = require('./ReportStatus')
+const Cap = require('./ReportCaps')
+const Type = require('./ReportTypes')
 
 // Report schema
 const reportSchema = new mongoose.Schema({
   type: {
     type: String,
+    enum: Type.types,
     required: true,
     unique: false,
     trim: true
@@ -30,6 +33,7 @@ const reportSchema = new mongoose.Schema({
   },
   cap: {
     type: Number,
+    enum: Cap.caps,
     required: true,
     unique: false,
     trim: true
