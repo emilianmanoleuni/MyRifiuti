@@ -40,7 +40,7 @@
         <!-- NavBar Ente-->
         <v-col v-if="isEnteLogged" cols="4" align="self-center">
           <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'enteHomepage' }">Homepage</v-btn>
-          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'enteReportsList' }">Segnalazioni</v-btn>
+          <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'enteReportList' }">Segnalazioni</v-btn>
           <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'enteAnalytics' }">Analitiche</v-btn>
           <v-btn class="topButton" variant="elevated" color="buttons" @click="logout()" text>Esci</v-btn>
         </v-col>
@@ -77,7 +77,7 @@ const isLoginOrRegister = computed(() => {
 })
 
 const isEnteLogged = computed(() => {
-  return route.name === 'enteHomepage' || route.name === 'enteReportsList' || route.name === 'enteAnalytics'
+  return route.name === 'enteHomepage' || route.name === 'enteReportList' || route.name === 'enteAnalytics'
 })
 
 const isUserLoggedIn = computed(() => store.state.isUserLoggedIn)
@@ -117,6 +117,7 @@ const logout = () => {
     position: fixed;
     bottom: 0;
   }
+
 
 
 

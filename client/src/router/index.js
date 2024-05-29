@@ -60,8 +60,8 @@ const router = createRouter({
       component: EnteHomepage
     },
     {
-      path: '/ente/reportslist',
-      name: 'enteReportsList',
+      path: '/ente/reportList',
+      name: 'enteReportList',
       component: EnteReportList
     },
     {

@@ -1,0 +1,36 @@
+/* Report List */
+.reportBlock{
+    width: 100%;
+    height: auto;
+}
+.reportHomeOrizontalCell{
+    height: 69px;
+}
+.statusBtn{
+    width: 70%;
+}
+
+/* Dialog View Report */
+.viewReport{
+    min-width: 700px;
+    max-width: 1200px;
+}
+.titleViewReport{
+    margin-top: 15px;
+    margin-left: 15px;
+    margin-bottom: -10px;
+}
+.subTitleContentReport{
+    margin-top: 5px;
+}
+.contentReport{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.lastContentRowReport{
+    margin-bottom: 5px;
+}
+.closeViewReportBtn{
+    margin-bottom: 15px;
+    margin-right: 32px;
+}
