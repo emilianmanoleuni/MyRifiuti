@@ -83,13 +83,15 @@ const isEnteLogged = computed(() => {
 const isUserLoggedIn = computed(() => store.state.isUserLoggedIn)
 
 const logout = () => {
-  if(!isEnteLogged){
-    store.dispatch('logout')
-    router.push({ name: 'login' })
-  }else{
-    store.dispatch('logout')
-    router.push({ name: 'enteLogin' })
-  }
+  store.dispatch('logout').then(() => {
+    if (isEnteLogged.value) {
+      console.log("Logout ENTE");
+      router.push({ name: 'enteLogin' });
+    } else {
+      console.log("Logout USER");
+      router.push({ name: 'login' });
+    }
+  });
 }
 
 </script>
