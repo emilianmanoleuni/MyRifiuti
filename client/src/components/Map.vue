@@ -98,7 +98,8 @@ export default{
                             });
                 mapMarker.addListener("click", () => {
                     window.close();
-                    window.setContent(mapMarker.getTitle());                    window.open(mapMarker.getMap(), mapMarker);
+                    window.setContent(mapMarker.getTitle());                    
+                    window.open(mapMarker.getMap(), mapMarker);
                 }) 
             });
             borders.setMap(map);

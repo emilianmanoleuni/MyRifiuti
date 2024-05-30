@@ -5,8 +5,7 @@ const AuthenticationControllerPolicy = require('./policies/AuthenticationControl
 const CalendarController = require('./controllers/CalendarController');
 const MapController = require('./controllers/MapController');
 const AuthenticationValidator = require('./policies/AuthenticationValidator')
-const Marker = require('./models/Marker');
-const Zone = require('./models/Zone')
+const GroupController = require('./controllers/GroupController');
 
 
 
@@ -53,5 +52,15 @@ router.get('/zone',
 router.post('/putMarker',
     MapController.putMarker
 );
+
+router.get('/getMembers',
+    GroupController.getGroupMembers
+);
+router.post('/addMember',
+    GroupController.addMember
+),
+router.post('/createGroup',
+    GroupController.createGroup
+)
 
 module.exports = router;
