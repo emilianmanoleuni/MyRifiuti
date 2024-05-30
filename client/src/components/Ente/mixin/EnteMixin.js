@@ -156,29 +156,21 @@ export const EnteMixin = {
             this.slicedReports = this.reports
         },
         sortAscendingDate() {
-            this.slicedReports = this.reports
             this.slicedReports.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
         },
         sortDescendingDate() {
-            this.slicedReports = this.reports
             this.slicedReports.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         },
         filterType(type){
-            this.slicedReports = this.reports
             this.slicedReports = this.slicedReports.filter( report => report.type === type);
         },
         filterCap(cap){
-            this.slicedReports = this.reports
-            console.log(this.slicedReports)
-            console.log(cap)
             this.slicedReports = this.slicedReports.filter( report => report.cap.toString().trim() === cap.toString().trim());
         },
         filterZone(zone) {
-            this.slicedReports = this.reports
             this.slicedReports = this.slicedReports.filter( report => report.zone === zone);
         },
         filterStatusType(type) {
-            this.slicedReports = this.reports
             this.slicedReports = this.slicedReports.filter( report => report.status === type);
         },
         /*  VIEW REPORT  */

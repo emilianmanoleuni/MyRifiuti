@@ -30,7 +30,14 @@
                                     :items="reportTypes"
                                     dense
                                 ></v-select>
-                                <v-btn variant="elevated" color="buttons" class="filterOrderButtons" @click="handleTypeToFilter()">APPLICA</v-btn>
+                                <v-row cols="12">
+                                    <v-col cols="9">
+                                        <v-btn variant="elevated" color="buttons" class="applyBtn" @click="handleFilter()">APPLICA</v-btn>
+                                    </v-col>
+                                    <v-col cols="3">
+                                        <v-btn variant="outlined" color="buttons" class="resetApplyBtn" @click="handleResetType()">RESET</v-btn>
+                                    </v-col>
+                                </v-row>
                             </v-col>
                             <v-col cols="2" align="left">
                                 <v-card-text class="titleFilterCols">Filtra per CAP:</v-card-text>
@@ -41,7 +48,14 @@
                                     :items="caps"
                                     dense
                                 ></v-select>
-                                <v-btn variant="elevated" color="buttons" class="filterOrderButtons" @click="handleCapToFilter()">APPLICA</v-btn>
+                                <v-row cols="12">
+                                    <v-col cols="8">
+                                        <v-btn variant="elevated" color="buttons" class="applyBtn" @click="handleFilter()">APPLICA</v-btn>
+                                    </v-col>
+                                    <v-col cols="4">
+                                        <v-btn variant="outlined" color="buttons" class="resetApplyBtn" @click="handleResetCap()">RESET</v-btn>
+                                    </v-col>
+                                </v-row>
                             </v-col>
                             <v-col cols="3" align="left">
                                 <v-card-text class="titleFilterCols">Filtra per Zona:</v-card-text>
@@ -52,15 +66,26 @@
                                     :items="zones"
                                     dense
                                 ></v-select>
-                                <v-btn variant="elevated" color="buttons" class="filterOrderButtons" @click="handleZoneToFilter()">APPLICA</v-btn>
+                                <v-row cols="12">
+                                    <v-col cols="9">
+                                        <v-btn variant="elevated" color="buttons" class="applyBtn" @click="handleFilter()">APPLICA</v-btn>
+                                    </v-col>
+                                    <v-col cols="3">
+                                        <v-btn variant="outlined" color="buttons" class="resetApplyBtn" @click="handleResetZone()">RESET</v-btn>
+                                    </v-col>
+                                </v-row>
                             </v-col>
                             <v-col cols="2" align="left">
                                 <v-card-text class="titleFilterCols">Filtra per Stato:</v-card-text>
-                                <v-btn :variant="filterStatusOpen ? 'elevated' : 'outlined'" color="red" class="filterOrderButtons" @click="handleStatusFilter(0)">{{ statusType[0] }}</v-btn>
-                                <v-btn :variant="filterStatusRunning ? 'elevated' : 'outlined'" color="yellow" class="filterOrderButtons" @click="handleStatusFilter(1)">{{ statusType[1] }}</v-btn>
-                                <v-btn :variant="filterStatusClosed ? 'elevated' : 'outlined'" color="green" class="filterOrderButtons" @click="handleStatusFilter(2)">{{ statusType[2] }}</v-btn>
+                                <v-btn :variant="filterStatusOpen ? 'elevated' : 'outlined'" color="red" class="filterOrderButtons" @click="handleFilter(0)">{{ statusType[0] }}</v-btn>
+                                <v-btn :variant="filterStatusRunning ? 'elevated' : 'outlined'" color="yellow" class="filterOrderButtons" @click="handleFilter(1)">{{ statusType[1] }}</v-btn>
+                                <v-btn :variant="filterStatusClosed ? 'elevated' : 'outlined'" color="green" class="filterOrderButtons" @click="handleFilter(2)">{{ statusType[2] }}</v-btn>
                             </v-col>
-                            <v-btn variant="elevated" color="buttons" class="filterResetBtn" @click="handleResetButton">RESET</v-btn>
+                            <v-row>
+                                <v-col>
+                                    <v-btn variant="elevated" color="buttons" class="filterResetBtn" @click="handleResetButton">Cancella tutti i filtri</v-btn>
+                                </v-col>
+                            </v-row>        
                         </v-row>    
                     </v-col>
                 </v-card>
@@ -156,6 +181,7 @@ export default {
             zones: [],
             selectedZoneToFilter: '',
             isDescendingDate: true,
+            filterStatusMem: -1,
             filterStatusOpen: true,
             filterStatusRunning: true,
             filterStatusClosed: true,
@@ -168,6 +194,13 @@ export default {
         this.getZones();
     },
     methods: {
+        handleFilter(status){
+            this.resetSortOrFilter();
+            this.handleTypeToFilter();
+            this.handleCapToFilter();
+            this.handleZoneToFilter();
+            this.handleStatusFilter(status);
+        },
         handleDateSort(order) {
             switch(order){
                 case 'LastFirst':
@@ -181,15 +214,23 @@ export default {
             }
         },
         handleTypeToFilter() {
-            this.filterType(this.selectedTypeToFilter);
+            if(this.selectedTypeToFilter != ''){
+                this.filterType(this.selectedTypeToFilter);
+            } 
         },
         handleCapToFilter() {
-            this.filterCap(this.selectedCapToFilter);
+            if(this.selectedCapToFilter != ''){
+                this.filterCap(this.selectedCapToFilter);
+            } 
         },
         handleZoneToFilter() {
-            this.filterZone(this.selectedZoneToFilter);
+            if(this.selectedZoneToFilter != ''){
+                this.filterZone(this.selectedZoneToFilter);
+            } 
         },  
         handleStatusFilter(type) {
+            //Comple, using 3 status to determine memory
+            //Set Filter Booleans to also set Btn selected
             switch(type){
                 case 0:
                     this.filterStatusOpen = true
@@ -205,9 +246,26 @@ export default {
                     this.filterStatusOpen = false
                     this.filterStatusRunning = false
                     this.filterStatusClosed = true
-                    break;                    
+                    break;
             }
-            this.filterStatusType(this.statusType[type])        
+            //Avoid false filtering --> Filter only if one condition
+            if(this.filterStatusOpen && !this.filterStatusRunning && !this.filterStatusClosed ||
+                !this.filterStatusOpen && this.filterStatusRunning && !this.filterStatusClosed ||
+                !this.filterStatusOpen && !this.filterStatusRunning && this.filterStatusClosed)
+            {
+                //""MEMORY OF STATUS FILTER for combined filtering""
+                switch(true){
+                    case this.filterStatusOpen && !this.filterStatusRunning && !this.filterStatusClosed:
+                        this.filterStatusType(this.statusType[0])
+                        break;
+                    case !this.filterStatusOpen && this.filterStatusRunning && !this.filterStatusClosed:
+                        this.filterStatusType(this.statusType[1])
+                        break;
+                    case !this.filterStatusOpen && !this.filterStatusRunning && this.filterStatusClosed:
+                        this.filterStatusType(this.statusType[2])
+                        break;
+                }
+            }
         },
         handleResetButton() {
             this.selectedTypeToFilter = ''
@@ -218,6 +276,18 @@ export default {
             this.filterStatusRunning = true
             this.filterStatusClosed = true
             this.resetSortOrFilter()
+        },
+        handleResetType(){
+            this.selectedTypeToFilter = '',
+            this.handleFilter()
+        },
+        handleResetCap(){
+            this.selectedCapToFilter = '',
+            this.handleFilter()
+        },
+        handleResetZone(){
+            this.selectedZoneToFilter = '',
+            this.handleFilter()
         },
         async getTypes(){
             try {
@@ -238,11 +308,7 @@ export default {
         getZones(){
             MapService.getZone()
             .then(zoneArray => {
-                console.log(zoneArray)
                 this.zones = [...zoneArray];
-            })
-            .catch(msg => {
-                console.log(msg);
             })
         }
     },
@@ -273,17 +339,29 @@ export default {
     margin-top: 7px;
     margin-bottom: 7px;
 }
+.applyBtn{
+    width: 100%;
+    margin-left: 15px;
+    margin-top: 7px;
+}
+.resetApplyBtn{
+    width: 100%;
+    margin-left: 15px;
+    margin-top: 7px;
+}
 .largeFilterMenu{
-    width: 83%;
+    width: 100%;
     margin-left: 15px;
     margin-right: 15px;
     margin-top: 7px;
     margin-bottom: 15px;
 }
 .filterResetBtn{
-    width: 100%;
+    width: 96%;
+    margin-left: 28px;
+    margin-right: 28px;
     margin-top: 7px;
-    margin-bottom: 7px;
+    margin-bottom: 25px;
 }
 </style>
 
