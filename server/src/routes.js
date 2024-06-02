@@ -5,8 +5,7 @@ const AuthenticationControllerPolicy = require('./policies/AuthenticationControl
 const CalendarController = require('./controllers/CalendarController');
 const MapController = require('./controllers/MapController');
 const AuthenticationValidator = require('./policies/AuthenticationValidator')
-const Marker = require('./models/Marker');
-const Zone = require('./models/Zone')
+const GroupController = require('./controllers/GroupController');
 
 
 
@@ -25,6 +24,10 @@ router.get('/getUserZone',
     //AuthenticationValidator.validator, NEED FIX FOR TOKEN
     AuthenticationController.getUserZone
 );
+
+router.get('/getUserName',
+    AuthenticationController.getUserName
+)
 
 router.get('/calendarAll',
     CalendarController.calendarAll
@@ -53,5 +56,22 @@ router.get('/zone',
 router.post('/putMarker',
     MapController.putMarker
 );
+
+/* router.get('/getMembers',
+    GroupController.getGroupMembers
+); */
+
+router.post('/addMember',
+    GroupController.addMember
+)
+router.post('/createGroup',
+    GroupController.createGroup
+)
+router.get('/getGroup',
+    GroupController.getGroup
+)
+router.post('/removeMember',
+    GroupController.removeMember
+)
 
 module.exports = router;

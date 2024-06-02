@@ -17,5 +17,12 @@ export default {
           userId: userId
         }
       })
+    },
+    getUserName(userId){
+      return Api().get('getUserName', {
+        params: {
+          userId: userId
+        }
+      })
     }
 }
