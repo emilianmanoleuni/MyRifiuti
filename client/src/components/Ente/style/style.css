@@ -1,3 +1,37 @@
+/* Basic Block Widgets */
+.firstLineDashBoardWidgets{
+    width: auto;
+    height: 400px;
+    margin-bottom: 33px;
+}
+.firstLineDashBoardWidgetsCell{
+    width: auto;
+    height: 100%;
+}
+.nReportsWidgetValue{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70%;
+}
+.nReportsWidgetValuePercent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70%;
+    margin-top: 5px;
+}
+.chartReportStatusOptions{
+    margin-top: 8px;
+}
+.secondLineDashBoardWidgetCell{
+    width: auto;
+    height: 550px;
+}
+.thirdLineDashBoardWidgetCell{
+    width: auto;
+    height: 550px;
+}
 /* Report List */
 .reportBlock{
     width: 100%;

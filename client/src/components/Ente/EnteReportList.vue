@@ -229,7 +229,7 @@ export default {
             } 
         },  
         handleStatusFilter(type) {
-            //Comple, using 3 status to determine memory
+            //Complex, using 3 status to determine memory
             //Set Filter Booleans to also set Btn selected
             switch(type){
                 case 0:

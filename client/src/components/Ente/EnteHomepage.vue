@@ -131,24 +131,7 @@ export default {
 </script>
 
 <style scoped>
-    .firstLineDashBoardWidgets{
-        width: auto;
-        height: 400px;
-        margin-bottom: 33px;
-    }
-    .firstLineDashBoardWidgetsCell{
-        width: auto;
-        height: 100%;
-    }
-    .nReportsWidgetValue{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 70%;
-    }
-    .chartReportStatusOptions{
-        margin-top: 8px;
-    }
+
 </style>
 
 <style src="./style/style.css"></style>

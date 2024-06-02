@@ -26,5 +26,8 @@ export default {
     },
     async getNumberByStatusOfReports(status){
         return Api().get('getNumberByStatusOfReports', { params: { status } })
-    },             
+    },
+    async getAllZonesStatuses(){
+        return Api().get('getAllZonesStatuses')
+    }             
 }

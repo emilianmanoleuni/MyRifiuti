@@ -2,6 +2,7 @@ const Report = require('../models/Report')
 const ReportType = require('../models/ReportTypes')
 const Status = require('../models/ReportStatus')
 const Caps = require('../models/ReportCaps')
+const Zones = require('../models/Zone')
 
 module.exports = {
     async sendReport (req, res) {
@@ -115,4 +116,57 @@ module.exports = {
             res.status(501).json('Error while retrieving number of reports filtered by status')
         }
     },
+
+    async getAllZonesStatuses (req, res) {
+        try {
+            // Aggregate counts of reports by zone and status
+            const counts = await Report.aggregate([
+                {
+                    $group: {
+                        _id: { zone: "$zone", status: "$status" },
+                        count: { $sum: 1 }
+                    }
+                }
+            ]);
+    
+            // Create Zones object and Statuses Object
+            const zoneStatusCounts = {}
+            const statusesCouts = {}
+
+            // Assign Statuses to object initialized with count 0
+            Status.forEach( status => {
+                statusesCouts[status] = 0;
+            })
+
+            // Assign Statuses object to each Zone
+            Zones.zones.forEach( zone => {
+                zoneStatusCounts[zone] = {...statusesCouts}; // New statusesCouts instance for each Zone
+            })
+
+            // Assign counts to Zone's statuses from previus querry on DB
+            counts.forEach( count => {
+                for (let zone in zoneStatusCounts) {
+                    for (let status in zoneStatusCounts[zone]) {
+                        if (count._id.zone === zone && count._id.status === status) {
+                            zoneStatusCounts[zone][status] = count.count;
+                        }
+                    }
+                }
+            })
+
+            res.status(200).json({ zoneStatusCounts });
+        } catch (err) {
+            console.error("Error details:", err); // Log the error details for debugging purposes
+            res.status(501).json('Error while retrieving number of reports for each status for each zone');
+        }
+    },
+
+    async getNumberZones (req, res) {
+        try {
+            const nZones = Zones.zones.length;
+            res.status(200).json({ nZones });
+        } catch(error) {
+            res.status(501).json("Error while retriving number of zones");
+        }
+    }
 }

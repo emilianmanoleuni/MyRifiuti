@@ -4,6 +4,8 @@ import ReportService from '@/services/ReportService';
 import HighchartsVue from 'highcharts-vue'
 import Highcharts from 'highcharts';
 import highcharts3d from 'highcharts/highcharts-3d';
+import Accessibility from "highcharts/modules/accessibility";
+
 
 highcharts3d(Highcharts); // Enable 3D module
 
@@ -28,6 +30,9 @@ export const EnteMixin = {
             nOpenedReports: 0,
             nRunningReports: 0,
             nClosedReports: 0,
+            nOpenedReportsPercent: 0,
+            nRunningReportsPercent: 0,
+            nClosedReportsPercent: 0,
             chartReportStatusOptions: {
                 chart: {
                     type: 'column',
@@ -52,7 +57,7 @@ export const EnteMixin = {
                 },
                 yAxis: {
                     title: {
-                        text: 'Numero di report'
+                        text: 'Numero di Segnalazioni'
                     }
                 },
                 series: [{
@@ -101,6 +106,10 @@ export const EnteMixin = {
             await this.initializeData();
             await this.sliceReportsList(0, this.nReports);
         },
+        async elaborateReportsAnalyticsData(){
+            await this.initializeData();
+        },
+        
         /*  FETCHING FROM DB DATA  */
         async fetchAllReports() {
             try {
@@ -131,7 +140,7 @@ export const EnteMixin = {
             try {
                 const response = await ReportService.getNumberOfAllReports()
                 this.nReports = response.data.count
-                if(this.$route.name === 'enteHomepage'){
+                if(this.$route.name === 'enteHomepage' || this.$route.name === 'enteAnalytics'){
                     this.$refs.nReportsWidget.textContent = this.nReports;
                 }
             } catch(error) {
@@ -146,6 +155,22 @@ export const EnteMixin = {
                 this.nRunningReports = responseRunning.data.count[0].count
                 const responseClosed = await ReportService.getNumberByStatusOfReports( this.statusType[2] )
                 this.nClosedReports = responseClosed.data.count[0].count
+                
+                //Update Analytics
+                if(this.$route.name === 'enteAnalytics'){
+                    this.$refs.nReportOpensWidget.textContent = this.nOpenedReports;
+                    this.$refs.nReportsRunningWidget.textContent = this.nRunningReports;
+                    this.$refs.nReportsClosedWidget.textContent = this.nClosedReports;
+
+                    this.nOpenedReportsPercent =  (this.nOpenedReports / this.nReports * 100).toFixed(2);
+                    this.nRunningReportsPercent = (this.nRunningReports / this.nReports * 100).toFixed(2);
+                    this.nClosedReportsPercent = (this.nClosedReports / this.nReports * 100).toFixed(2);
+
+                    this.$refs.nReportOpensWidgetPercent.textContent = this.nOpenedReportsPercent + '%';
+                    this.$refs.nReportsRunningWidgetPercent.textContent = this.nRunningReportsPercent + '%';
+                    this.$refs.nReportsClosedWidgetPercent.textContent = this.nClosedReportsPercent + '%';
+                }
+
                 this.updateChart();
             } catch(error) {
                 console.error('Error fetching number of reports type status');

@@ -87,5 +87,13 @@ router.get('/getNumberByStatusOfReports',
     ReportController.getNumberByStatusOfReports
 );
 
+router.get('/getAllZonesStatuses',
+    ReportController.getAllZonesStatuses
+)
+
+router.get('/getNumberZones',
+    ReportController.getNumberZones
+)
+
 
 module.exports = router;
