@@ -25,6 +25,10 @@ router.get('/getUserZone',
     AuthenticationController.getUserZone
 );
 
+router.get('/getUserName',
+    AuthenticationController.getUserName
+)
+
 router.get('/calendarAll',
     CalendarController.calendarAll
 )
@@ -53,14 +57,21 @@ router.post('/putMarker',
     MapController.putMarker
 );
 
-router.get('/getMembers',
+/* router.get('/getMembers',
     GroupController.getGroupMembers
-);
+); */
+
 router.post('/addMember',
     GroupController.addMember
-),
+)
 router.post('/createGroup',
     GroupController.createGroup
+)
+router.get('/getGroup',
+    GroupController.getGroup
+)
+router.post('/removeMember',
+    GroupController.removeMember
 )
 
 module.exports = router;
