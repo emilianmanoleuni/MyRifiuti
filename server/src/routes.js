@@ -6,6 +6,7 @@ const CalendarController = require('./controllers/CalendarController');
 const MapController = require('./controllers/MapController');
 const AuthenticationValidator = require('./policies/AuthenticationValidator')
 const GroupController = require('./controllers/GroupController');
+const MailController = require('./controllers/MailController')
 
 
 
@@ -28,7 +29,9 @@ router.get('/getUserZone',
 router.get('/getUserName',
     AuthenticationController.getUserName
 )
-
+router.get('/getEmail', 
+    AuthenticationController.getEmail
+)
 router.get('/calendarAll',
     CalendarController.calendarAll
 )
@@ -73,5 +76,9 @@ router.get('/getGroup',
 router.post('/removeMember',
     GroupController.removeMember
 )
+router.post('/sendEmail',
+    MailController.sendEmail
+)
+
 
 module.exports = router;

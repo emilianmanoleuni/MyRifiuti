@@ -1,17 +1,19 @@
-console.log('Hello from the server!')
+require('dotenv').config();
 
+console.log('Hello from the server!')
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const morgan = require('morgan')
 
 //Auth
-//require('dotenv').config({ path: './database.env' });
 const mongoose = require('mongoose')
 const User = require('./models/User.js')
 const routes = require('./routes')
 const { checkSchema } = require('express-validator')
-const dbURI = `mongodb+srv://admin:admin@clustermain.n9dwne9.mongodb.net/?retryWrites=true&w=majority&appName=ClusterMain`;
+const dbURI = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/?retryWrites=true&w=majority&appName=ClusterMain`;
+
+
 
 const app = express()
 app.use(morgan('combined'))
