@@ -24,5 +24,12 @@ export default {
           userId: userId
         }
       })
+    },
+    getEmail(userId){
+      return Api().get('getEmail', {
+        params: {
+          userId: userId
+        }
+      })
     }
 }
