@@ -19,7 +19,7 @@
                   prepend-icon="mdi-email"
                   type="email"
                   v-model="email"
-                  placeholder="Enter your email"
+                  placeholder="Inserisci la tua email"
                   outlined
                 ></v-text-field>
                 
@@ -28,7 +28,7 @@
                   prepend-icon="mdi-lock"
                   type="password"
                   v-model="password"
-                  placeholder="Enter your password"
+                  placeholder="Inserisci la tua password"
                   outlined
                 ></v-text-field>
   
@@ -93,7 +93,8 @@ export default{
 
 <style scoped>
     .loginBlock{
-      margin-top: 70px;
+      margin-top: 200px;
+      width: 60%;
     }
     .topBlockLogoName{
       margin-top: 2px;

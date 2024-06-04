@@ -97,7 +97,8 @@ export default{
 
 <style scoped>
     .loginEnteBlock{
-        margin-top: 70px;
+        margin-top: 200px;
+        width: 60%;
     }
     .topBlockLogoName{
         margin-top: 2px;
