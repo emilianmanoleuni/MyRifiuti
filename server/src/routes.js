@@ -4,11 +4,8 @@ const AuthenticationController = require('./controllers/AuthenticationController
 const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy');
 const CalendarController = require('./controllers/CalendarController');
 const MapController = require('./controllers/MapController');
+const ReportController = require('./controllers/ReportController')
 const AuthenticationValidator = require('./policies/AuthenticationValidator')
-const Marker = require('./models/Marker');
-const Zone = require('./models/Zone')
-
-
 
 
 // Definitions of Routes
@@ -24,6 +21,10 @@ router.post('/login',
 router.get('/getUserZone',
     //AuthenticationValidator.validator, NEED FIX FOR TOKEN
     AuthenticationController.getUserZone
+);
+
+router.post('/loginEnte',
+    AuthenticationController.loginEnte
 );
 
 router.get('/calendarAll',
@@ -53,5 +54,50 @@ router.get('/zone',
 router.post('/putMarker',
     MapController.putMarker
 );
+
+router.post('/sendReport',
+    ReportController.sendReport
+);
+
+router.get('/getReportTypes',
+    ReportController.getReportTypes
+)
+
+router.get('/getAllReports',
+    ReportController.getAllReports
+);
+
+router.get('/getStatusTypes',
+    ReportController.getStatusTypes
+);
+
+router.get('/getReportCaps',
+    ReportController.getReportCaps
+);
+
+router.post('/saveReportStatus',
+    ReportController.saveReportStatus
+);
+
+router.get('/getNumberOfAllReports',
+    ReportController.getNumberOfAllReports
+);
+
+router.get('/getNumberByStatusOfReports',
+    ReportController.getNumberByStatusOfReports
+);
+
+router.get('/getAllZonesStatuses',
+    ReportController.getAllZonesStatuses
+)
+
+router.get('/getNumberZones',
+    ReportController.getNumberZones
+)
+
+router.get('/getNumerReportsForZones',
+    ReportController.getNumerReportsForZones
+)
+
 
 module.exports = router;

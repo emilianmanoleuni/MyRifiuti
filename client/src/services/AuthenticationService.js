@@ -17,5 +17,8 @@ export default {
           userId: userId
         }
       })
+    },
+    loginEnte(credendials){
+        return Api().post('loginEnte', credendials)
     }
 }

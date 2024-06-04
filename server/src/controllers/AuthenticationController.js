@@ -1,4 +1,5 @@
 const User = require('../models/User')
+const Ente = require('../models/Ente')
 const jwt = require('jsonwebtoken')
 const config = require('../config/config')
 const { validationResult } = require('express-validator');
@@ -91,6 +92,38 @@ module.exports={
       } catch (error) {
           res.status(500).json({ error: 'Server error' });
       }
-    }
+    },
     
+
+    // ---------------  ENTE  --------------- //
+    async loginEnte (req, res) {
+      try {
+        const {username, password} = req.body
+        const ente = await Ente.findOne({ username });
+  
+        if (!ente) {
+          return res.status(403).send({
+            error: 'The login information was incorrect'
+          })
+        }
+  
+        const isPasswordValid = await ente.comparePassword(password)
+        if (!isPasswordValid) {
+          return res.status(403).send({
+            error: 'The login information was incorrect'
+          })
+        }
+  
+        const enteJson = ente.toJSON()
+        res.status(200).send({
+          ente: enteJson,
+          token: jwtSignUser(enteJson)
+        })
+      } catch (err) {
+        res.status(500).send({
+          error: 'An error has occured trying to log in'
+        })
+      }
+    },
+
 }

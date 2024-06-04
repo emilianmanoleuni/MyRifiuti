@@ -43,7 +43,7 @@ module.exports = {
   },
   async getZone (req, res) {
     try{
-      res.status(200).json(Zone.circoscrizioni)
+      res.status(200).json(Zone.zones)
     } catch(err){
       res.status(501).json('Error')
     }

@@ -1,0 +1,71 @@
+/* Basic Block Widgets */
+.firstLineDashBoardWidgets{
+    width: auto;
+    height: 400px;
+    margin-bottom: 33px;
+}
+.firstLineDashBoardWidgetsCell{
+    width: auto;
+    height: 100%;
+}
+.nReportsWidgetValue{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70%;
+}
+.nReportsWidgetValuePercent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70%;
+    margin-top: 5px;
+}
+.chartReportStatusOptions{
+    margin-top: 8px;
+}
+.secondLineDashBoardWidgetCell{
+    width: auto;
+    height: 600px;
+}
+.thirdLineDashBoardWidgetCell{
+    width: auto;
+    height: 550px;
+    margin-bottom: 100px;
+}
+/* Report List */
+.reportBlock{
+    width: 100%;
+    height: auto;
+}
+.reportHomeOrizontalCell{
+    height: 69px;
+}
+.statusBtn{
+    width: 70%;
+}
+
+/* Dialog View Report */
+.viewReport{
+    min-width: 700px;
+    max-width: 1200px;
+}
+.titleViewReport{
+    margin-top: 15px;
+    margin-left: 15px;
+    margin-bottom: -10px;
+}
+.subTitleContentReport{
+    margin-top: 5px;
+}
+.contentReport{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.lastContentRowReport{
+    margin-bottom: 5px;
+}
+.closeViewReportBtn{
+    margin-bottom: 15px;
+    margin-right: 32px;
+}
