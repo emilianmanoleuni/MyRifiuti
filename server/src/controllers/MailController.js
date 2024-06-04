@@ -9,7 +9,6 @@ module.exports = {
     
     try {   
       const {userName, userEmail, subject, text} = req.body
-      console.log(process.env.MAILSENDER_API_KEY)
 
       const recipients = [new MailerSend.Recipient(userEmail, userName)];
       const sender = new MailerSend.Sender("MS_aXfrP7@trial-jy7zpl9x7n0l5vx6.mlsender.net", "MyRifiuti")
