@@ -29,5 +29,8 @@ export default {
     },
     async getAllZonesStatuses(){
         return Api().get('getAllZonesStatuses')
-    }             
+    },      
+    async getNumerReportsForZones(){
+        return Api().get('getNumerReportsForZones')
+    },    
 }

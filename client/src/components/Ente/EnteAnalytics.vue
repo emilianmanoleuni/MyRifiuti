@@ -73,89 +73,71 @@ export default {
         return {
             zones: [],
             nZones : 0,
+            reportsForZones: {},
             statusesForEachZone: {},
             /* Chart Reports Status Zones second Line Dashboard Analytics */
             chartReportsZones: {
                 chart: {
                     type: 'bar',
                     renderTo: 'chartReportsZones',
-                    /*options3d: {
+                    options3d: {
                         enabled: true,
                         alpha: 5,
                         beta: 10,
                         depth: 70,
                         viewDistance: 50
-                    },*/
+                    },
                     marginTop: -10,
-                    marginLeft: 20,
+                    marginLeft: 200,
                     marginRight: 20,
-                    marginBottom: 110,
+                    marginBottom: 100,
                 },
                 title: {
                     text: '',
                 },
 
-                    xAxis: {
-                        labels: {
-                            //skew3d: true,
-                            style: {
-                                fontSize: '16px'
-                            }
+                xAxis: {
+                    labels: {
+                        //skew3d: true,
+                        style: {
+                            fontSize: '16px'
                         }
-                    },
+                    }
+                },
 
-                    yAxis: {
-                        allowDecimals: false,
-                        min: 0,
-                        title: {
-                            text: 'Numero di Segnalazioni',
-                            //skew3d: true,
-                            style: {
-                                fontSize: '16px'
-                            },
-                            x: -10,
-                        }
-                    },
+                yAxis: {
+                    allowDecimals: false,
+                    min: 0,
+                    title: {
+                        text: 'Numero di Segnalazioni',
+                        //skew3d: true,
+                        style: {
+                            fontSize: '16px'
+                        },
+                        y: 15,
+                        x: -100,
+                    }
+                },
 
-                    tooltip: {
-                        headerFormat: '<b>{point.key}</b><br>',
-                        pointFormat: '<span style="color:{series.color}">\u25CF</span> ' +
-                            '{series.name}: {point.y}'
-                    },
+                tooltip: {
+                    headerFormat: '<b>{point.key}</b><br>',
+                    pointFormat: '<span style="color:{series.color}">\u25CF</span> ' +
+                        '{series.name}: {point.y}'
+                },
+    
+                xAxis: {
+                    categories: [],
+                    crosshair: true,
+                    accessibility: {
+                        description: 'Zona'
+                    }
+                },
 
-                    legend: {
-                        enabled: true,
-                        layout: 'vertical',
-                        align: 'right',
-                        verticalAlign: 'middle',
-                        y: -80,
-                        x: 5,
-                        floating: true,
-                        backgroundColor: '#FFFFFF'
-                    },
-                    
-                    xAxis: {
-                        categories: [],
-                        crosshair: true,
-                        accessibility: {
-                            description: 'Zona'
-                        }
-                    },
-
-                    series: [{
-                        name: 'Aperta',
-                        data: [],
-                        color: '#f44a3e'
-                    }, {
-                        name: 'In corso',
-                        data: [],
-                        color: '#f5e239'
-                    }, {
-                        name: 'Risolta',
-                        data: [],
-                        color: '#53b257'
-                    }]
-
+                series: [{
+                    name: 'Segnalazioni',
+                    data: [],
+                    color: '#53b257'
+                }]
             },
             chartReportsStatusZones: {
                 chart: {
@@ -177,67 +159,66 @@ export default {
                     text: '',
                 },
 
-                    xAxis: {
-                        labels: {
-                            //skew3d: true,
-                            style: {
-                                fontSize: '16px'
-                            }
+                xAxis: {
+                    labels: {
+                        //skew3d: true,
+                        style: {
+                            fontSize: '16px'
                         }
-                    },
+                    }
+                },    
 
-                    yAxis: {
-                        allowDecimals: false,
-                        min: 0,
-                        title: {
-                            text: 'Numero di Segnalazioni',
-                            //skew3d: true,
-                            style: {
-                                fontSize: '16px'
-                            },
-                            x: -10,
-                        }
-                    },
+                yAxis: {
+                    allowDecimals: false,
+                    min: 0,
+                    title: {
+                        text: 'Numero di Segnalazioni',
+                        //skew3d: true,
+                        style: {
+                            fontSize: '16px'
+                        },
+                        x: -10,
+                    }
+                },
 
-                    tooltip: {
-                        headerFormat: '<b>{point.key}</b><br>',
-                        pointFormat: '<span style="color:{series.color}">\u25CF</span> ' +
-                            '{series.name}: {point.y}'
-                    },
+                tooltip: {
+                    headerFormat: '<b>{point.key}</b><br>',
+                    pointFormat: '<span style="color:{series.color}">\u25CF</span> ' +
+                        '{series.name}: {point.y}'
+                },
 
-                    legend: {
-                        enabled: true,
-                        layout: 'vertical',
-                        align: 'right',
-                        verticalAlign: 'middle',
-                        y: -80,
-                        x: 5,
-                        floating: true,
-                        backgroundColor: '#FFFFFF'
-                    },
+                legend: {
+                    enabled: true,
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle',
+                    y: -80,
+                    x: 5,
+                    floating: true,
+                    backgroundColor: '#FFFFFF'
+                },
                     
-                    xAxis: {
-                        categories: [],
-                        crosshair: true,
-                        accessibility: {
-                            description: 'Zona'
-                        }
-                    },
+                xAxis: {
+                    categories: [],
+                    crosshair: true,
+                    accessibility: {
+                        description: 'Zona'
+                    }
+                },
 
-                    series: [{
-                        name: 'Aperta',
-                        data: [],
-                        color: '#f44a3e'
-                    }, {
-                        name: 'In corso',
-                        data: [],
-                        color: '#f5e239'
-                    }, {
-                        name: 'Risolta',
-                        data: [],
-                        color: '#53b257'
-                    }]
-
+                series: [{
+                    name: 'Aperta',
+                    data: [],
+                    color: '#f44a3e'
+                }, {
+                    name: 'In corso',
+                    data: [],
+                    color: '#f5e239'
+                }, {
+                    name: 'Risolta',
+                    data: [],
+                    color: '#53b257'
+                }]
             },
         }     
     },
@@ -249,41 +230,84 @@ export default {
             await this.elaborateReportsAnalyticsData();
             await this.getZones();
             await this.getAllZonesStatuses();
+            await this.getAllZonesNumberReports();
+            await this.updateZoneNumberReportsChart();
             await this.updateAllZoneStatusesChart();
         },
+        async getAllZonesNumberReports(){
+            try {
+                const response = await ReportService.getNumerReportsForZones();
+                this.reportsForZones = response.data.zoneCounts
+            } catch(error) {
+                console.log("Error retrieving number of reports for each zones")
+            }
+        },
         async getAllZonesStatuses() {
-            const response = await ReportService.getAllZonesStatuses()
-            this.statusesForEachZone = response.data.zoneStatusCounts
+            try {
+                const response = await ReportService.getAllZonesStatuses()
+                this.statusesForEachZone = response.data.zoneStatusCounts
+            } catch(error) {
+                console.log("Error retrieving statuses of the zones")
+            }
         },
         async getNumberZones(){
-            const response = await ReportService.getNumberZones()
-            this.nZones = response.data.nZones
+            try {
+                const response = await ReportService.getNumberZones()
+                this.nZones = response.data.nZones
+            } catch(error) {
+                console.log("Error retrieving number of the Zones")
+            }
         },
         async getZones() {
-            const response = await MapService.getZone()
-            this.zones = response;
+            try {
+                const response = await MapService.getZone()
+                this.zones = response;
+            } catch(error) {
+                console.log("Error retrieving the Zones")
+            }
         }, 
         async updateAllZoneStatusesChart() {
-            this.chartReportsStatusZones.xAxis.categories = this.zones
+            try {
+                this.chartReportsStatusZones.xAxis.categories = this.zones
 
-            // Middle arrays
-            let opened = []
-            let running = []
-            let closed = []
+                // Middle arrays
+                let opened = []
+                let running = []
+                let closed = []
 
-            // Populate arrays
-            this.zones.forEach( zone => {
-                opened.push(this.statusesForEachZone[zone][this.statusType[0]])
-                running.push(this.statusesForEachZone[zone][this.statusType[1]])
-                closed.push(this.statusesForEachZone[zone][this.statusType[2]])
-            })
-            
-            //Set series
-            this.chartReportsStatusZones.series[0].data = opened
-            this.chartReportsStatusZones.series[1].data = running
-            this.chartReportsStatusZones.series[2].data = closed
-        
-        }
+                // Populate arrays
+                this.zones.forEach( zone => {
+                    opened.push(this.statusesForEachZone[zone][this.statusType[0]])
+                    running.push(this.statusesForEachZone[zone][this.statusType[1]])
+                    closed.push(this.statusesForEachZone[zone][this.statusType[2]])
+                })
+                
+                //Set series
+                this.chartReportsStatusZones.series[0].data = opened
+                this.chartReportsStatusZones.series[1].data = running
+                this.chartReportsStatusZones.series[2].data = closed
+            } catch(error) {
+                console.log("Error updating Zones' statuses Chart")
+            }
+        },
+        async updateZoneNumberReportsChart() {
+            try {
+                this.chartReportsZones.xAxis.categories = this.zones
+
+                //Middle array
+                let counts = []
+
+                // Populate
+                this.zones.forEach( zone => {
+                    counts.push(this.reportsForZones[zone])
+                })
+
+                //Set series
+                this.chartReportsZones.series[0].data = counts
+            } catch(error) {
+                console.log("Error updating Zones' statuses Chart")
+            }
+        },
     },
     components: {
     }
@@ -296,6 +320,10 @@ export default {
         justify-content: center;
         align-items: center;
         height: 70%;
+    }
+    .chartReportsZones{
+        width: 100%;
+        height: 100%; 
     }
     .chartReportsStatusZones{
         width: 100%;

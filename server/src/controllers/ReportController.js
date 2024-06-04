@@ -80,10 +80,9 @@ module.exports = {
 
     async saveReportStatus (req, res) {
         try{
-            const report = await Report.findById(req.body._id);
-            report.status = req.body.status;
-            const updatedReport = await report.save();
-            res.status(200).json(updatedReport);
+            const report = await Report.findOneAndUpdate({ _id: req.body._id }, 
+                                                         { status: req.body.status })
+            res.status(200).json(report);
         } catch(err) {
             res.status(501).json('Error while saving status of the report')
         }
@@ -168,5 +167,41 @@ module.exports = {
         } catch(error) {
             res.status(501).json("Error while retriving number of zones");
         }
-    }
+    },
+
+    async getNumerReportsForZones (req, res) {
+        try {
+            // Aggregate counts of reports by zone and status
+            const counts = await Report.aggregate([
+                {
+                    $group: {
+                        _id: { zone: "$zone"},
+                        count: { $sum: 1 }
+                    }
+                }
+            ]);
+
+            // Create Zones object
+            const zoneCounts = {}
+
+            // Assign 0 to each Zone
+            Zones.zones.forEach( zone => {
+                zoneCounts[zone] = 0;
+            })
+        
+            // Assign counts to Zone's from previus querry on DB
+            counts.forEach( count => {
+                for (let zone in zoneCounts) {
+                    if (count._id.zone === zone){
+                        zoneCounts[zone] += count.count;
+                    }        
+                }
+            })
+            
+            res.status(200).json({ zoneCounts });
+        } catch (err) {
+            console.error("Error details:", err); // Log the error details for debugging purposes
+            res.status(501).json('Error while retrieving number of reports for each zone');
+        }
+    },
 }

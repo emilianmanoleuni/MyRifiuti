@@ -26,11 +26,12 @@
 }
 .secondLineDashBoardWidgetCell{
     width: auto;
-    height: 550px;
+    height: 600px;
 }
 .thirdLineDashBoardWidgetCell{
     width: auto;
     height: 550px;
+    margin-bottom: 100px;
 }
 /* Report List */
 .reportBlock{

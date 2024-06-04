@@ -95,5 +95,9 @@ router.get('/getNumberZones',
     ReportController.getNumberZones
 )
 
+router.get('/getNumerReportsForZones',
+    ReportController.getNumerReportsForZones
+)
+
 
 module.exports = router;

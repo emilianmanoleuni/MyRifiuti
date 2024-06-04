@@ -305,11 +305,15 @@ export default {
                 console.error("Error retrieving CAPS")
             }
         },
-        getZones(){
-            MapService.getZone()
-            .then(zoneArray => {
-                this.zones = [...zoneArray];
-            })
+        async getZones(){
+            try {
+                MapService.getZone()
+                .then(zoneArray => {
+                    this.zones = [...zoneArray];
+                })
+            } catch(error) {
+                console.error("Error retrieving zones")
+            }
         }
     },
     components: {

@@ -99,15 +99,27 @@ export const EnteMixin = {
             }
         },
         async elaborateHomepageData(){
-            await this.initializeData();
-            await this.fetchAndSliceReportsForDashboard();
+            try {
+                await this.initializeData();
+                await this.fetchAndSliceReportsForDashboard();
+            } catch (error) {
+                console.error('Error elaborating homepage data');
+            }
         },
         async elaborateReportsListData(){
-            await this.initializeData();
-            await this.sliceReportsList(0, this.nReports);
+            try {
+                await this.initializeData();
+                await this.sliceReportsList(0, this.nReports);
+            } catch (error) {
+                console.error('Error elaborating repots data');
+            }
         },
         async elaborateReportsAnalyticsData(){
-            await this.initializeData();
+            try {
+                await this.initializeData();
+            } catch (error) {
+                console.error('Error elaborating analytics data');
+            }
         },
         
         /*  FETCHING FROM DB DATA  */
@@ -117,16 +129,24 @@ export const EnteMixin = {
                 this.reports = response.data;
                 this.reports.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); //Auto ordering from last to older
             } catch(error) {
-                console.error('Error fetching reports:', error);
+                console.error('Error fetching reports');
             }
         },
         async fetchAndSliceReportsForDashboard() {
-            this.slicedReports = this.reports;
-            this.slicedReports = this.slicedReports.slice(0, 8);
+            try {
+                this.slicedReports = this.reports;
+                this.slicedReports = this.slicedReports.slice(0, 8);
+            } catch (error) {
+                console.error('Error fetching homepage reports');
+            }
         },
         async sliceReportsList(indexList, nToList) {
-            this.slicedReports = this.reports;
-            this.slicedReports = this.slicedReports.slice(indexList, nToList);
+            try {
+                this.slicedReports = this.reports;
+                this.slicedReports = this.slicedReports.slice(indexList, nToList);
+            } catch (error) {
+                console.error('Error slicing reports');
+            }
         },
         async fetchStatusType() {
             try {
@@ -178,34 +198,69 @@ export const EnteMixin = {
         },
         /*  FILTERING  ACTIONS  */
         resetSortOrFilter()  {
-            this.slicedReports = this.reports
+            try {
+                this.slicedReports = this.reports
+            } catch(error){
+                console.error("Error reset filtering") 
+            }
         },
         sortAscendingDate() {
-            this.slicedReports.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+            try {
+                this.slicedReports.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+            } catch(error){
+                console.error("Error reset filtering") 
+            }
         },
         sortDescendingDate() {
-            this.slicedReports.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            try {
+                this.slicedReports.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            } catch(error){
+                console.error("Error filtering") 
+            }
         },
         filterType(type){
-            this.slicedReports = this.slicedReports.filter( report => report.type === type);
+            try {
+                this.slicedReports = this.slicedReports.filter( report => report.type === type);
+            } catch(error){
+                console.error("Error filtering") 
+            }
         },
         filterCap(cap){
-            this.slicedReports = this.slicedReports.filter( report => report.cap.toString().trim() === cap.toString().trim());
+            try {
+                this.slicedReports = this.slicedReports.filter( report => report.cap.toString().trim() === cap.toString().trim());
+            } catch(error){
+                console.error("Error filtering") 
+            }
         },
         filterZone(zone) {
-            this.slicedReports = this.slicedReports.filter( report => report.zone === zone);
+            try {
+                this.slicedReports = this.slicedReports.filter( report => report.zone === zone);
+            } catch(error){
+                console.error("Error filtering") 
+            }
         },
         filterStatusType(type) {
-            this.slicedReports = this.slicedReports.filter( report => report.status === type);
+            try {
+                this.slicedReports = this.slicedReports.filter( report => report.status === type);
+            } catch(error){
+                console.error("Error filtering") 
+            }
         },
         /*  VIEW REPORT  */
         openViewReport(report){
-            console.log(this.statusType)
-            this.selectedReport = report
-            this.dialogVisible = true
+            try {
+                this.selectedReport = report
+                this.dialogVisible = true
+            } catch(error) {
+                console.error("Error opening report")
+            }
         },
         closeViewReport(){
-            this.dialogVisible = false 
+            try {
+                this.dialogVisible = false 
+            } catch(error) {
+                console.error("Error closing report")
+            }
         },
         async saveReportStatus(){
             try {
@@ -221,11 +276,16 @@ export const EnteMixin = {
         },
         /*  CHARTS AND ANALYTICS  */
         async updateChart() {
-            this.chartReportStatusOptions.series[0].data = [
+            try{
+                this.chartReportStatusOptions.series[0].data = [
                     this.nOpenedReports,
                     this.nRunningReports,
                     this.nClosedReports,
                 ];
+            } catch(error) {
+                console.error("Error updating Statuses Chart")
+            }
+            
         },
     },
     computed: {
