@@ -67,53 +67,49 @@ export default{
     mounted(){
         this.initMap();
         this.filterAll();
-        MapService.getZone()
-        .then(zoneArray => {
-            console.log(zoneArray)
-            this.zones = [...zoneArray];
-        })
+        this.getZones();
     },
     methods: {
         initMap(){
-        this.loader
-        .load()
-        .then((google) => {
-            const imgRoot = "./";
-            const window = new google.maps.InfoWindow();
-            const map = new google.maps.Map( 
-                document.getElementById("Gmap"),
-                this.mapOptions 
-            );
-            const borders = new google.maps.GroundOverlay(imgRoot.concat("bordersAll.svg"), this.imageBounds);
-            if(this.$store.state.isUserLoggedIn){
-                const highlightedBorders = new google.maps.GroundOverlay(imgRoot.concat(this.$store.state.user.zone, ".svg"), this.imageBounds);
-                highlightedBorders.setMap(map);
-            }
-            this.markers.forEach((marker) => {
-                let pathImg = imgRoot;
-                if(marker.label.includes("CRM")){
-                    pathImg = pathImg.concat("CRM.png")
-                } else {
-                    pathImg = pathImg.concat(marker.label, ".png") //CRM.png, Centro integrato.png, cestino.png
+            this.loader
+            .load()
+            .then((google) => {
+                const imgRoot = "./";
+                const window = new google.maps.InfoWindow();
+                const map = new google.maps.Map( 
+                    document.getElementById("Gmap"),
+                    this.mapOptions 
+                );
+                const borders = new google.maps.GroundOverlay(imgRoot.concat("bordersAll.svg"), this.imageBounds);
+                if(this.$store.state.isUserLoggedIn){
+                    const highlightedBorders = new google.maps.GroundOverlay(imgRoot.concat(this.$store.state.user.zone, ".svg"), this.imageBounds);
+                    highlightedBorders.setMap(map);
                 }
-                const mapMarker = new google.maps.Marker({
-                            position: {
-                                lat: marker.lat,
-                                lng: marker.lng,
-                            },
-                            map,
-                            title: marker.label,
-                            icon: pathImg
-                            });
-                mapMarker.addListener("click", () => {
-                    window.close();
-                    window.setContent(mapMarker.getTitle());                    
-                    window.open(mapMarker.getMap(), mapMarker);
-                }) 
-            });
-            borders.setMap(map);
-        })
-            .catch((msg) => console.log(msg) );
+                this.markers.forEach((marker) => {
+                    let pathImg = imgRoot;
+                    if(marker.label.includes("CRM")){
+                        pathImg = pathImg.concat("CRM.png")
+                    } else {
+                        pathImg = pathImg.concat(marker.label, ".png") //CRM.png, Centro integrato.png, cestino.png
+                    }
+                    const mapMarker = new google.maps.Marker({
+                                position: {
+                                    lat: marker.lat,
+                                    lng: marker.lng,
+                                },
+                                map,
+                                title: marker.label,
+                                icon: pathImg
+                                });
+                    mapMarker.addListener("click", () => {
+                        window.close();
+                        window.setContent(mapMarker.getTitle());                    
+                        window.open(mapMarker.getMap(), mapMarker);
+                    }) 
+                });
+                borders.setMap(map);
+            })
+                .catch((msg) => console.log(msg) );
         },
         filterAll(){
             this.filterAllStatus = true;
@@ -161,6 +157,12 @@ export default{
                 console.log(msg);
             });
             
+        },
+        async getZones(){
+            MapService.getZone()
+                .then(zoneArray => {
+                    this.zones = [...zoneArray];
+                })
         }
     }
 }

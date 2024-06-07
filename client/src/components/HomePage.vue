@@ -6,8 +6,6 @@
                     <v-card-title class="text-h5">Calendario</v-card-title>
                 </v-card>
             </v-col>
-            <v-col></v-col>
-            <v-col cols="4"></v-col>
         </v-row>
         <v-row class="blockCalendar">
             <v-col cols="9">

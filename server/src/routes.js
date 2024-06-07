@@ -20,8 +20,12 @@ router.post('/login',
 );
 
 router.get('/getUserZone',
-    //AuthenticationValidator.validator, NEED FIX FOR TOKEN
+    //AuthenticationValidator.validator, NEED FIX FOR TOKEN not foundamental
     AuthenticationController.getUserZone
+);
+
+router.post('/updateUserZone',
+    AuthenticationController.updateUserZone
 );
 
 router.post('/loginEnte',
