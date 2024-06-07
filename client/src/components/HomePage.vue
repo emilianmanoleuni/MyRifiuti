@@ -10,38 +10,47 @@
             <v-col cols="4"></v-col>
         </v-row>
         <v-row class="blockCalendar">
-            <v-col cols="10">
+            <v-col cols="9">
                 <v-card>
-                    <v-select
-                        class="selectZoneBox"
-                        v-if="!isUserLoggedIn"
-                        v-model="selectedLocation"
-                        :items="locations"
-                        label="Seleziona circoscrizione"
-                        dense
-                        style="margin-top: 10px;" 
-                    ></v-select>
+                    <v-row cols="12" class="selectZoneBox">
+                        <v-select
+                            v-if="!isUserLoggedIn"
+                            v-model="selectedLocation"
+                            :items="locations"
+                            label="Seleziona circoscrizione"
+                            dense
+                            style="margin-top: 10px;" 
+                        ></v-select>
+                    </v-row>
 
-                    <div class="calendarBox">
-                        <VCalendar :attributes="attributes" class="vc-container" expanded />
-                    </div>
+                    <v-row cols="12" class="calendarBox">
+                        <v-col cols="12">
+                            <VCalendar :attributes="attributes" class="vc-container" expanded/>
+                        </v-col>
+                    </v-row>
+                    
                     
                 </v-card>
             </v-col>
-            <v-col cols="2">
+            <v-col cols="3">
                 <v-card class="align-self-end filterBlock">
-                    <v-card-title align="center" class="text-body-2">Filtra per:</v-card-title>
-                    <v-btn size="small" :variant="filterTuttoStatus ? 'elevated' : 'outlined'" color="buttons" class="buttonsFilter" @click="filterAll()">Tutto</v-btn>
-                    <br>
-                    <v-btn size="small" :variant="filterOrganicoStatus ? 'elevated' : 'outlined'" color="organic" class="buttonsFilter" @click="filterOrganico()">ORGANICO</v-btn>
-                    <br>
-                    <v-btn size="small" :variant="filterImballaggiLeggeriStatus ? 'elevated' : 'outlined'" color="plastic" class="buttonsFilter" @click="filterImballaggiLeggeri()">IMBALLAGGI LEGGERI</v-btn>
-                    <br>
-                    <v-btn size="small" :variant="filterCartaStatus ? 'elevated' : 'outlined'" color="paper" class="buttonsFilter" @click="filterCarta()">CARTA</v-btn>
-                    <br>
-                    <v-btn size="small" :variant="filterResiduoStatus ? 'elevated' : 'outlined'" color="residue" class="buttonsFilter" @click="filterResiduo()">RESIDUO</v-btn>
-                    <br>
-                    <v-btn size="small" :variant="filterVetroStatus ? 'elevated' : 'outlined'" color="glass" class="buttonsFilter" @click="filterVetro()">VETRO</v-btn>
+                    <v-card-title align="center" class="text-h7 titleFilter">Filtra per:</v-card-title>
+                    <v-row cols="12" class="boxBtnsFilter">
+                        <v-col cols="12" >
+                            <v-btn size="medium" :variant="filterTuttoStatus ? 'elevated' : 'outlined'" color="buttons" class="buttonsFilter" @click="filterAll()">Tutto</v-btn>
+                            <br>
+                            <v-btn size="medium" :variant="filterOrganicoStatus ? 'elevated' : 'outlined'" color="organic" class="buttonsFilter" @click="filterOrganico()">ORGANICO</v-btn>
+                            <br>
+                            <v-btn size="medium" :variant="filterImballaggiLeggeriStatus ? 'elevated' : 'outlined'" color="plastic" class="buttonsFilter" @click="filterImballaggiLeggeri()">IMBALLAGGI LEGGERI</v-btn>
+                            <br>
+                            <v-btn size="medium" :variant="filterCartaStatus ? 'elevated' : 'outlined'" color="paper" class="buttonsFilter" @click="filterCarta()">CARTA</v-btn>
+                            <br>
+                            <v-btn size="medium" :variant="filterResiduoStatus ? 'elevated' : 'outlined'" color="residue" class="buttonsFilter" @click="filterResiduo()">RESIDUO</v-btn>
+                            <br>
+                            <v-btn size="medium" :variant="filterVetroStatus ? 'elevated' : 'outlined'" color="glass" class="buttonsFilter" @click="filterVetro()">VETRO</v-btn>
+                        </v-col>
+                    </v-row>
+                    
                 </v-card>
             </v-col>
         </v-row>
@@ -189,7 +198,7 @@ export default {
                             description: 'Vetro',
                             isComplete: false,
                             dates: { repeat: { weekdays: glass } },
-                            color: 'gray',
+                            color: 'green',
                         });
                     }
                 } catch (error) {
@@ -263,16 +272,32 @@ export default {
 </script>
 
 <style scoped>
-    .buttonsFilter{
-        width: 94%;
-        margin: 5px;
+    .selectZoneBox{
+        margin-top: 15px;
+        margin-left: 24px;
+        margin-right: 24px;
+        margin-bottom: -20px;
     }
     .calendarBox{
         margin: 10px;
-        height: 442px;
+        height: auto;
         width: auto;
     }
-    .selectZoneBox{
-        margin: 10px;
+    .vc-day{
+        min-height: 100px;  
+    }
+    .titleFilter{
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }    
+    .boxBtnsFilter{
+        margin-left: 15px;
+        margin-right: 15px;
+        margin-bottom: 5px;
+    }
+    .buttonsFilter{
+        height: 35px;
+        width: 100%;
+        margin-bottom: 15px;
     }
 </style>

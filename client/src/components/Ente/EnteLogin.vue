@@ -40,10 +40,10 @@
                             >{{ serverErrors }}</v-alert>
                                 
                             <v-row cols="12">
-                                <v-col>
+                                <v-col cols="6">
                                     <v-btn class="enteBackButton" color="buttonsLight" :to="{ name: 'login' }" block>Back</v-btn>
                                 </v-col>
-                                <v-col>
+                                <v-col cols="6">
                                     <v-btn class="enteLoginButton" variant="elevated" color="buttons" @click="loginEnte" block>Login</v-btn>
                                 </v-col>
                             </v-row>

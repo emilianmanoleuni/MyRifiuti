@@ -32,7 +32,7 @@ const reportSchema = new mongoose.Schema({
     trim: true
   },
   cap: {
-    type: Number,
+    type: String,
     enum: Cap.caps,
     required: true,
     unique: false,

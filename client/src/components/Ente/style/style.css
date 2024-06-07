@@ -1,4 +1,7 @@
 /* Basic Block Widgets */
+.default{
+    margin-left: 15px;
+}
 .firstLineDashBoardWidgets{
     width: auto;
     height: 400px;
@@ -33,6 +36,15 @@
     height: 550px;
     margin-bottom: 100px;
 }
+
+/* Anoniumous user */
+.soonOrLoginBox{
+    height: 300px;
+}
+.soonOrLoginContent{
+    margin-top: 80px;
+}
+
 /* Report List */
 .reportBlock{
     width: 100%;

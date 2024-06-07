@@ -5,6 +5,7 @@ const AuthenticationControllerPolicy = require('./policies/AuthenticationControl
 const CalendarController = require('./controllers/CalendarController');
 const MapController = require('./controllers/MapController');
 const ReportController = require('./controllers/ReportController')
+const ReportControllerPolicy = require('./policies/ReportControllerPolicy')
 const AuthenticationValidator = require('./policies/AuthenticationValidator')
 
 
@@ -56,6 +57,7 @@ router.post('/putMarker',
 );
 
 router.post('/sendReport',
+    ReportControllerPolicy.validate,
     ReportController.sendReport
 );
 
