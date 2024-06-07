@@ -33,6 +33,12 @@ export default createStore({
             state.isUserLoggedIn = false
             localStorage.removeItem('token')
             localStorage.removeItem('user')
+        },
+        updateUserZone(state, zone) {
+            if (state.user) {
+                state.user.zone = zone
+                localStorage.setItem('user', JSON.stringify(state.user))
+            }
         }
     },
     actions: {
@@ -44,6 +50,9 @@ export default createStore({
         },
         logout({ commit }){
             commit('clearAuthData')
+        },
+        updateUserZone({ commit }, zone) {
+            commit('updateUserZone', zone)
         }
     }
 })

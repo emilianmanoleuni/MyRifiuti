@@ -5,6 +5,7 @@ const AuthenticationControllerPolicy = require('./policies/AuthenticationControl
 const CalendarController = require('./controllers/CalendarController');
 const MapController = require('./controllers/MapController');
 const ReportController = require('./controllers/ReportController')
+const ReportControllerPolicy = require('./policies/ReportControllerPolicy')
 const AuthenticationValidator = require('./policies/AuthenticationValidator')
 
 
@@ -19,8 +20,12 @@ router.post('/login',
 );
 
 router.get('/getUserZone',
-    //AuthenticationValidator.validator, NEED FIX FOR TOKEN
+    //AuthenticationValidator.validator, NEED FIX FOR TOKEN not foundamental
     AuthenticationController.getUserZone
+);
+
+router.post('/updateUserZone',
+    AuthenticationController.updateUserZone
 );
 
 router.post('/loginEnte',
@@ -56,6 +61,7 @@ router.post('/putMarker',
 );
 
 router.post('/sendReport',
+    ReportControllerPolicy.validate,
     ReportController.sendReport
 );
 

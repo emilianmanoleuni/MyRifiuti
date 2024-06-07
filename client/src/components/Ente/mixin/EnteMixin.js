@@ -171,8 +171,10 @@ export const EnteMixin = {
             try {
                 const responseOpened = await ReportService.getNumberByStatusOfReports( this.statusType[0] )
                 this.nOpenedReports = responseOpened.data.count[0].count
+
                 const responseRunning = await ReportService.getNumberByStatusOfReports( this.statusType[1] )
                 this.nRunningReports = responseRunning.data.count[0].count
+
                 const responseClosed = await ReportService.getNumberByStatusOfReports( this.statusType[2] )
                 this.nClosedReports = responseClosed.data.count[0].count
                 
@@ -190,7 +192,6 @@ export const EnteMixin = {
                     this.$refs.nReportsRunningWidgetPercent.textContent = this.nRunningReportsPercent + '%';
                     this.$refs.nReportsClosedWidgetPercent.textContent = this.nClosedReportsPercent + '%';
                 }
-
                 this.updateChart();
             } catch(error) {
                 console.error('Error fetching number of reports type status');

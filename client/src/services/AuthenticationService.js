@@ -18,6 +18,9 @@ export default {
         }
       })
     },
+    updateUserZone(user){
+      return Api().post('updateUserZone', user)
+    },
     loginEnte(credendials){
         return Api().post('loginEnte', credendials)
     }

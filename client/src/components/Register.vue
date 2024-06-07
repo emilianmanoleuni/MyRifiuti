@@ -58,9 +58,15 @@
               ></v-text-field>
             </v-form>
           </v-card-text>
-          <v-card-actions class="justify-end bottomButtons">
-            <v-btn class="backRegisterButton" variant="elevated" color="buttonsLight" :to="{ name: 'login' }">Back</v-btn>
-            <v-btn class="registerButton" variant="elevated" color="buttons" @click="register">Register</v-btn>
+          <v-card-actions>
+            <v-row cols="12"  class="bottomButtons">
+              <v-col cols="6">
+                <v-btn class="backRegisterButton" variant="elevated" color="buttonsLight" :to="{ name: 'login' }" block>Back</v-btn>
+              </v-col>
+              <v-col cols="6">
+                <v-btn class="registerButton" variant="elevated" color="buttons" @click="register" block>Register</v-btn> 
+              </v-col>
+            </v-row>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -164,13 +170,13 @@ export default {
       color: red;
   }
   .bottomButtons{
-    margin-top: -25px;
+    margin-top: -35px;
+    margin-left: -4px;
+    margin-right: -4px;
+    margin-bottom: px;
   }
   .backRegisterButton{
-    margin-bottom: 5px;
   }
   .registerButton{
-   margin-bottom: 5px;
-   margin-right: 8px;
   }
 </style>

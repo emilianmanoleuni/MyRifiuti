@@ -17,13 +17,13 @@ module.exports = {
                 zone: req.body.reportZone,
                 description: req.body.reportDescription,
                 user: req.body.reportUserId,
-                status: Status[0] // 0 Aperta 1 - In Corso - 2 Risolta
+                status: Status[0] // 0 Aperta - 1 In Corso - 2 Risolta
             });
 
             // Save new Report
             await newReport.save()
                 .then((result) => {
-                    res.status(200).json(result);
+                    res.status(200).json(result); 
                 })
                 .catch((error) => {
                     // Handle validation errors from Mongoose
@@ -33,6 +33,7 @@ module.exports = {
                             msg: error.errors[key].message
                         }));
                         res.status(400).json({ errors: validationErrors });
+                        console.log(validationErrors)
                     } else {
                         res.status(500).json('Error while saving the report');
                     }
@@ -110,7 +111,19 @@ module.exports = {
                     }
                 }
             ]);
-            res.status(200).json({count: counts});
+            
+            //Manage no found because MONGODB aggregation logic
+            if(counts.length === 0){
+                res.status(200).json({
+                    count:
+                        [{
+                            _id: status,
+                            count: 0
+                        }]
+                })
+            }else{
+                res.status(200).json({count: counts});
+            }
         } catch(err) {
             res.status(501).json('Error while retrieving number of reports filtered by status')
         }

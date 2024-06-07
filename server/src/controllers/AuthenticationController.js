@@ -29,11 +29,11 @@ module.exports={
           });
       
           //Debug New User
-          if(true){
+          /*if(true){
             console.log(`Name: ${newUser.name}`);
             console.log(`Surname: ${newUser.surname}`);
             console.log(`Email: ${newUser.email}`);
-          }
+          }*/
 
           // Save new User
           await newUser.save();
@@ -82,12 +82,29 @@ module.exports={
     async getUserZone(req, res) {
       try {
           const userId = req.query.userId;
-          console.log(userId)
           const user = await User.findById(userId);
       
           if (!user) {
               return res.status(404).json({ error: 'User not found' });
           }
+          res.status(200).json({ zone: user.zone });
+      } catch (error) {
+          res.status(500).json({ error: 'Server error' });
+      }
+    },
+
+    async updateUserZone(req, res) {
+      try {
+          console.log(req.body.userId)
+          console.log(req.body.zone)
+          
+          const user = await User.findOneAndUpdate({ _id: req.body.userId }, 
+                                                     { zone: req.body.zone });
+
+          if (!user) {
+              return res.status(404).json({ error: 'User not found' });
+          }
+
           res.status(200).json({ zone: user.zone });
       } catch (error) {
           res.status(500).json({ error: 'Server error' });

@@ -1,83 +1,99 @@
 <template>
     <v-container class="mainBody">
-        <v-card v-if="isUserLoggedIn" class="reportBox" align="center">
-            <v-card-title class="text-h5 titleReportPage">Segnalazione</v-card-title>
-            <v-form v-if="isUserLoggedIn">
-                    <v-select
-                        class="selectorTypeOfReport"
-                        v-model="selectedTypeOfReport"
-                        :items="typesOfReports"
-                        :error-messages="serverErrors.type"
-                        label="Seleziona il tipo di segnalazione"
-                        dense
-                        style="margin-top: 15px;" 
-                    ></v-select>
-                    <v-text-field
-                        label="Titolo"
-                        class="titleField"
-                        v-model="reportTitle"
-                        :error-messages="serverErrors.title"
-                        placeholder="Titolo"
-                        outlined
-                    ></v-text-field>
-                    <v-row justify="center">
-                        <v-col cols="7" md="7">
-                            <v-text-field
-                                label="Via"
-                                class="viaField"
-                                v-model="reportRoad"
-                                :error-messages="serverErrors.title"
-                                placeholder="Via"
-                                outlined
-                            ></v-text-field>
+        <v-row>
+            <v-col cols="2">
+                <v-card align="center">
+                    <v-card-title class="text-h5">Segnalazioni</v-card-title>
+                </v-card>
+            </v-col>
+            <v-col></v-col>
+            <v-col cols="4"></v-col>
+        </v-row>
+        <v-row>
+            <v-col cols="12">
+                <v-card v-if="isUserLoggedIn" class="reportBox" align="center">
+                    <v-card-title class="text-h5 titleReportPage">Modulo</v-card-title>
+                    <v-row cols="12">
+                        <v-col cols="12">
+                            <v-form v-if="isUserLoggedIn" class="formBox">
+                                <v-select
+                                    class="selectorTypeOfReport"
+                                    v-model="selectedTypeOfReport"
+                                    :items="typesOfReports"
+                                    :error-messages="serverErrors.reportType"
+                                    label="Seleziona il tipo di segnalazione"
+                                    dense
+                                    style="margin-top: 15px;" 
+                                ></v-select>
+                                <v-text-field
+                                    label="Titolo"
+                                    class="titleField"
+                                    v-model="reportTitle"
+                                    :error-messages="serverErrors.reportTitle"
+                                    placeholder="Titolo"
+                                    outlined
+                                ></v-text-field>
+                                <v-row justify="center">
+                                    <v-col cols="7" md="7">
+                                        <v-text-field
+                                            label="Via"
+                                            class="viaField"
+                                            v-model="reportRoad"
+                                            :error-messages="serverErrors.reportRoad"
+                                            placeholder="Via"
+                                            outlined
+                                        ></v-text-field>
+                                    </v-col>    
+                                    <v-col cols="2" md="2">
+                                        <v-text-field
+                                            label="Civico"
+                                            class="civicoField"
+                                            v-model="reportRoadNumber"
+                                            :error-messages="serverErrors.reportRoadNumber"
+                                            placeholder="Civico"
+                                            outlined
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col cols="3" md="3">
+                                        <v-select
+                                            label="CAP"
+                                            v-model="selectedCapOfReport"
+                                            class="capField"
+                                            :items="capOfReports"
+                                            :error-messages="serverErrors.reportCap"
+                                            placeholder="CAP"
+                                            dense
+                                        ></v-select>
+                                    </v-col>
+                                </v-row>
+                                <v-select
+                                    label="Seleziona la zona"
+                                    v-model="selectedZoneOfReport"
+                                    class="zoneField"
+                                    :items="zones"
+                                    :error-messages="serverErrors.reportZone"
+                                    dense
+                                ></v-select>
+                                <v-textarea
+                                    label="Descrivi il problema qui. Massimo 200 caratteri."
+                                    class="reportDescription"
+                                    v-model="reportDescription"
+                                    :error-messages="serverErrors.reportDescription"
+                                    plaveholder="Descrivi il problema qui. Massimo 200 caratteri"
+                                    outlined
+                                ></v-textarea>
+                                <p class="subText">*Tutti i campi sono obbligatori affinché il personale adetto possa gestire al meglio la segnalazione</p>
+                                <v-btn class="buttonReport" variant="elevated" color="buttons" @click="sendReport">Invia</v-btn>
+                            </v-form>
                         </v-col>    
-                        <v-col cols="2" md="2">
-                            <v-text-field
-                                label="Civico"
-                                class="civicoField"
-                                v-model="reportRoadNumber"
-                                :error-messages="serverErrors.title"
-                                placeholder="Civico"
-                                outlined
-                            ></v-text-field>
-                        </v-col>
-                        <v-col cols="3" md="3">
-                            <v-select
-                                label="CAP"
-                                v-model="selectedCapOfReport"
-                                class="capField"
-                                :items="capOfReports"
-                                :error-messages="serverErrors.type"
-                                placeholder="CAP"
-                                dense
-                            ></v-select>
-                        </v-col>
                     </v-row>
-                    <v-select
-                        label="Seleziona la zona"
-                        v-model="selectedZoneOfReport"
-                        class="zoneField"
-                        :items="zones"
-                        :error-messages="serverErrors.type"
-                        dense
-                    ></v-select>
-                    <v-textarea
-                        label="Descrivi il problema qui. Massimo 200 caratteri."
-                        class="reportDescription"
-                        v-model="reportDescription"
-                        :error-messages="serverErrors.body"
-                        plaveholder="Descrivi il problema qui. Massimo 200 caratteri"
-                        outlined
-                    ></v-textarea>
-                    <v-btn class="buttonReport" variant="elevated" color="buttons" @click="sendReport">Invia</v-btn>
-                </v-form>    
-                
-
-        </v-card>
-        <v-card v-if="!isUserLoggedIn" class="soonOrLoginBox" align="center">
-            <v-card-title class="text-h6 soonOrLoginContent">Please Login first:</v-card-title>
-            <v-btn variant="elevated" color="buttons" :to="{ name: 'login' }">Login</v-btn>
-        </v-card>
+                </v-card>
+                <v-card v-if="!isUserLoggedIn" class="soonOrLoginBox" align="center">
+                    <v-card-title class="text-h6 soonOrLoginContent">Please Login first:</v-card-title>
+                    <v-btn variant="elevated" color="buttons" :to="{ name: 'login' }">Login</v-btn>
+                </v-card>
+            </v-col>
+        </v-row>
     </v-container>
 </template>
 
@@ -128,18 +144,14 @@ export default {
         }
     },
     mounted(){
-        this.getReportTypes();
-
-        MapService.getZone()
-        .then(zoneArray => {
-            console.log(zoneArray)
-            this.zones = [...zoneArray];
-        })
-        .catch(msg => {
-            console.log(msg);
-        })
+        this.initialize();
     },
     methods: {
+        async initialize(){
+            await this.getReportTypes();
+            await this.getZones();
+            await this.getCaps();
+        },
         async getReportTypes() {
             try{
                 const response = await ReportService.getReportTypes()
@@ -148,7 +160,7 @@ export default {
                 console.error("Error retrieving report types")
             }
         },
-        async sendReport (){
+        async sendReport(){
             try{
                 const response = await ReportService.sendReport({
                     reportType: this.selectedTypeOfReport,
@@ -173,8 +185,26 @@ export default {
                     });
                 } else {
                     this.serverErrors.general = 'An error occurred, please try again.';
-                    console.error('Registration error:', error);
+                    console.error('Report error:', error);
                 }
+            }
+        },
+        async getCaps() {
+            try {
+                const response = await ReportService.getReportCaps()
+                this.capOfReports = response.data
+            } catch(error) {
+                console.error("Error retrieving CAPS")
+            }
+        },
+        async getZones(){
+            try {
+                await MapService.getZone()
+                        .then(zoneArray => {
+                            this.zones = [...zoneArray];
+                        })
+            } catch (error) {
+                console.error("Error retrieving zones")
             }
         }
     }
@@ -183,7 +213,10 @@ export default {
 
 <style scoped>
     .reportBox{
-        height: 650px;
+        height: auto;
+    }
+    .formBox{
+        width: 90%;
     }
     .titleReportPage{
         margin-top: 10px;
@@ -214,7 +247,12 @@ export default {
         margin-right: 15px;
         height: 200px;
     }
+    .subText{
+        font-size: 14px;;
+        margin-top: -0px;
+    }
     .buttonReport{
-        
+        margin-top: 15px;
+        margin-bottom: 20px;
     }
 </style>
