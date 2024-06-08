@@ -1,4 +1,7 @@
 const MailerSend = require('mailersend')
+const fs = require('fs').promises;
+const path = require('path')
+
 
 const mailerSend = new MailerSend.MailerSend({
   apiKey: process.env.MAILSENDER_API_KEY
@@ -12,14 +15,20 @@ module.exports = {
 
       const recipients = [new MailerSend.Recipient(userEmail, userName)];
       const sender = new MailerSend.Sender("MS_aXfrP7@trial-jy7zpl9x7n0l5vx6.mlsender.net", "MyRifiuti")
-      
+
+      //Creazione del path assoluto per il file di template
+      const templatePath = path.join(__dirname, '../template.html');
+      let htmlTemplate = await fs.readFile(templatePath, 'utf-8')
+
+      //Sostituzione del placeholder per personalizzare la mail
+      htmlTemplate = htmlTemplate.replace('{{text}}', text);
+
       const emailParams = new MailerSend.EmailParams()
         .setFrom(sender)
         .setTo(recipients)
         .setSubject(subject)
-        .setText(text);
+        .setHtml(htmlTemplate);
         
-      
 
       await mailerSend.email.send(emailParams);
 
