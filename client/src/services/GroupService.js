@@ -1,40 +1,27 @@
-import Api from '@/services/Api'
+import Api from '@/services/Api';
 
 export default {
-  getGroup(userId){
-      return Api().get('getGroup', {
+  getGroup(userId) {
+    return Api()
+      .get('getGroup', {
         params: {
-          userId: userId
-        }
+          userId: userId,
+        },
       })
-      .then(response => {
+      .then((response) => {
         return response.data[0];
-      }).catch(error => {
-        console.error('Si è verificato un errore durante il recupero de gruppi:', error);
       })
+      .catch((error) => {
+        throw error;
+      });
   },
-  createGroup(argument){
+  createGroup(argument) {
     return Api().post('createGroup', argument)
-    .then(response => {
-      return response;
-    }).catch(error => {
-      console.error('Si è verificato un errore durante la creazione del gruppo:', error);
-    })
   },
-  addMember(argument){
+  addMember(argument) {
     return Api().post('addMember', argument)
-    .then(response => {
-      return response;
-    }).catch(error => {
-      console.error("Si è verificato un errore durante l'aggiunta del membro:", error);
-    })
   },
-  removeMember(argument){
+  removeMember(argument) {
     return Api().post('removeMember', argument)
-    .then(response => {
-      return response;
-    }).catch(error => {
-      console.error("Si è verificato un errore durante la rimozione del membro:", error);
-    })
   }
-}
+};
