@@ -18,6 +18,19 @@ export default {
         }
       })
     },
+    getUserName(userId){
+      return Api().get('getUserName', {
+        params: {
+          userId: userId
+        }
+      })
+    },
+    getEmail(userId){
+      return Api().get('getEmail', {
+        params: {
+          userId: userId
+        }
+    }),
     updateUserZone(user){
       return Api().post('updateUserZone', user)
     },

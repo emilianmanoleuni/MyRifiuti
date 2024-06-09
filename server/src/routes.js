@@ -7,6 +7,10 @@ const MapController = require('./controllers/MapController');
 const ReportController = require('./controllers/ReportController')
 const ReportControllerPolicy = require('./policies/ReportControllerPolicy')
 const AuthenticationValidator = require('./policies/AuthenticationValidator')
+const GroupController = require('./controllers/GroupController');
+const MailController = require('./controllers/MailController')
+
+
 
 
 // Definitions of Routes
@@ -24,6 +28,12 @@ router.get('/getUserZone',
     AuthenticationController.getUserZone
 );
 
+router.get('/getUserName',
+    AuthenticationController.getUserName
+)
+router.get('/getEmail', 
+    AuthenticationController.getEmail
+)
 router.post('/updateUserZone',
     AuthenticationController.updateUserZone
 );
@@ -60,6 +70,24 @@ router.post('/putMarker',
     MapController.putMarker
 );
 
+/* router.get('/getMembers',
+    GroupController.getGroupMembers
+); */
+
+router.post('/addMember',
+    GroupController.addMember
+)
+router.post('/createGroup',
+    GroupController.createGroup
+)
+router.get('/getGroup',
+    GroupController.getGroup
+)
+router.post('/removeMember',
+    GroupController.removeMember
+)
+router.post('/sendEmail',
+    MailController.sendEmail
 router.post('/sendReport',
     ReportControllerPolicy.validate,
     ReportController.sendReport
