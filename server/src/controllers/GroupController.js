@@ -5,9 +5,14 @@ module.exports = {
     try{
       const {userId, role} = req.body
 
+      if(!role){
+        return res.status(405).json({ error: 'Role is required '})
+      }
+
       const newgroup = new Group({
         members: [{ userId, role }]
       })
+
       await newgroup.save();
 
       res.status(201).json({ message: 'Group created successfully'});
@@ -19,6 +24,10 @@ module.exports = {
   async addMember(req, res) {
     try {
       const {groupId, userId, role} = req.body
+
+      if(!groupId || !role) {
+        return res.status(405).json({ error: 'Please fill every field'} )
+      }
 
       const group = await Group.findById(groupId);
       if (!group) {
@@ -65,13 +74,13 @@ module.exports = {
       if (memberIndex === -1) {
         return res.status(404).json({ error: 'Member not found in group' });
       }
+      group.members.splice(memberIndex, 1);
 
-      console.log(memberIndex);
-      if (memberIndex === -1) {
-        return res.status(404).json({ error: 'Member not found in group' });
+      if(!group.members.length){
+        await Group.findByIdAndDelete(groupId);
+        return res.status(200).json({ message: 'Group deleted as it has no members left' });
       }
 
-      group.members.splice(memberIndex, 1);
       await group.save();
 
       res.status(200).json({ message: 'Member removed successfully' });
