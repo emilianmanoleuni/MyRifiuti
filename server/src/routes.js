@@ -4,6 +4,8 @@ const AuthenticationController = require('./controllers/AuthenticationController
 const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy');
 const CalendarController = require('./controllers/CalendarController');
 const MapController = require('./controllers/MapController');
+const ReportController = require('./controllers/ReportController')
+const ReportControllerPolicy = require('./policies/ReportControllerPolicy')
 const AuthenticationValidator = require('./policies/AuthenticationValidator')
 const GroupController = require('./controllers/GroupController');
 const MailController = require('./controllers/MailController')
@@ -22,7 +24,7 @@ router.post('/login',
 );
 
 router.get('/getUserZone',
-    //AuthenticationValidator.validator, NEED FIX FOR TOKEN
+    //AuthenticationValidator.validator, NEED FIX FOR TOKEN not foundamental
     AuthenticationController.getUserZone
 );
 
@@ -32,6 +34,14 @@ router.get('/getUserName',
 router.get('/getEmail', 
     AuthenticationController.getEmail
 )
+router.post('/updateUserZone',
+    AuthenticationController.updateUserZone
+);
+
+router.post('/loginEnte',
+    AuthenticationController.loginEnte
+);
+
 router.get('/calendarAll',
     CalendarController.calendarAll
 )
@@ -78,6 +88,49 @@ router.post('/removeMember',
 )
 router.post('/sendEmail',
     MailController.sendEmail
+router.post('/sendReport',
+    ReportControllerPolicy.validate,
+    ReportController.sendReport
+);
+
+router.get('/getReportTypes',
+    ReportController.getReportTypes
+)
+
+router.get('/getAllReports',
+    ReportController.getAllReports
+);
+
+router.get('/getStatusTypes',
+    ReportController.getStatusTypes
+);
+
+router.get('/getReportCaps',
+    ReportController.getReportCaps
+);
+
+router.post('/saveReportStatus',
+    ReportController.saveReportStatus
+);
+
+router.get('/getNumberOfAllReports',
+    ReportController.getNumberOfAllReports
+);
+
+router.get('/getNumberByStatusOfReports',
+    ReportController.getNumberByStatusOfReports
+);
+
+router.get('/getAllZonesStatuses',
+    ReportController.getAllZonesStatuses
+)
+
+router.get('/getNumberZones',
+    ReportController.getNumberZones
+)
+
+router.get('/getNumerReportsForZones',
+    ReportController.getNumerReportsForZones
 )
 
 

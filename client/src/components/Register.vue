@@ -15,18 +15,18 @@
           <v-card-text>
             <v-form>
               <v-text-field
-                label="Name"
+                label="Nome"
                 v-model="name"
                 :error-messages="serverErrors.name"
-                placeholder="Enter your name"
+                placeholder="Inserisci il tuo nome"
                 outlined
               ></v-text-field>
 
               <v-text-field
-                label="Surname"
+                label="Cognome"
                 v-model="surname"
                 :error-messages="serverErrors.surname"
-                placeholder="Enter your surname"
+                placeholder="Inserisci il tuo cognome"
                 outlined
               ></v-text-field>
 
@@ -34,13 +34,13 @@
                 label="Email"
                 v-model="email"
                 :error-messages="serverErrors.email"
-                placeholder="Enter your email"
+                placeholder="Inserisci la tua mail"
                 type="email"
                 outlined
               ></v-text-field>
               
               <v-select
-                label="Pick-up zone"
+                label="Zona di raccolta"
                 :items="circoscrizioni"
                 :error-messages="serverErrors.zone"
                 v-model="zone"
@@ -50,7 +50,7 @@
                 label="Password"
                 v-model="password"
                 :error-messages="serverErrors.password"
-                placeholder="Enter your password"
+                placeholder="Inserisci la tua password"
                 :type="showPassword ? 'text' : 'password'"
                 outlined
                 @click:append-inner="showPassword = !showPassword"
@@ -58,9 +58,15 @@
               ></v-text-field>
             </v-form>
           </v-card-text>
-          <v-card-actions class="justify-end bottomButtons">
-            <v-btn class="backRegisterButton" variant="elevated" color="buttonsLight" :to="{ name: 'login' }">Back</v-btn>
-            <v-btn class="registerButton" variant="elevated" color="buttons" @click="register">Register</v-btn>
+          <v-card-actions>
+            <v-row cols="12"  class="bottomButtons">
+              <v-col cols="6">
+                <v-btn class="backRegisterButton" variant="elevated" color="buttonsLight" :to="{ name: 'login' }" block>Back</v-btn>
+              </v-col>
+              <v-col cols="6">
+                <v-btn class="registerButton" variant="elevated" color="buttons" @click="register" block>Register</v-btn> 
+              </v-col>
+            </v-row>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -148,10 +154,8 @@ export default {
 
 <style scoped>
   .registerBlock{
-    margin-top: 60px;
-  }
-  .loginBlock{
-    margin-top: 70px;
+    margin-top: 200px;
+    width: 60%;
   }
   .topBlockLogoName{
     margin-top: 2px;
@@ -166,13 +170,13 @@ export default {
       color: red;
   }
   .bottomButtons{
-    margin-top: -25px;
+    margin-top: -35px;
+    margin-left: -4px;
+    margin-right: -4px;
+    margin-bottom: px;
   }
   .backRegisterButton{
-    margin-bottom: 5px;
   }
   .registerButton{
-   margin-bottom: 5px;
-   margin-right: 8px;
   }
 </style>

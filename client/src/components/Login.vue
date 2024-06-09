@@ -19,7 +19,7 @@
                   prepend-icon="mdi-email"
                   type="email"
                   v-model="email"
-                  placeholder="Enter your email"
+                  placeholder="Inserisci la tua email"
                   outlined
                 ></v-text-field>
                 
@@ -28,13 +28,14 @@
                   prepend-icon="mdi-lock"
                   type="password"
                   v-model="password"
-                  placeholder="Enter your password"
+                  placeholder="Inserisci la tua password"
                   outlined
                 ></v-text-field>
   
                 <v-alert
                   v-if="serverErrors"
                   type="error"
+                  style="margin-bottom: 15px;"
                   dense
                 >{{ serverErrors }}</v-alert>
                 
@@ -43,7 +44,7 @@
                 <v-btn class="buttonsFirstPage" variant="outlined" color="buttons" text :to="{ name: 'homepage' }" block>Continua come Anonimo</v-btn>
   
                 <div class="text-center mt-3">
-                  Sei un Ente? <v-btn text @click="ente" color="buttonsLight">Clicca qui</v-btn>
+                  Sei un Ente? <v-btn color="buttonsLight" text :to="{ name: 'enteLogin' }">Clicca qui</v-btn>
                 </div>
               </v-form>
             </v-card-text>
@@ -63,7 +64,7 @@ export default{
         return {
             email: '',
             password: '',
-            serverErrors: ''
+            serverErrors: '',
         }
     },
     methods: {
@@ -92,7 +93,8 @@ export default{
 
 <style scoped>
     .loginBlock{
-      margin-top: 70px;
+      margin-top: 200px;
+      width: 60%;
     }
     .topBlockLogoName{
       margin-top: 2px;

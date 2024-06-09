@@ -1,4 +1,4 @@
-exports.circoscrizioni = [
+exports.zones = [
   'ARGENTARIO',
   'BONDONE E SARDAGNA',
   'CRISTO RE - SAN MARTINO',
