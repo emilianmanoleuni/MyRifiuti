@@ -88,6 +88,7 @@ router.post('/removeMember',
 )
 router.post('/sendEmail',
     MailController.sendEmail
+)
 router.post('/sendReport',
     ReportControllerPolicy.validate,
     ReportController.sendReport

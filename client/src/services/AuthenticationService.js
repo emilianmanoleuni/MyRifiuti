@@ -30,7 +30,8 @@ export default {
         params: {
           userId: userId
         }
-    }),
+      })
+    },
     updateUserZone(user){
       return Api().post('updateUserZone', user)
     },

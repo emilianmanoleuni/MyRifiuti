@@ -119,7 +119,8 @@ module.exports={
       } catch(error){
         res.status(500).json({ error: 'Server errror '});
       }
-    }
+    },
+    
     async updateUserZone(req, res) {
       try {
           console.log(req.body.userId)
