@@ -137,7 +137,7 @@
                                         <v-list-item-title>{{ report.zone }}</v-list-item-title>
                                     </v-col>
                                     <v-col cols="1">
-                                       <v-list-item-title>{{ report.cap }}</v-list-item-title>
+                                       <v-list-item-title align="center" style="margin-right: 20px;">{{ report.cap }}</v-list-item-title>
                                     </v-col>
                                     <v-col cols="1">
                                         <v-btn class="statusBtn" :color="statusTypeColor(report)">{{ report.status }}</v-btn>

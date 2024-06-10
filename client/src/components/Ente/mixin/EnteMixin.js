@@ -45,8 +45,8 @@ export const EnteMixin = {
                         viewDistance: 25
                     },
                     marginTop: 30,
-                    marginLeft: 20,
-                    marginRight: 20,
+                    marginLeft: 30,
+                    marginRight: 0,
                     marginBottom: 25,
                 },
                 title: {

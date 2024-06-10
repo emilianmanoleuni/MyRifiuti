@@ -1,4 +1,8 @@
 body{
+  zoom: 0.8;
+  -moz-transform: scale(0.8);
+  -moz-transform-origin: 0 0;
+
   min-height: 100vh;
   color: var(--color-text);
   background: #C8E6C9;
@@ -24,12 +28,3 @@ body{
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-.mainBody{
-}
-
-.topPageTitle{
-  margin-top: 5px;
-  margin-bottom: -3px;
-}
-

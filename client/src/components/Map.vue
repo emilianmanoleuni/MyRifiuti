@@ -6,17 +6,25 @@
                     <v-card-title class="text-h5">Mappa</v-card-title>
                 </v-card>
             </v-col>
-            <v-col cols="7"></v-col>
-            <v-col cols="3">
+            <v-col cols="6"></v-col>
+            <v-col cols="4">
                 <v-card class="align-self-end filterBlock">
-                    <v-row>
-                        <v-col cols="5">
+                    <v-row cols="12">
+                        <v-col cols="3">
                             <v-card-title class="text-body-2">Filtra per:</v-card-title>
                         </v-col>
-                        <v-col cols="7" class="justify-end">
-                            <v-btn size="small" :variant="filterAllStatus ? 'elevated' : 'outlined'" color="buttons" class="buttonsFilter" @click="filterAll()">Tutto</v-btn>
-                            <v-btn size="small" :variant="filterCRMStatus ? 'elevated' : 'outlined'" color="buttons" class="buttonsFilter" @click="filterCRM()">CRM</v-btn>
-                            <v-btn size="small" :variant="filterCestiniStatus ? 'elevated' : 'outlined'" color="buttons" class="buttonsFilter" @click="filterCestini()">CESTINI</v-btn>
+                        <v-col cols="8">
+                            <v-row cols="12">
+                                <v-col cols="4">
+                                    <v-btn size="small" :variant="filterAllStatus ? 'elevated' : 'outlined'" color="buttons" class="buttonsFilter" @click="filterAll()" block>Tutto</v-btn>
+                                </v-col>
+                                <v-col cols="4">
+                                    <v-btn size="small" :variant="filterCRMStatus ? 'elevated' : 'outlined'" color="buttons" class="buttonsFilter" @click="filterCRM()" block>CRM</v-btn>
+                                </v-col>
+                                <v-col cols="4">
+                                    <v-btn size="small" :variant="filterCestiniStatus ? 'elevated' : 'outlined'" color="buttons" class="buttonsFilter" @click="filterCestini()" block>CESTINI</v-btn>
+                                </v-col>
+                            </v-row>
                         </v-col>
                     </v-row>
                 </v-card>
@@ -181,14 +189,10 @@ export default{
     }
     .buttonsFilter{
         margin-top: 5px;
-        margin-right: 10px;
         margin-bottom: 5px;
     }
     .logoImage{
         margin-right: 20px;
-    }
-    .topButton{
-        margin-right: 10px;
     }
 
 </style>

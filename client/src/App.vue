@@ -1,6 +1,6 @@
 <template>
   <header>
-  </header>
+   </header>
 
   <v-layout v-if="!isLoginOrRegister">
     <v-app-bar class="topBar">
@@ -23,11 +23,11 @@
           <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'map' }">Mappa</v-btn>
           <v-btn class="topButton" variant="elevated" color="buttons" text :to="{ name: 'reports' }">Segnalazioni</v-btn>
       
-          <v-menu open-on-click="">
+          <v-menu open-on-click="" transition="slide-y-transition">
             <template v-slot:activator="{ props }">
               <v-btn v-bind="props" class="topButton" variant="elevated" color="buttons" text :to="{ name: '' }">Profilo</v-btn>
             </template>
-            <v-list>
+            <v-list class="popProfile">
               <v-list-item>
                 <v-list-item-title v-if="isUserLoggedIn"><v-btn variant="plain" class="optionsProfileMenuButton" :to="{ name: 'profile' }">Impostazioni</v-btn></v-list-item-title>
                 <v-list-item-title v-if="isUserLoggedIn"><v-btn variant="plain" class="optionsProfileMenuButton" @click="logout()">Esci</v-btn></v-list-item-title>
@@ -93,7 +93,6 @@ const logout = () => {
     }
   });
 }
-
 </script>
 
 <style scoped>
@@ -113,6 +112,11 @@ const logout = () => {
   .topButton{
     margin-top: 6px;
     margin-right: 10px;
+  }
+  .popProfile{
+    width: 178px;
+    top: 20px;
+    left: 110px;
   }
   .footer{
     min-width: 100%;
