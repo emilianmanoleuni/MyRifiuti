@@ -34,8 +34,9 @@ createEnteAccount.js
 * [Sprint Backlog](https://docs.google.com/spreadsheets/d/1sEuMaWGJOMdDcYxXcDykN0flDHW0HYY7jCWyfRluyfw/edit?usp=sharing)
   
 ## Local Start
-### Run Server
-Navigate to server folder and:
+
+### Run Client
+Navigate to client folder and:
 ```
 npm install
 ```
@@ -51,13 +52,17 @@ in
 client -> node_modules -> vuetify -> lib -> components -> VGrid -> VGrid.css
 ``` 
 ```
-npm start
+npm run dev
 ```
-### Run Client
-Navigate to client folder and:
+To build deploy
+```
+npm run build
+```
+### Run Server
+Navigate to server folder and:
 ```
 npm install
 ```
 ```
-npm run dev
+npm start
 ```
