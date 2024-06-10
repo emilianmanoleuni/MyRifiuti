@@ -89,7 +89,7 @@
                     </v-row>
                 </v-card>
                 <v-card v-if="!isUserLoggedIn" class="soonOrLoginBox" align="center">
-                    <v-card-title class="text-h6 soonOrLoginContent">Please Login first:</v-card-title>
+                    <v-card-title class="text-h6 soonOrLoginContent">Per proseguire eseguire il login:</v-card-title>
                     <v-btn variant="elevated" color="buttons" :to="{ name: 'login' }">Login</v-btn>
                 </v-card>
             </v-col>
@@ -212,6 +212,10 @@ export default {
 </script>
 
 <style scoped>
+    .soonOrLoginContent {
+        margin-top: 80px;
+        margin-bottom: 15px;
+    }
     .reportBox{
         height: auto;
     }
