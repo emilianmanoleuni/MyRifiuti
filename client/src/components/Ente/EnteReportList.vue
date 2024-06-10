@@ -369,4 +369,6 @@ export default {
 }
 </style>
 
-<style src="./style/style.css"></style>
+<style lang="css">
+    @import url('./style/shared.css');
+</style>
