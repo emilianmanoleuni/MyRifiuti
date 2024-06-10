@@ -20,9 +20,9 @@ To create new account go to First Page -> Register
 username: comune
 password: admin
 ```
-To create new account use scrypt 
+To create new account use script in scripts
 ```
-createEnteAccount.js
+scripts -> createNewEnte.js
 ```
 
 ## 1° SPRINT
@@ -65,4 +65,10 @@ npm install
 ```
 ```
 npm start
+```
+
+## MANAGE CALENDAR
+In order to set the calendar for each zone use:
+```
+scripts -> populateCalendar.js
 ```
