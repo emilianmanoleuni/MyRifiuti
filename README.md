@@ -4,7 +4,7 @@
 ## DEPLOY
 [myrifiuti-deploy.onrender.com](https://myrifiuti-deploy.onrender.com)
 
-## ACCOUNT
+## ACCOUNTS
 ### ANONYMOUS USER
 ```
 no credentials
