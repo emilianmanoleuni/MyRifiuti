@@ -6,7 +6,7 @@ module.exports = {
       const {userId, role} = req.body
 
       if(!role){
-        return res.status(405).json({ error: 'Role is required '})
+        return res.status(405).json({ error: 'Ruolo è richiesto'})
       }
 
       const newgroup = new Group({
@@ -26,16 +26,16 @@ module.exports = {
       const {groupId, userId, role} = req.body
 
       if(!groupId || !role) {
-        return res.status(405).json({ error: 'Please fill every field'} )
+        return res.status(405).json({ error: 'Compilare tutti i campi'} )
       }
 
       const group = await Group.findById(groupId);
       if (!group) {
-        return res.status(404).json({ error: 'Group not found' });
+        return res.status(404).json({ error: 'Gruppo non trovato' });
       }
       const isMember = group.members.some(member => member.userId.toString() === userId);
       if (isMember) {
-        return res.status(405).json({ error: 'User is already in the group' });
+        return res.status(405).json({ error: 'Utente già nel gruppo' });
       }
       group.members.push({ userId, role });
       await group.save();
