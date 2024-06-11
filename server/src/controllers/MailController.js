@@ -1,7 +1,6 @@
-const MailerSend = require('mailersend')
+const {MailerSend} = require('mailersend')
 const fs = require('fs').promises;
 const path = require('path')
-
 
 const mailerSend = new MailerSend({
   apiKey: process.env.MAILSENDER_API_KEY
