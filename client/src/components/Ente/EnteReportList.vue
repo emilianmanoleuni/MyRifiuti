@@ -292,6 +292,7 @@ export default {
         async getTypes(){
             try {
                 const response = await ReportService.getReportTypes()
+                console.log(response)
                 this.reportTypes = response.data
             } catch(error) {
                 console.error("Error retrieving types of reports")

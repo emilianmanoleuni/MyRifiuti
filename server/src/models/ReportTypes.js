@@ -1,5 +1,5 @@
 const types = [
-    "Discarica Abbusiva",
+    "Discarica Abusiva",
     "Mancata Raccolta Porta Porta",
     "Altro"
 ]
