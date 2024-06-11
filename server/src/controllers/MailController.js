@@ -3,7 +3,7 @@ const fs = require('fs').promises;
 const path = require('path')
 
 
-const mailerSend = new MailerSend.MailerSend({
+const mailerSend = new MailerSend({
   apiKey: process.env.MAILSENDER_API_KEY
 });
 

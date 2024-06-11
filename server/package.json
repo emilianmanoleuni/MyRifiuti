@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node node_modules/nodemon/bin/nodemon.js src/server.js --exec",
-    "lint": "node node_modules/.bin/eslint **.*.js"
+    "lint": "node node_modules/.bin/eslint **.*.js",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -30,6 +31,8 @@
   "devDependencies": {
     "eslint": "^9.2.0",
     "eslint-plugin-vue": "^9.25.0",
-    "globals": "^15.1.0"
+    "globals": "^15.1.0",
+    "node-mocks-http": "^1.14.1",
+    "supertest": "^7.0.0"
   }
 }

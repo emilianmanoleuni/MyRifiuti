@@ -117,7 +117,7 @@ module.exports={
 
         res.status(200).json({ email: user.email });
       } catch(error){
-        res.status(500).json({ error: 'Server errror '});
+        res.status(500).json({ error: 'Server error'});
       }
     },
     
