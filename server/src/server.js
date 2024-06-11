@@ -26,7 +26,7 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('Database connected!'))
   .catch(err => console.log(err));
 
-app.use('/api', routes); // Use auth only with /api
+app.use('/apiv2', routes);
 
 app.use(cors({
   origin: 'https://myrifiuti-deploy.onrender.com', // Frontend

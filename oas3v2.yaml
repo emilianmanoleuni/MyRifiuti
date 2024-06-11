@@ -1,0 +1,1076 @@
+openapi: 3.0.3
+info:
+  title: MyRifiuti
+  description: |-
+    MyRifiuti è un servizio ideato per le persone abitanti nel Trentino che faciliti la gestione dei rifiuti domestici, attraverso un’interfaccia molto intuitiva e versatile. Pensata anche per chi come noi studenti universitari ha coinquilini con cui bisogna collaborare attraverso una sezione apposita di gestione.
+  license:
+    name: UniTN
+  version: 2.0.0
+
+servers:
+  - url: https://localhost:8081/apiv2
+tags:
+  - name: user
+    description: Operation about user
+  - name: ente
+    description: Operation about ente
+  - name: map
+    description: Manage and populate map
+  - name: calendar
+    description: Manage and populate calendar
+  - name: group
+    description: Operation about group
+  - name: report
+    description: Operation about reports
+paths:
+  /register:
+    post:
+      tags:
+        - user
+      summary: Register a new user
+      description: Save data of a new user that compiled registration form
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User created succesfully
+        '500':
+          description: Error registering new user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error registering new user
+  /login:
+    post:
+      tags:
+        - user
+      summary: Login a user
+      description: Verify data of login 
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  description: Email of the user
+                password:
+                  type: string
+                  description: Password of the account
+      responses:
+        '200':
+          description: Login success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                      $ref: '#/components/schemas/User'
+                  token:
+                    type: string
+                    description: JWT token for authentication 
+        '403':
+          description: Login incorrect
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: The login information was incorrect
+        '500':
+          description: An error has occured trying to log in
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: An error has occured trying to log in
+  /getUserZone:
+    get:
+      tags: 
+        - map
+        - calendar
+      summary: Read the zone of a user
+      description: Retrieve the user associated to an authenticated user from Database
+      parameters:
+        - in: query
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: Id of the user
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  zone:
+                    type: string
+                    description: The zone of the user
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: User not found
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Server Error
+  /calendarAll:
+    get:
+      tags:
+        - calendar
+      summary: Get days of waste collection
+      parameters:
+        - in: query
+          name: zone
+          required: true
+          schema:
+            type: string
+          description: The zone requested
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  organic:
+                    type: string
+                    description: Organic collection day
+                  plastic:
+                    type: string
+                    description: Plastic collection day
+                  paper:
+                    type: string
+                    description: Paper collection day
+                  residue:
+                    type: string
+                    description: Residue collection day
+                  glass:
+                    type: string
+                    description: Glass collection day
+        '404':
+          description: Zone not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Zone not found
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Server Error
+  /getWasteDayNumber:
+    get:
+      tags:
+        - calendar
+      summary: Get collection days of a certain type of waste for a certain zone
+      parameters:
+        - in: query
+          name: zone
+          required: true
+          schema:
+            type: string
+          description: The zone requested
+        - in: query
+          name: wasteType
+          required: true
+          schema:
+            type: string
+          description: The type of waste requested
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  weekdayNumber:
+                    type: string
+                    description: The day number for waste collection
+                  wasteType:
+                    type: string
+                    description: The type of waste
+        '400':
+          description: Invalid waste type
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Invalid waste type
+        '404':
+          description: Waste day number not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Waste day number not found
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Server error
+  /marker:
+    get:
+      tags:
+        - map
+      summary: Get all markers to be put in the map
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Marker'
+        '500':
+          description: No markers found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: No markers found
+        '501':
+          description: Error retrieving data from database
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error retrieving data from database
+  /crm:
+    get:
+      tags:
+        - map
+      summary: Get CRM markers
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Marker'
+        '500':
+          description: No markers found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: No markers found
+        '501':
+          description: Error retrieving data from database
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error retrieving data from database
+  /cestini:
+    get:
+      tags:
+        - map
+      summary: Get cestini markers
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Marker'
+        '500':
+          description: No markers found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: No markers found
+        '501':
+          description: Error retrieving data from database
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error retrieving data from database
+  /zone:
+    get:
+      tags:
+        - map
+      summary: Get zone data
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                description: Array of zones
+        '501':
+          description: Error 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error 
+  /putMarker:
+    post:
+      tags:
+        - map
+      summary: Add a new marker
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Marker'
+      responses:
+        '200':
+          description: Marker added successfully
+          content:
+            application/json:
+              schema:
+                type: string
+                description: Marker added successfully
+        '500':
+          description: Error saving new marker in database
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error saving new marker in database
+  /getUserName:
+    get:
+      tags:
+        - user
+      summary: Get username by user ID
+      description: Retrieve the username of a user knowing his _id of Atlas
+      parameters:
+        - in: query
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: ID of the user
+      responses:
+        '200':
+          description: Successfully retrieved the username.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                    description: The name of the user.
+        '404':
+          description: User not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  /getEmail:
+    get:
+      tags:
+        - user
+      summary: Get Email by User ID
+      description: Retrieve the mail of a user knowing his _id of Atlas
+      parameters:
+        - in: query
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: The ID of the user to retrieve the email for.
+      responses:
+        '200':
+          description: Successfully retrieved the email.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                    description: The email of the user.
+        '404':
+          description: User not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  /loginEnte:
+    post:
+      tags:
+        - ente
+      summary: Login Ente
+      description: Authenticate an ente with username and password.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: The username of the ente.
+                password:
+                  type: string
+                  description: The password of the ente.
+              required:
+                - username
+                - password
+      responses:
+        '200':
+          description: Successfully logged in.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ente:
+                    type: object
+                    description: The ente object.
+                  token:
+                    type: string
+                    description: Authentication token.
+        '403':
+          description: Incorrect login information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  /createGroup:
+    post:
+      tags:
+        - group
+      summary: Create a new group
+      description: Create a new group with the specified user ID and role.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  description: The ID of the user to add to the group.
+                role:
+                  type: string
+                  description: The role of the user in the group.
+              required:
+                - userId
+                - role
+      responses:
+        '201':
+          description: Successfully created the group.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '405':
+          description: Role is required.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  /addMember:
+    post:
+      tags:
+        - group
+      summary: Add a member to a group
+      description: Add a new member to an existing group by specifying the group ID, user ID, and role.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                groupId:
+                  type: string
+                  description: The ID of the group
+                userId:
+                  type: string
+                  description: The ID of the user to add to the group.
+                role:
+                  type: string
+                  description: The role of the user in the group.
+              required:
+                - groupId
+                - userId
+                - role
+      responses:
+        '200':
+          description: Successfully added the member to the group.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Group not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '405':
+          description: Missing required fields or user is already in the group.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  /getGroup:
+    get:
+      tags:
+        - group
+      summary: Get groups by user ID
+      description: Retrieve all groups associated with a given user ID.
+      parameters:
+        - in: query
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: The ID of the user to retrieve groups for.
+      responses:
+        '200':
+          description: Successfully retrieved the groups.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    _id:
+                      type: string
+                      description: The ID of the group.
+                    members:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          userId:
+                            type: string
+                            description: The ID of the user.
+                          role:
+                            type: string
+                            description: The role of the user in the group.
+        '404':
+          description: Group not found.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  /sendEmail:
+    post:
+      tags:
+        - report
+      summary: Send an email
+      description: Send an email to a user with the specified subject and text.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userName:
+                  type: string
+                  description: The name of the user receiving the email.
+                userEmail:
+                  type: string
+                  description: The email address of the user.
+                subject:
+                  type: string
+                  description: The subject of the email.
+                text:
+                  type: string
+                  description: The text to be included in the email body.
+              required:
+                - userName
+                - userEmail
+                - subject
+                - text
+      responses:
+        '201':
+          description: Successfully sent the email.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  /sendReport:
+    post:
+      tags:
+        - report
+      summary: Send a new report
+      description: Create and send a new report with the specified details.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/Report'
+      responses:
+        '200':
+          description: Successfully created and sent the report.
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Report'
+        '400':
+          description: Validation error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  errors:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        path:
+                          type: string
+                          description: The field that generated the error.
+                        msg:
+                          type: string
+                          description: The cause of the error.
+        '500':
+          description: Error while saving the report.
+          content:
+            application/json:
+              schema:
+                type: string
+        '501':
+          description: Server error while sending the report.
+          content:
+            application/json:
+              schema:
+                type: string
+  /getReportTypes:
+    get:
+      tags:
+        - report
+      summary: Get all report types
+      description: Retrieve a list of all available report types.
+      responses:
+        '200':
+          description: Successfully retrieved the report types.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '501':
+          description: Server error while retrieving the report types.
+          content:
+            application/json:
+              schema:
+                type: string
+  /getAllReports:
+    get:
+      tags:
+        - report
+      summary: Get all reports
+      description: Retrieve a list of all reports.
+      responses:
+        '200':
+          description: Successfully retrieved the reports.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                    $ref: '#/components/schemas/Report'
+        '501':
+          description: Server error while retrieving the reports.
+          content:
+            application/json:
+              schema:
+                type: string
+  /getAllZonesStatuses:
+    get:
+      tags:
+        - report
+      summary: Get status counts for each zone
+      description: Retrieve the count of reports for each status in each zone.
+      responses:
+        '200':
+          description: Successfully retrieved the status counts for each zone.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  zoneStatusCounts:
+                    type: object
+                    description: An object containing the count of reports for each status in each zone.
+                    additionalProperties:
+                      type: object
+                      description: An object representing the count of reports for each status in a specific zone.
+                      additionalProperties:
+                        type: integer
+        '501':
+          description: Server error while retrieving the status counts for each zone.
+          content:
+            application/json:
+              schema:
+                type: string
+  /getNumerReportsForZones:
+    get:
+      tags:
+        - report
+      summary: Get the number of reports for each zone
+      description: Retrieve the count of reports for each zone.
+      responses:
+        '200':
+          description: Successfully retrieved the number of reports for each zone.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  zoneCounts:
+                    type: object
+                    description: An object containing the count of reports for each zone.
+                    additionalProperties:
+                      type: integer
+        '501':
+          description: Server error while retrieving the number of reports for each zone.
+          content:
+            application/json:
+              schema:
+                type: string
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the user
+        surname:
+          type: string
+          description: The surname of the user
+        email:
+          type: string
+          format: email
+          description: The email address of the user
+        password:
+          type: string
+          description: The password of the user
+        zone:
+          type: string
+          enum: [ 
+            'ARGENTARIO',
+            'BONDONE E SARDAGNA',
+            'CRISTO RE - SAN MARTINO',
+            'GARDOLO',
+            'GARDOLO ZONA INDUSTRIALE - MEANO',
+            'MATTARELLO',
+            'OLTREFERSINA',
+            'PIEDICASTELLO - SOLTERI - VELA - CAMPOTRENTINO',
+            'POVO - VILLAZZANO',
+            'RAVINA - ROMAGNANO',
+            'S. GIUSEPPE - S. CHIARA',
+            'VIA KOFLER - CASTELLER']
+          description: The zone of the user
+      required:
+        - name
+        - surname
+        - email
+        - password
+        - zone
+    Marker:
+      type: object
+      properties:
+        lat:
+          type: number
+          format: float
+          description: Latitude coordinate of the marker
+        lng:
+          type: number
+          format: float
+          description: Longitude coordinate of the marker
+        label:
+          type: string
+          description: Label of the marker
+      required:
+        - lat
+        - lng
+        - label
+    Calendar:
+      type: object
+      properties:
+        zone:
+          type: string
+          enum: [ 
+            'ARGENTARIO',
+            'BONDONE E SARDAGNA',
+            'CRISTO RE - SAN MARTINO',
+            'GARDOLO',
+            'GARDOLO ZONA INDUSTRIALE - MEANO',
+            'MATTARELLO',
+            'OLTREFERSINA',
+            'PIEDICASTELLO - SOLTERI - VELA - CAMPOTRENTINO',
+            'POVO - VILLAZZANO',
+            'RAVINA - ROMAGNANO',
+            'S. GIUSEPPE - S. CHIARA',
+            'VIA KOFLER - CASTELLER']
+          description: Zone for collection day
+        organic:
+          type: number
+          description: Organic day
+        plastic:
+          type: number
+          description: Plastic day
+        paper:
+          type: number
+          description: Paper day
+        residue:
+          type: number
+          description: Residue day
+        glass:
+          type: number
+          description: Glass day
+      required:
+        - zone
+        - organic
+        - plastic
+        - paper
+        - residue
+        - glass
+    Report:
+      type: object
+      properties:
+        type:
+          type: string
+          description: The type of the report.
+          enum:
+            - "Discarica Abusiva"
+            - "Mancata raccolta porta porta"
+            - "Altro"
+        title:
+          type: string
+          description: The title of the report.
+        road:
+          type: string
+          description: The road where the issue is located.
+        roadNumber:
+          type: string
+          description: The road number where the issue is located.
+        cap:
+          type: string
+          description: The postal code of the area.
+          enum:
+            - "38121"
+            - "38122"
+            - "38123"
+        zone:
+          type: string
+          description: The zone of the area.
+          enum: [ 
+            'ARGENTARIO',
+            'BONDONE E SARDAGNA',
+            'CRISTO RE - SAN MARTINO',
+            'GARDOLO',
+            'GARDOLO ZONA INDUSTRIALE - MEANO',
+            'MATTARELLO',
+            'OLTREFERSINA',
+            'PIEDICASTELLO - SOLTERI - VELA - CAMPOTRENTINO',
+            'POVO - VILLAZZANO',
+            'RAVINA - ROMAGNANO',
+            'S. GIUSEPPE - S. CHIARA',
+            'VIA KOFLER - CASTELLER']
+        description:
+          type: string
+          description: A description of the report.
+        status:
+          type: string
+          description: The status of the report.
+          enum:
+            - "APERTA"
+            - "IN CORSO"
+            - "RISOLTA"
+        user:
+          type: string
+          description: The ID of the user who created the report.
