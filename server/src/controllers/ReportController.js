@@ -4,6 +4,7 @@ const Status = require('../models/ReportStatus')
 const Caps = require('../models/ReportCaps')
 const Zones = require('../models/Zone')
 
+
 module.exports = {
     async sendReport (req, res) {
         try{
@@ -81,6 +82,7 @@ module.exports = {
 
     async saveReportStatus (req, res) {
         try{
+
             const report = await Report.findOneAndUpdate({ _id: req.body._id }, 
                                                          { status: req.body.status })
             res.status(200).json(report);

@@ -1,6 +1,8 @@
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 import ReportService from '@/services/ReportService';
+import MailService from '@/services/MailService';
+import AuthenticationService from '@/services/AuthenticationService';
 import HighchartsVue from 'highcharts-vue'
 import Highcharts from 'highcharts';
 import highcharts3d from 'highcharts/highcharts-3d';
@@ -269,6 +271,16 @@ export const EnteMixin = {
                     _id : this.selectedReport._id,
                     status : this.selectedReport.status
                 });
+                const userName = (await AuthenticationService.getUserName(this.selectedReport.user)).data.username
+                const userEmail = await (await AuthenticationService.getEmail(this.selectedReport.user)).data.email
+                console.log(userName)
+                console.log(userEmail)
+                await MailService.sendReportUpdateEmail({
+                    userName: userName,
+                    userEmail: userEmail,
+                    reportId: this.selectedReport._id,
+                    status: this.selectedReport.status
+                })
                 await this.fetchNumberOfAllStatusTypeReports();
                 this.updateChart();
             } catch(error) {
