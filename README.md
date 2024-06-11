@@ -4,6 +4,9 @@
 ## DEPLOY
 [myrifiuti-deploy.onrender.com](https://myrifiuti-deploy.onrender.com)
 
+## STRUCTURE
+![alt text](structure.png)
+
 ## ACCOUNTS
 ### ANONYMOUS USER
 ```
