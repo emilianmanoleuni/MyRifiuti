@@ -12,9 +12,9 @@ module.exports = {
     
     try {   
       const {userName, userEmail, subject, text} = req.body
-
+    
       const recipients = [new MailerSend.Recipient(userEmail, userName)];
-      const sender = new MailerSend.Sender("MS_aXfrP7@trial-jy7zpl9x7n0l5vx6.mlsender.net", "MyRifiuti")
+      const sender = new MailerSend.Sender("MS_RywBxA@trial-jy7zpl9x7n0l5vx6.mlsender.net", "MyRifiuti")
 
       //Creazione del path assoluto per il file di template
       const templatePath = path.join(__dirname, '../template.html');
@@ -32,6 +32,7 @@ module.exports = {
 
       await mailerSend.email.send(emailParams);
 
+      console.log('mando una mail a' + userName + 'con scritto' + subject + text)
       res.status(201).json( {message: 'Email sent successfully'} )
     } catch (error) {
       console.error('Error sending email:', error);
