@@ -55,7 +55,7 @@ in
 ```
 client -> node_modules -> vuetify -> lib -> components -> VGrid -> VGrid.css
 ```
-Change BackEnd link is local
+Change BackEnd link if local
 ```
 client -> src -> services -> Api.js
 ```
