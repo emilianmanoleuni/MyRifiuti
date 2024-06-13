@@ -2,7 +2,8 @@
  Simplify your household waste management.
 
 ## DEPLOY
-[myrifiuti-deploy.onrender.com](https://myrifiuti-deploy.onrender.com)
+* NEW [myrifiuti-deploy.onrender.com](https://myrifiuti-deploy-fvjt.onrender.com)
+* OLD [myrifiuti-deploy.onrender.com](https://myrifiuti-deploy.onrender.com)
 
 ## STRUCTURE
 ![alt text](structure.png)
@@ -53,7 +54,15 @@ client -> node_modules -> v-calendar -> dist -> style.css
 in
 ```
 client -> node_modules -> vuetify -> lib -> components -> VGrid -> VGrid.css
-``` 
+```
+Change BackEnd link is local
+```
+client -> src -> services -> Api.js
+```
+```
+    baseURL: `http://localhost:8081/apiv2`, <--- uncomment this
+    //baseURL: `https://myrifiuti.onrender.com/apiv2`,
+    //baseURL: `https://myrifiuti-t8yo.onrender.com/apiv2`, <--- comment this
 ```
 npm run dev
 ```
