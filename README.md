@@ -64,6 +64,7 @@ client -> src -> services -> Api.js
     //baseURL: `https://myrifiuti.onrender.com/apiv2`,
     //baseURL: `https://myrifiuti-t8yo.onrender.com/apiv2`, <--- comment this
 ```
+```
 npm run dev
 ```
 To build deploy
